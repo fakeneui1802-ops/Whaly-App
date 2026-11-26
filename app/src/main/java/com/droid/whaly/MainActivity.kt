@@ -413,7 +413,7 @@ fun MainScreen(
             WelcomeDialog(
                 onDismiss = { spamViewModel.completeWelcomeDialog() },
                 onSubscribe = {
-                    runCatching { uriHandler.openUri("https://t.me/Whaly_app_official") }
+                    runCatching { uriHandler.openUri("https://github.com/fakeneui1802-ops/Whaly-App/releases") }
                 },
                 onSupport = {
                     runCatching { uriHandler.openUri("https://yoomoney.ru/fundraise/1GT6KC59M2D.260402") }
@@ -794,6 +794,8 @@ fun MainScaffold(
             composable("other/nfc_fuzz") { com.droid.whaly.offensive.NfcFuzzScreen { screenNavController.popBackStack() } }
             composable("whaly_drop") { com.droid.whaly.offensive.WhalyDropScreen { screenNavController.popBackStack() } }
             composable("other/whaly_drop") { com.droid.whaly.offensive.WhalyDropScreen { screenNavController.popBackStack() } }
+            composable("updater") { com.droid.whaly.updater.UpdaterScreen { screenNavController.popBackStack() } }
+            composable("other/updater") { com.droid.whaly.updater.UpdaterScreen { screenNavController.popBackStack() } }
             composable("ir_jammer") { IRJammerScreen(screenNavController) }
             composable("other/ir_jammer") { IRJammerScreen(screenNavController) }
             composable("universal_remotes_home") { UniversalRemotesHomeScreen(screenNavController) }

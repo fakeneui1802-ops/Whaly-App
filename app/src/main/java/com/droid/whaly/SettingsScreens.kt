@@ -725,10 +725,10 @@ fun SettingsScreen(spamViewModel: SpamViewModel, whalyViewModel: WhalyViewModel,
                         contentPadding = 0.dp
                     ) {
                         Column {
-                            SettingsItem(onClick = { uriHandler.openUri("https://t.me/Whaly_app_official") }) {
+                            SettingsItem(onClick = { uriHandler.openUri("https://github.com/fakeneui1802-ops/Whaly-App/releases") }) {
                                 Icon(Icons.AutoMirrored.Filled.Send, null, tint = accentColor, modifier = Modifier.size(24.dp))
                                 Spacer(Modifier.width(12.dp))
-                                Text("Whaly dev", style = MaterialTheme.typography.bodyLarge)
+                                Text("Whaly releases", style = MaterialTheme.typography.bodyLarge)
                                 Spacer(Modifier.weight(1f))
                                 Icon(Icons.AutoMirrored.Filled.KeyboardArrowRight, null, tint = MaterialTheme.colorScheme.onSurfaceVariant)
                             }

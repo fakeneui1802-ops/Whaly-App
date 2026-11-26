@@ -496,7 +496,7 @@ Every Android build with the 2023-12-05 patch level or newer rejects unauthentic
     <string name="whisperpair_connecting_ru">Connecting...</string>
 
     <string name="whisperpair_about_title">About Whisper Pair</string>
-    <string name="whisperpair_about_message">This feature is experimental and is still being tested. Share your experience in the @oosthemes channel chat on Telegram to help improve it.</string>
+    <string name="whisperpair_about_message">This feature is experimental and still being tested. Report your results in the issue tracker at github.com/fakeneui1802-ops/Whaly-App to help improve it.</string>
 
 
     <string name="us_radar">US Radar</string>
@@ -957,7 +957,7 @@ Every Android build with the 2023-12-05 patch level or newer rejects unauthentic
     <string name="lan_scanner_log_audit_wps">Checking WPS status...</string>
     <string name="lan_scanner_log_audit_warn_wps">WARN: WPS V1 Enabled</string>
     <string name="welcome_dialog_title">Welcome to Whaly</string>
-    <string name="welcome_dialog_text">Your Whaly reached Level 1 !\n\nWhaly is a free Android app for mobile pentesting that doesn\'t require Root rights. We recommend subscribing to the developer\'s Telegram channel so you don\'t miss updates!</string>
+    <string name="welcome_dialog_text">Your Whaly reached Level 1 !\n\nWhaly is a free Android app for mobile pentesting that doesn\'t require Root rights. Check the releases page on GitHub so you don\'t miss updates.</string>
     <string name="welcome_dialog_btn_tg">Subscribe to TG</string>
     <string name="welcome_dialog_btn_support">Support</string>
     <string name="welcome_dialog_btn_ok">Got it</string>
