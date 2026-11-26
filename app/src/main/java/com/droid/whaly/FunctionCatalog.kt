@@ -117,6 +117,7 @@ fun functionDestinationSections(): List<Pair<String, List<FunctionDestination>>>
             FunctionDestination(Icons.Default.Waves, "IR Troll", "Volume to 100, channel chaos, input hijack, power loop, mute war, menu lock", "other/ir_troll", OtherSections.OTHER),
             FunctionDestination(Icons.Default.BluetoothSearching, "BLE Troll", "Name spam, ad storm, clone nearby, fake peripheral, pairing popup flood", "other/ble_troll", OtherSections.OTHER),
             FunctionDestination(Icons.Default.CreditCard, "Card Guard", "Reads a contactless card and reports exactly what it exposes", "other/card_guard", OtherSections.OTHER),
+            FunctionDestination(Icons.Default.Toys, "Gadgets", "mDNS and SSDP phantoms, TV remote, speaker takeover, Hue rave, BLE MIDI, proximity alarm", "other/gadgets", OtherSections.OTHER),
             FunctionDestination(Icons.Default.Memory, "Mifare Classic", "Key recovery and full card dump, 50 default plus 10 UID-derived keys", "other/mifare", OtherSections.OTHER),
             FunctionDestination(Icons.Default.Radar, "Scrapper", "Monitor-mode 802.11 capture, KARMA candidates, EAPOL and PMKID", "other/scrapper", OtherSections.OTHER, requiresRoot = true),
             FunctionDestination(Icons.Default.Terminal, "Root Ops", "802.11 deauth flood and iptables traffic intercept", "other/root_ops", OtherSections.OTHER, requiresRoot = true),

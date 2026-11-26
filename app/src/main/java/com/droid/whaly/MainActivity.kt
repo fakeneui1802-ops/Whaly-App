@@ -835,6 +835,8 @@ fun MainScaffold(
             composable("other/ble_troll") { com.droid.whaly.active.BleTrollScreen { screenNavController.popBackStack() } }
             composable("card_guard") { com.droid.whaly.nfc.ui.CardGuardScreen { screenNavController.popBackStack() } }
             composable("other/card_guard") { com.droid.whaly.nfc.ui.CardGuardScreen { screenNavController.popBackStack() } }
+            composable("gadgets") { com.droid.whaly.gadgets.GadgetsScreen { screenNavController.popBackStack() } }
+            composable("other/gadgets") { com.droid.whaly.gadgets.GadgetsScreen { screenNavController.popBackStack() } }
             composable("mifare") { com.droid.whaly.nfc.ui.MifareScreen { screenNavController.popBackStack() } }
             composable("other/mifare") { com.droid.whaly.nfc.ui.MifareScreen { screenNavController.popBackStack() } }
             composable("updater") { com.droid.whaly.updater.UpdaterScreen { screenNavController.popBackStack() } }

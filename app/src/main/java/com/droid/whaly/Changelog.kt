@@ -16,6 +16,26 @@ object Changelog {
 
     val entries: List<ChangelogEntry> = listOf(
         ChangelogEntry(
+            version = "3.6",
+            intro = "Gadgets: ten devices in the room that should not exist. None need root.",
+            added = listOf(
+                "mDNS phantom: announces fake Bonjour services — printers, AirPrint, AirPlay, Chromecast, Spotify Connect, SMB, HomeKit. They appear in every device's list and cannot be opened.",
+                "SSDP phantom: fake UPnP root devices with locations that do not resolve. Windows shows them under Network.",
+                "Wi-Fi probe flood: fills the saved-network list with 120 suggestions through the public WifiNetworkSuggestion API, so the phone broadcasts 120 extra SSIDs in the clear.",
+                "Smart TV remote: Samsung on 8001 with no pairing, LG on 3000 with the on-screen prompt. Volume hold, channel hold, mute, input, power.",
+                "DIAL app launcher: launches and closes apps on TVs and streaming sticks over plain HTTP on 8008.",
+                "Speaker takeover: Sonos and any UPnP renderer on 1400. Volume to 100, or point it at a stream and press play.",
+                "Hue rave: pairs with a bridge through the link button, then cycles every light through the spectrum.",
+                "BLE MIDI flood: advertises the BLE-MIDI service under rotating names so every music app lists controllers it cannot connect to.",
+                "Proximity alarm: watches one device and beeps when its signal drops past a threshold or it stops advertising.",
+                "Custom RFC 6455 WebSocket client written for this build — the Ktor dependency is server-only and OkHttp was not worth the APK for three screens.",
+            ),
+            patched = listOf(
+                "Gadgets added to Other, one tap from the function list.",
+            ),
+            removed = emptyList(),
+        ),
+        ChangelogEntry(
             version = "3.5",
             intro = "IR Troll, BLE Troll, Card Guard. Ten new features, three of them root.",
             added = listOf(
