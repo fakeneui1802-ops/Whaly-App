@@ -651,6 +651,7 @@ private fun ScrapperTab() {
     val devices by Scrapper.devices.collectAsState()
     val aps by Scrapper.aps.collectAsState()
     val dns by Scrapper.dns.collectAsState()
+    val handshakes by Scrapper.handshakes.collectAsState()
     val log by Scrapper.log.collectAsState()
     val pcap by Scrapper.pcapPath.collectAsState()
     var channel by remember { mutableStateOf("0") }
@@ -690,6 +691,7 @@ private fun ScrapperTab() {
                 KeyValue("devices", devices.size.toString())
                 KeyValue("access points", aps.size.toString())
                 KeyValue("dns queries", dns.size.toString())
+                KeyValue("handshakes", handshakes.size.toString())
                 pcap?.let { KeyValue("pcap", it.substringAfterLast('/')) }
                 LogBlock(log)
             }
@@ -801,6 +803,46 @@ private fun ScrapperTab() {
                             fontFamily = FontFamily.Monospace,
                         )
                     }
+                }
+            }
+        }
+
+        if (handshakes.isNotEmpty()) {
+            item {
+                OpsCard(
+                    "EAPOL / PMKID",
+                    "A complete 4-way handshake or a PMKID is the material hashcat needs. " +
+                        "The pcap already holds the frames.",
+                ) {
+                    handshakes.forEach { shake ->
+                        Column(Modifier.padding(vertical = 4.dp)) {
+                            Text(
+                                shake.bssid + "  ←  " + shake.station,
+                                style = MaterialTheme.typography.bodySmall,
+                                fontFamily = FontFamily.Monospace,
+                                color = MaterialTheme.colorScheme.primary,
+                            )
+                            Text(
+                                "messages " + shake.messages.sorted().joinToString("/") +
+                                    if (shake.complete) "  COMPLETE" else "",
+                                style = MaterialTheme.typography.labelSmall,
+                            )
+                            shake.pmkid?.let {
+                                Text(
+                                    "pmkid $it",
+                                    style = MaterialTheme.typography.labelSmall,
+                                    fontFamily = FontFamily.Monospace,
+                                    color = MaterialTheme.colorScheme.error,
+                                )
+                            }
+                        }
+                    }
+                    Text(
+                        "Take the pcap to hashcat: hcxpcapngtool -o hash.22000 capture.pcap, " +
+                            "then hashcat -m 22000 hash.22000 wordlist.",
+                        style = MaterialTheme.typography.labelSmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    )
                 }
             }
         }

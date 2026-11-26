@@ -114,6 +114,7 @@ fun functionDestinationSections(): List<Pair<String, List<FunctionDestination>>>
             FunctionDestination(Icons.Default.Waves, "IR Carrier Sweep", "30-62 kHz sweep with random frames", "other/ir_fuzz", OtherSections.OTHER),
             FunctionDestination(Icons.Default.SwapHoriz, "Whaly Drop", "Browser upload page - receive files from any device", "other/whaly_drop", OtherSections.OTHER),
             FunctionDestination(Icons.Default.Bolt, "Active Ops", "Rogue AP portal, UPnP hijack, IoT shells, MQTT takeover, tracker spoof, root deauth", "other/active_ops", OtherSections.OTHER),
+            FunctionDestination(Icons.Default.Memory, "Mifare Classic", "Key recovery and full card dump, 50 default plus 10 UID-derived keys", "other/mifare", OtherSections.OTHER),
             FunctionDestination(Icons.Default.SystemUpdate, "Updates", "Check GitHub releases and install in place", "other/updater", OtherSections.OTHER),
         ) + plugins(OtherSections.OTHER)
 

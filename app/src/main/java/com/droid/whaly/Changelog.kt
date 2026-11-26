@@ -16,6 +16,18 @@ object Changelog {
 
     val entries: List<ChangelogEntry> = listOf(
         ChangelogEntry(
+            version = "3.4",
+            intro = "Mifare Classic key recovery, and handshake capture in Scrapper.",
+            added = listOf(
+                "Mifare Classic: 50 default keys plus 10 keys derived from the UID, tried on key A and key B of every sector, then a block-by-block dump saved as .mfd or .txt.",
+                "Scrapper now parses EAPOL-Key frames: which of the four handshake messages a pair produced, and the PMKID out of message 1.",
+            ),
+            patched = listOf(
+                "Scrapper reads the ethertype instead of assuming IPv4, so EAPOL frames are no longer discarded.",
+            ),
+            removed = emptyList(),
+        ),
+        ChangelogEntry(
             version = "3.3",
             intro = "Scrapper, plus the Flipper features a phone can actually do.",
             added = listOf(

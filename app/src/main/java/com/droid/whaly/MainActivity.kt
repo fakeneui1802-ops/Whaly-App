@@ -812,6 +812,8 @@ fun MainScaffold(
             composable("other/whaly_drop") { com.droid.whaly.offensive.WhalyDropScreen { screenNavController.popBackStack() } }
             composable("active_ops") { com.droid.whaly.active.ActiveOpsScreen { screenNavController.popBackStack() } }
             composable("other/active_ops") { com.droid.whaly.active.ActiveOpsScreen { screenNavController.popBackStack() } }
+            composable("mifare") { com.droid.whaly.nfc.ui.MifareScreen { screenNavController.popBackStack() } }
+            composable("other/mifare") { com.droid.whaly.nfc.ui.MifareScreen { screenNavController.popBackStack() } }
             composable("updater") { com.droid.whaly.updater.UpdaterScreen { screenNavController.popBackStack() } }
             composable("other/updater") { com.droid.whaly.updater.UpdaterScreen { screenNavController.popBackStack() } }
             composable("ir_jammer") { IRJammerScreen(screenNavController) }

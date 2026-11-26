@@ -46,12 +46,24 @@ object Scrapper {
 
     data class DnsHit(val client: String, val query: String, val at: Long)
 
+    data class Handshake(
+        val bssid: String,
+        val station: String,
+        val messages: Set<Int>,
+        val pmkid: String?,
+        val lastSeen: Long,
+    ) {
+        val complete: Boolean get() = messages.containsAll(setOf(1, 2, 3, 4))
+    }
+
     private val _devices = MutableStateFlow<List<Device>>(emptyList())
     val devices: StateFlow<List<Device>> = _devices.asStateFlow()
     private val _aps = MutableStateFlow<List<AccessPoint>>(emptyList())
     val aps: StateFlow<List<AccessPoint>> = _aps.asStateFlow()
     private val _dns = MutableStateFlow<List<DnsHit>>(emptyList())
     val dns: StateFlow<List<DnsHit>> = _dns.asStateFlow()
+    private val _handshakes = MutableStateFlow<List<Handshake>>(emptyList())
+    val handshakes: StateFlow<List<Handshake>> = _handshakes.asStateFlow()
     private val _log = MutableStateFlow<List<String>>(emptyList())
     val log: StateFlow<List<String>> = _log.asStateFlow()
     private val _running = MutableStateFlow(false)
@@ -70,6 +82,15 @@ object Scrapper {
     private val deviceMap = linkedMapOf<String, MutableDevice>()
     private val apMap = linkedMapOf<String, MutableAp>()
     private val dnsList = mutableListOf<DnsHit>()
+    private val handshakeMap = linkedMapOf<String, MutableHandshake>()
+
+    private class MutableHandshake(
+        val bssid: String,
+        val station: String,
+        val messages: MutableSet<Int> = linkedSetOf(),
+        var pmkid: String? = null,
+        var lastSeen: Long = System.currentTimeMillis(),
+    )
 
     private class MutableDevice(
         val mac: String,
@@ -135,6 +156,8 @@ object Scrapper {
         deviceMap.clear()
         apMap.clear()
         dnsList.clear()
+        handshakeMap.clear()
+        _handshakes.value = emptyList()
         _frames.value = 0
         _running.value = true
 
@@ -220,6 +243,8 @@ object Scrapper {
         deviceMap.clear()
         apMap.clear()
         dnsList.clear()
+        synchronized(handshakeMap) { handshakeMap.clear() }
+        _handshakes.value = emptyList()
         publish()
     }
 
@@ -335,11 +360,19 @@ object Scrapper {
             device.vendor = vendorOf(addr2)
         }
 
-        // LLC/SNAP: aa aa 03 00 00 00 08 00 then IPv4.
+        // LLC/SNAP: aa aa 03 00 00 00 <ethertype>
         var offset = frame + 24
         if (packet.size < offset + 8) return
         if ((packet[offset].toInt() and 0xFF) != 0xAA) return
+        val etherType = ((packet[offset + 6].toInt() and 0xFF) shl 8) or
+            (packet[offset + 7].toInt() and 0xFF)
         offset += 8
+
+        if (etherType == 0x888E) {
+            handleEapol(packet, offset, addr1, addr2)
+            return
+        }
+        if (etherType != 0x0800) return
         if (packet.size < offset + 20) return
         val version = (packet[offset].toInt() and 0xF0) shr 4
         if (version != 4) return
@@ -361,8 +394,86 @@ object Scrapper {
         }
     }
 
-    private fun parseTags(packet: ByteArray, start: Int, limit: Int): Map<String, String> {
-        val out = linkedMapOf<String, String>()
+    /**
+     * EAPOL-Key frames carry the 4-way handshake. Recording which of the four messages a
+     * pair has produced, plus the PMKID out of message 1, is what turns the pcap into
+     * something hashcat can attack.
+     */
+    private fun handleEapol(packet: ByteArray, start: Int, addr1: String, addr2: String) {
+        if (packet.size < start + 4) return
+        val type = packet[start + 1].toInt() and 0xFF
+        if (type != 3) return                       // 3 = EAPOL-Key
+        val keyOffset = start + 4
+        if (packet.size < keyOffset + 99) return
+        val keyInfo = ((packet[keyOffset + 1].toInt() and 0xFF) shl 8) or
+            (packet[keyOffset + 2].toInt() and 0xFF)
+        val pairwise = keyInfo and 0x0008 != 0
+        if (!pairwise) return
+        val ack = keyInfo and 0x0080 != 0
+        val mic = keyInfo and 0x0100 != 0
+        val secure = keyInfo and 0x0200 != 0
+        val install = keyInfo and 0x0040 != 0
+
+        val message = when {
+            ack && !mic -> 1
+            mic && !ack && !secure && !install -> 2
+            mic && ack && install -> 3
+            mic && !ack && secure -> 4
+            else -> 0
+        }
+        if (message == 0) return
+
+        val keyDataLength = ((packet[keyOffset + 97].toInt() and 0xFF) shl 8) or
+            (packet[keyOffset + 98].toInt() and 0xFF)
+        var pmkid: String? = null
+        if (message == 1 && keyDataLength >= 20 && packet.size >= keyOffset + 99 + keyDataLength) {
+            var index = keyOffset + 99
+            val end = index + keyDataLength
+            while (index + 6 < end) {
+                val elementId = packet[index].toInt() and 0xFF
+                val length = packet[index + 1].toInt() and 0xFF
+                if (elementId == 0xDD && length >= 4 &&
+                    packet[index + 2].toInt() == 0x00 &&
+                    packet[index + 3].toInt() == 0x0F &&
+                    packet[index + 4].toInt() == 0xAC.toInt() &&
+                    packet[index + 5].toInt() == 0x04
+                ) {
+                    val valueLength = length - 4
+                    if (valueLength >= 16 && index + 6 + 16 <= packet.size) {
+                        pmkid = (0 until 16).joinToString("") {
+                            "%02x".format(packet[index + 6 + it].toInt() and 0xFF)
+                        }
+                    }
+                    break
+                }
+                index += 2 + length
+            }
+        }
+
+        val key = "$addr1|$addr2"
+        synchronized(handshakeMap) {
+            val entry = handshakeMap.getOrPut(key) {
+                MutableHandshake(addr1, addr2)
+            }
+            entry.messages += message
+            entry.lastSeen = System.currentTimeMillis()
+            if (pmkid != null && entry.pmkid == null) {
+                entry.pmkid = pmkid
+                append("PMKID captured for $addr1 from $addr2")
+            }
+            _handshakes.value = handshakeMap.values.map {
+                Handshake(
+                    bssid = it.bssid,
+                    station = it.station,
+                    messages = it.messages.toSet(),
+                    pmkid = it.pmkid,
+                    lastSeen = it.lastSeen,
+                )
+            }.filter { it.complete || it.pmkid != null }.sortedByDescending { it.lastSeen }
+        }
+    }
+
+    private fun parseTags(packet: ByteArray, start: Int, limit: Int): Map<String, String> {        val out = linkedMapOf<String, String>()
         var index = start
         var guard = 0
         while (index + 1 < packet.size && index < limit && guard++ < 64) {
