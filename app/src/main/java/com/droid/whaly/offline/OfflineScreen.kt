@@ -39,6 +39,8 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.droid.whaly.ButtonFlow
+import com.droid.whaly.ScrollableChipRow
 
 private enum class OfflineTab(val label: String) {
     CARDS("NFC cards"),
@@ -77,10 +79,7 @@ fun OfflineScreen(onBack: () -> Unit) {
             }
         }
 
-        Row(
-            modifier = Modifier.fillMaxWidth().padding(horizontal = 12.dp, vertical = 4.dp),
-            horizontalArrangement = Arrangement.spacedBy(8.dp),
-        ) {
+        ScrollableChipRow {
             OfflineTab.entries.forEach { entry ->
                 FilterChip(
                     selected = tab == entry,
@@ -190,7 +189,7 @@ private fun CardsTab() {
                     fontFamily = FontFamily.Monospace,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
-                Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                ButtonFlow {
                     Button(onClick = { PrankCards.select(context, card) }) { Text("Arm") }
                 }
             }
@@ -252,7 +251,7 @@ private fun IrTab() {
         items(IrServiceMenu.Target.entries.size) { index ->
             val target = IrServiceMenu.Target.entries[index]
             Panel(target.label, target.note) {
-                Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                ButtonFlow {
                     Button(
                         onClick = { IrServiceMenu.run(context, target) },
                         enabled = !running,
@@ -271,7 +270,7 @@ private fun IrTab() {
                 "Cycles the Samsung, LG and Sony mute codes until stopped. Every set in line of " +
                     "sight goes quiet and stays quiet.",
             ) {
-                Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                ButtonFlow {
                     Button(onClick = { IrServiceMenu.muteSweep(context) }, enabled = !running) {
                         Text("Start")
                     }
@@ -313,7 +312,7 @@ private fun SonicTab() {
                 )
                 Text("level ${(level * 100).toInt()}%", style = MaterialTheme.typography.bodySmall)
                 Slider(value = level, onValueChange = { level = it }, valueRange = 0.1f..1f)
-                Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                ButtonFlow {
                     Button(
                         onClick = { if (running) SonicTroll.stop() else SonicTroll.start(mode, level) },
                     ) { Text(if (running) "Stop" else "Start ${mode.label}") }
@@ -324,7 +323,7 @@ private fun SonicTab() {
         items(SonicTroll.Mode.entries.size) { index ->
             val entry = SonicTroll.Mode.entries[index]
             Panel(entry.label, entry.note) {
-                Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                ButtonFlow {
                     Button(onClick = {
                         SonicTroll.stop()
                         SonicTroll.start(entry, level)
@@ -360,7 +359,7 @@ private fun FlashTab() {
                     "it at once is worse.",
             ) {
                 Text(status, style = MaterialTheme.typography.bodySmall)
-                Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                ButtonFlow {
                     Button(onClick = { TorchStrobe.stop(context) }, enabled = running) { Text("Stop") }
                 }
             }
@@ -369,7 +368,7 @@ private fun FlashTab() {
         items(TorchStrobe.Pattern.entries.size) { index ->
             val entry = TorchStrobe.Pattern.entries[index]
             Panel(entry.label, entry.note) {
-                Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                ButtonFlow {
                     Button(onClick = {
                         TorchStrobe.stop(context)
                         TorchStrobe.start(context, entry)

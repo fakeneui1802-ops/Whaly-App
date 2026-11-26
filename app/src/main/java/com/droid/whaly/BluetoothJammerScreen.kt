@@ -133,7 +133,8 @@ fun BluetoothJammerScanScreen(onBack: () -> Unit, accentColor: Color) {
     BlurHeaderBox(
         title = stringResource(R.string.bt_jammer_title),
         onBack = onBack,
-        accentColor = accentColor
+        accentColor = accentColor,
+        actions = { RootBadge(accentColor = accentColor) },
     ) { headerPadding ->
         LazyColumn(
             modifier = Modifier.fillMaxSize(),
@@ -309,7 +310,8 @@ fun BluetoothJammerAttackScreen(
             if (isAttacking) engine.stopJamming()
             onBack()
         },
-        accentColor = accentColor
+        accentColor = accentColor,
+        actions = { RootBadge(accentColor = accentColor) },
     ) { headerPadding ->
         Column(
             modifier = Modifier.fillMaxSize().padding(top = headerPadding + 16.dp, start = 16.dp, end = 16.dp, bottom = 16.dp),

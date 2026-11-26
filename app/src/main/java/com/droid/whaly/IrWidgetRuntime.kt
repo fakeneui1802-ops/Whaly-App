@@ -79,10 +79,12 @@ object IrWidgetRuntime {
                 val buttons = withContext(Dispatchers.IO) {
                     val flIndex = IrRepository.getFlipperIndex(context)
                     flIndex.entries
-                        .filter { it.key.substringBefore('/').equals("ИК глушилка", ignoreCase = true) }
+                        // IRDB folders are English (TVs, ACs, ...). Filtering a localised name matched nothing.
                         .flatMap { (_, models) ->
                             models.values.flatMap { assetPath -> IrRepository.loadButtons(context, assetPath) }
                         }
+                        .shuffled()
+                        .take(400)
                 }
                 if (buttons.isEmpty()) return@launch
 
@@ -131,7 +133,7 @@ object IrWidgetRuntime {
 
     private fun normalizeSearch(text: String): String {
         return text.lowercase()
-            .replace(Regex("[^a-z0-9а-яё]+"), " ")
+            .replace(Regex("[^a-z0-9]+"), " ")
             .trim()
     }
 

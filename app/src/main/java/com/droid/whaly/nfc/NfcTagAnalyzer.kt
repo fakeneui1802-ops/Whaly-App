@@ -64,7 +64,7 @@ object NfcTagAnalyzer {
         } else if(techSimple.contains("IsoDep")) {
             Triple("NFC Type 4 Tag", false, null)
         } else {
-            Triple("�����", false, null)
+            Triple("Unrecognised tag", false, null)
         }
 
         val (passwordSupported, passwordEnabled) = if(ntag != null) {
@@ -78,25 +78,25 @@ object NfcTagAnalyzer {
             if(ntag != null) {
                 append("NTAG: ${ntag.name}")
             } else {
-                append("��� �����: ����������")
+                append("Tag type not identified")
             }
 
-            if(isReadOnly == true) append(" � Read-only")
+            if(isReadOnly == true) append(" - Read-only")
             if(passwordSupported == true) {
                 when(passwordEnabled) {
-                    true -> append(" � Password: ��������")
-                    false -> append(" � Password: ���������")
-                    null -> append(" � Password: ����������")
+                    true -> append(" - Password: set")
+                    false -> append(" - Password: not set")
+                    null -> append(" - Password: unknown")
                 }
             }
-            if(emvDetected) append(" � EMV")
+            if(emvDetected) append(" - EMV")
         }
 
         NfcScanEntity(
             scannedAtMillis = System.currentTimeMillis(),
-            uidHex = uidHex.ifBlank { "�" },
+            uidHex = uidHex.ifBlank { "unknown" },
             type = type,
-            techListCsv = techListCsv.ifBlank { "�" },
+            techListCsv = techListCsv.ifBlank { "unknown" },
             writable = writable,
             maxSizeBytes = maxSizeBytes,
             ndefRecordType = ndefRecordType,
@@ -187,16 +187,16 @@ object NfcTagAnalyzer {
                 val paymentSystem = detectPaymentSystem(aids, appLabels)
 
                 return buildString {
-                    appendLine("���: EMV Contactless")
-                    appendLine("��������: ISO 14443-4")
-                    appendLine("��������� APDU: ��")
-                    appendLine("��������� �������: ${paymentSystem ?: "�� ����������"}")
-                    appendLine("���������� �� �����: ${aids.size}")
-                    appendLine("AID: ${if(aids.isNotEmpty()) aids.joinToString(", ") else "�"}")
+                    appendLine("Type: EMV Contactless")
+                    appendLine("Protocol: ISO 14443-4")
+                    appendLine("APDU support: yes")
+                    appendLine("Payment system: ${paymentSystem ?: "not identified"}")
+                    appendLine("Applications on card: ${aids.size}")
+                    appendLine("AID: ${if(aids.isNotEmpty()) aids.joinToString(", ") else "none"}")
                     append("PPSE: 2PAY.SYS.DDF01")
                     if(appLabels.isNotEmpty()) {
                         appendLine()
-                        append("����� ����������: ${appLabels.joinToString(", ")}")
+                        append("App labels: ${appLabels.joinToString(", ")}")
                     }
                 }
             }
@@ -215,7 +215,7 @@ object NfcTagAnalyzer {
         if(aidUpper.any { it.startsWith("A000000025") }) return "American Express"
         if(aidUpper.any { it.startsWith("A000000065") }) return "JCB"
         if(aidUpper.any { it.startsWith("A000000333") }) return "UnionPay"
-        if(aidUpper.any { it.startsWith("A000000658") }) return "���"
+        if(aidUpper.any { it.startsWith("A000000658") }) return "MIR"
         if(aidUpper.any { it.startsWith("A000000524") }) return "RuPay"
         if(aidUpper.any { it.startsWith("A000000152") }) return "Discover"
 
@@ -226,7 +226,7 @@ object NfcTagAnalyzer {
             "AMEX" in labelText || "AMERICAN EXPRESS" in labelText -> "American Express"
             "JCB" in labelText -> "JCB"
             "UNIONPAY" in labelText -> "UnionPay"
-            "MIR" in labelText || "���" in labelText -> "���"
+            "MIR" in labelText -> "MIR"
             "RUPAY" in labelText -> "RuPay"
             "DISCOVER" in labelText -> "Discover"
             else -> null

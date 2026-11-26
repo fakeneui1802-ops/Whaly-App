@@ -1,5 +1,8 @@
 package com.droid.whaly.active
 
+import com.droid.whaly.ButtonFlow
+import com.droid.whaly.ScrollableChipRow
+
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -142,7 +145,7 @@ fun IrTrollScreen(onBack: () -> Unit) {
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                     )
-                    Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                    ButtonFlow {
                         Button(onClick = {
                             if (running) IrTroll.stop() else IrTroll.start(context, mode)
                         }) { Text(if (running) "Stop" else "Start") }
@@ -195,7 +198,7 @@ fun BleTrollScreen(onBack: () -> Unit) {
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                     )
-                    Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                    ButtonFlow {
                         Button(onClick = { if (running) BleTroll.stop() else start() }) {
                             Text(if (running) "Stop" else "Start")
                         }

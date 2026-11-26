@@ -39,6 +39,8 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.droid.whaly.ButtonFlow
+import com.droid.whaly.ScrollableChipRow
 import com.droid.whaly.active.PermissionGate
 import com.droid.whaly.active.advertisePermissions
 import kotlinx.coroutines.launch
@@ -74,10 +76,7 @@ fun GadgetsScreen(onBack: () -> Unit) {
             }
         }
 
-        Row(
-            modifier = Modifier.fillMaxWidth().padding(horizontal = 12.dp, vertical = 4.dp),
-            horizontalArrangement = Arrangement.spacedBy(8.dp),
-        ) {
+        ScrollableChipRow {
             GadgetTab.entries.forEach { entry ->
                 FilterChip(
                     selected = tab == entry,
@@ -168,7 +167,7 @@ private fun LanTab() {
                     "constantly, so a phantom printer or Apple TV appears in their list within " +
                     "seconds and cannot be opened.",
             ) {
-                Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                ButtonFlow {
                     Button(onClick = {
                         if (mdnsRunning) MdnsPhantom.stop()
                         else MdnsPhantom.start(MdnsPhantom.Service.entries)
@@ -188,7 +187,7 @@ private fun LanTab() {
                 "Fake UPnP root devices. Windows shows them under Network, media players list " +
                     "them as renderers, and none of them answer.",
             ) {
-                Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                ButtonFlow {
                     Button(onClick = {
                         if (ssdpRunning) SsdpPhantom.stop() else SsdpPhantom.start()
                     }) { Text(if (ssdpRunning) "Stop" else "Announce") }
@@ -205,7 +204,7 @@ private fun LanTab() {
                     "for every one of them, and every probe carries the SSID in the clear where " +
                     "Scrapper on another phone can read it.",
             ) {
-                Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                ButtonFlow {
                     Button(onClick = { scope.launch { WifiProbeFlood.flood(context, 120) } }) {
                         Text("Add 120")
                     }
@@ -251,7 +250,7 @@ private fun TvTab() {
                     singleLine = true,
                     modifier = Modifier.fillMaxWidth(),
                 )
-                Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                ButtonFlow {
                     Button(onClick = { scope.launch { TvHijack.connectSamsung(ip) } }) { Text("Samsung") }
                     OutlinedButton(onClick = { scope.launch { TvHijack.connectLg(ip) } }) { Text("LG") }
                     OutlinedButton(onClick = { TvHijack.disconnect() }) { Text("Drop") }
@@ -301,7 +300,7 @@ private fun TvTab() {
                     singleLine = true,
                     modifier = Modifier.fillMaxWidth(),
                 )
-                Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                ButtonFlow {
                     Button(onClick = { scope.launch { DialLauncher.launch(dialIp, app) } }) { Text("Launch") }
                     OutlinedButton(onClick = { scope.launch { DialLauncher.stop(dialIp, app) } }) { Text("Stop") }
                 }
@@ -341,7 +340,7 @@ private fun AudioTab() {
                 "Sonos and any UPnP renderer answer on 1400 with no authentication. Volume to 100, " +
                     "or point it at a stream and press play.",
             ) {
-                Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                ButtonFlow {
                     Button(onClick = { scope.launch { SonosTakeover.discover() } }) { Text("Find") }
                 }
                 Text("${speakers.size} speaker(s)", style = MaterialTheme.typography.bodySmall)
@@ -383,7 +382,7 @@ private fun AudioTab() {
                 "Philips Hue bridge. Pairing needs the physical link button pressed once, then " +
                     "every light cycles the spectrum.",
             ) {
-                Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                ButtonFlow {
                     Button(onClick = { scope.launch { HueRave.discover() } }) { Text("Discover") }
                 }
                 bridges.forEach { ip ->
@@ -407,7 +406,7 @@ private fun AudioTab() {
                     singleLine = true,
                     modifier = Modifier.fillMaxWidth(),
                 )
-                Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                ButtonFlow {
                     Button(onClick = { if (hueRunning) HueRave.stop() else HueRave.rave() }) {
                         Text(if (hueRunning) "Stop" else "Rave")
                     }
@@ -445,7 +444,7 @@ private fun RadioTab() {
                 "Advertises the BLE-MIDI service under rotating names. Every music app that " +
                     "scans for controllers lists them, and none can connect.",
             ) {
-                Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                ButtonFlow {
                     Button(onClick = { if (midiRunning) BleMidiFlood.stop() else startMidi() }) {
                         Text(if (midiRunning) "Stop" else "Start")
                     }
@@ -462,7 +461,7 @@ private fun RadioTab() {
                     "stops advertising, which is what happens when something is picked up and " +
                     "carried out of range.",
             ) {
-                Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                ButtonFlow {
                     Button(onClick = { ProximityAlarm.scan() }) { Text("Scan") }
                     OutlinedButton(onClick = { ProximityAlarm.disarm() }) { Text("Disarm") }
                 }

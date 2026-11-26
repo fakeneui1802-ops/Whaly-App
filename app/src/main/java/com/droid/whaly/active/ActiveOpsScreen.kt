@@ -1,5 +1,9 @@
 package com.droid.whaly.active
 
+import com.droid.whaly.ButtonFlow
+import com.droid.whaly.RootBadge
+import com.droid.whaly.ScrollableChipRow
+
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -99,18 +103,23 @@ fun ActiveOpsScreen(
             }
         }
 
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 12.dp, vertical = 4.dp),
-            horizontalArrangement = Arrangement.spacedBy(8.dp),
-        ) {
+        ScrollableChipRow {
             ActiveTab.entries.forEach { entry ->
                 if (entry in tabs) {
                     FilterChip(
                         selected = tab == entry,
                         onClick = { tab = entry },
-                        label = { Text(entry.label, style = MaterialTheme.typography.labelSmall) },
+                        label = {
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.spacedBy(4.dp),
+                            ) {
+                                Text(entry.label, style = MaterialTheme.typography.labelSmall)
+                                if (entry == ActiveTab.ROOT) {
+                                    RootBadge()
+                                }
+                            }
+                        },
                     )
                 }
             }

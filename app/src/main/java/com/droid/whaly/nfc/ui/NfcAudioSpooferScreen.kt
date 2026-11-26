@@ -390,7 +390,7 @@ fun RowScope.SoundButton(label: String, icon: ImageVector?, color: Color, emoji:
             }
             if (label.isNotEmpty()) {
                 Spacer(modifier = Modifier.height(4.dp))
-                Text(label, color = Color.White, fontSize = 10.sp, fontWeight = FontWeight.Medium)
+                Text(label, color = Color.White, fontSize = 11.sp, fontWeight = FontWeight.Medium)
             }
         }
     }

@@ -16,6 +16,23 @@ object Changelog {
 
     val entries: List<ChangelogEntry> = listOf(
         ChangelogEntry(
+            version = "3.8",
+            intro = "Layout and text pass, plus two bugs that were silently doing nothing.",
+            added = listOf(
+                "Scrollable chip strips: Active Ops, Gadgets and Offline no longer clip their last tab on a narrow screen or at a large font scale.",
+                "Button rows wrap: long labels like \"Vol +25\" and \"Play on …\" drop to a second line instead of running off the card edge.",
+                "Root badge on the Root tab inside Active Ops, and on both Bluetooth Jammer screens — every place root is actually required now says so.",
+                "Root badge ink is picked from the accent's luminance, so it stays readable on a dark accent.",
+            ),
+            patched = listOf(
+                "Home-screen IR widget labels were 149 destroyed characters — every Cyrillic string in the source had been replaced with U+FFFD. Widget now reads TV. TV, TV. Audio, TV. AC, TV. Proj, IR remotes, IR settings.",
+                "NFC tag analyser output had the same corruption: type, password state and the whole EMV report printed replacement characters. Rewritten in plain English.",
+                "IR widget jammer filtered remotes by a Cyrillic folder name. The IRDB asset tree is English, so the filter matched nothing and the jammer transmitted zero buttons. Now loads the whole index, shuffled, capped at 400.",
+                "Smallest labels raised from 9 and 10 sp to 11 sp — they were unreadable at default scale, let alone with accessibility font sizes.",
+            ),
+            removed = emptyList(),
+        ),
+        ChangelogEntry(
             version = "3.7",
             intro = "Offline: four tools that work with the radios off. No Wi-Fi, no mobile data, no root.",
             added = listOf(

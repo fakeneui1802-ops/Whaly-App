@@ -14,9 +14,14 @@ import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.horizontalScroll
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
+import androidx.compose.foundation.layout.FlowRowScope
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
@@ -851,6 +856,8 @@ fun RootBadge(
     accentColor: Color = Color.Unspecified,
 ) {
     val accent = if (accentColor != Color.Unspecified) accentColor else MaterialTheme.colorScheme.primary
+    // Black on a dark accent is unreadable; pick the ink from the accent's luminance.
+    val ink = if (accent.luminance() > 0.45f) Color.Black else Color.White
     androidx.compose.material3.Surface(
         modifier = modifier,
         shape = RoundedCornerShape(4.dp),
@@ -861,11 +868,51 @@ fun RootBadge(
         Text(
             text = "root",
             modifier = Modifier.padding(horizontal = 6.dp, vertical = 2.dp),
-            color = Color.Black,
+            color = ink,
             style = MaterialTheme.typography.labelSmall,
             fontWeight = FontWeight.Black,
         )
     }
+}
+
+/**
+ * Tab strip that scrolls instead of clipping. Six chips at 1.3x font on a 360 dp screen is
+ * wider than the screen, and a plain Row silently cuts the last ones off.
+ */
+@Composable
+fun ScrollableChipRow(
+    modifier: Modifier = Modifier,
+    contentPadding: PaddingValues = PaddingValues(horizontal = 12.dp, vertical = 4.dp),
+    content: @Composable RowScope.() -> Unit,
+) {
+    Row(
+        modifier = modifier
+            .fillMaxWidth()
+            .horizontalScroll(rememberScrollState())
+            .padding(contentPadding),
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        content = content,
+    )
+}
+
+/**
+ * Wraps buttons onto a second line when the label does not fit. Long labels at a large font
+ * scale overflow a Row and the last button is clipped by the card edge.
+ */
+@OptIn(ExperimentalLayoutApi::class)
+@Composable
+fun ButtonFlow(
+    modifier: Modifier = Modifier,
+    spacing: Dp = 8.dp,
+    content: @Composable FlowRowScope.() -> Unit,
+) {
+    FlowRow(
+        modifier = modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.spacedBy(spacing),
+        verticalArrangement = Arrangement.spacedBy(spacing),
+        content = content,
+    )
 }
 
 @Composable
