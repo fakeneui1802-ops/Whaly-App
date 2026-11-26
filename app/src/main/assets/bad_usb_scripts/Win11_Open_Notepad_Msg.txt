@@ -4,5 +4,5 @@ GUI r
 DELAY 200
 STRINGLN notepad
 DELAY 1000
-STRINGLN You have been pwned by Dolphy!
+STRINGLN You have been pwned by Whaly!
 STRINGLN Happy hacking.

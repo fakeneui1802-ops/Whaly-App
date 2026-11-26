@@ -3,11 +3,11 @@ import material.icons.SettingsBluetooth
 import material.icons.Security
 
 {
-  "id": "com.droid.dolphy.sysinfo",
+  "id": "com.droid.whaly.sysinfo",
   "name": "System Info",
   "version": "1.0.0",
   "description": "Shows system information and root status",
-  "author": "Dolphy Team",
+  "author": "Whaly Team",
   "icon": "Info",
   "permissions": ["hardware.root", "hardware.shell"],
   "state": {

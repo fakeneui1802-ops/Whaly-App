@@ -66,7 +66,7 @@
     <uses-feature android:name="android.hardware.usb.host" android:required="false" />
 
     <application
-        android:name=".DolphyApplication"
+        android:name=".WhalyApplication"
         android:allowBackup="false"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -76,16 +76,16 @@
         android:supportsRtl="true"
         android:usesCleartextTraffic="true"
         android:extractNativeLibs="true"
-        android:theme="@style/Theme.Dolphy"
+        android:theme="@style/Theme.Whaly"
         tools:replace="android:extractNativeLibs">
         <meta-data android:name="com.google.android.gms.cast.framework.OPTIONS_PROVIDER_CLASS_NAME"
-            android:value="com.droid.dolphy.tvcast.DolphyCastOptionsProvider" />
+            android:value="com.droid.whaly.tvcast.WhalyCastOptionsProvider" />
         <activity
             android:name=".MainActivity"
             android:exported="true"
             android:launchMode="singleTop"
             android:label="@string/app_name"
-            android:theme="@style/Theme.Dolphy.Splash">
+            android:theme="@style/Theme.Whaly.Splash">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -144,13 +144,13 @@
                 <category android:name="android.intent.category.BROWSABLE" />
                 <data android:scheme="content" android:host="*" />
                 <data android:mimeType="*/*" />
-                <data android:pathPattern=".*\\.dolphyplugin" />
+                <data android:pathPattern=".*\\.whalyplugin" />
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-                <data android:scheme="file" android:sspPattern=".*\\.dolphyplugin" />
+                <data android:scheme="file" android:sspPattern=".*\\.whalyplugin" />
                 <data android:mimeType="*/*" />
             </intent-filter>
             <intent-filter>
@@ -159,7 +159,7 @@
                 <category android:name="android.intent.category.BROWSABLE" />
                 <data android:scheme="content" />
                 <data android:scheme="file" />
-                <data android:mimeType="application/x-dolphy-plugin" />
+                <data android:mimeType="application/x-whaly-plugin" />
             </intent-filter>
         </activity>
 
@@ -168,7 +168,7 @@
             android:exported="false"
             android:launchMode="singleTop"
             android:label="HID Keyboard"
-            android:theme="@style/Theme.Dolphy" />
+            android:theme="@style/Theme.Whaly" />
 
         <service
             android:name=".nfc.NfcType4HostApduService"
@@ -205,11 +205,11 @@
             android:exported="true">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
-                <action android:name="com.droid.dolphy.action.TOGGLE_IOS" />
-                <action android:name="com.droid.dolphy.action.TOGGLE_SAMSUNG" />
-                <action android:name="com.droid.dolphy.action.TOGGLE_ANDROID" />
-                <action android:name="com.droid.dolphy.action.TOGGLE_WINDOWS" />
-                <action android:name="com.droid.dolphy.action.BLE_STOP_ALL" />
+                <action android:name="com.droid.whaly.action.TOGGLE_IOS" />
+                <action android:name="com.droid.whaly.action.TOGGLE_SAMSUNG" />
+                <action android:name="com.droid.whaly.action.TOGGLE_ANDROID" />
+                <action android:name="com.droid.whaly.action.TOGGLE_WINDOWS" />
+                <action android:name="com.droid.whaly.action.BLE_STOP_ALL" />
             </intent-filter>
             <meta-data
                 android:name="android.appwidget.provider"
@@ -221,16 +221,16 @@
             android:exported="true">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
-                <action android:name="com.droid.dolphy.action.FLIPPER_WIDGET_UP" />
-                <action android:name="com.droid.dolphy.action.FLIPPER_WIDGET_DOWN" />
-                <action android:name="com.droid.dolphy.action.FLIPPER_WIDGET_LEFT" />
-                <action android:name="com.droid.dolphy.action.FLIPPER_WIDGET_RIGHT" />
-                <action android:name="com.droid.dolphy.action.FLIPPER_WIDGET_OK" />
-                <action android:name="com.droid.dolphy.action.FLIPPER_WIDGET_BACK" />
-                <action android:name="com.droid.dolphy.action.FLIPPER_WIDGET_BLE_IOS" />
-                <action android:name="com.droid.dolphy.action.FLIPPER_WIDGET_BLE_SAMSUNG" />
-                <action android:name="com.droid.dolphy.action.FLIPPER_WIDGET_BLE_ANDROID" />
-                <action android:name="com.droid.dolphy.action.FLIPPER_WIDGET_BLE_WINDOWS" />
+                <action android:name="com.droid.whaly.action.FLIPPER_WIDGET_UP" />
+                <action android:name="com.droid.whaly.action.FLIPPER_WIDGET_DOWN" />
+                <action android:name="com.droid.whaly.action.FLIPPER_WIDGET_LEFT" />
+                <action android:name="com.droid.whaly.action.FLIPPER_WIDGET_RIGHT" />
+                <action android:name="com.droid.whaly.action.FLIPPER_WIDGET_OK" />
+                <action android:name="com.droid.whaly.action.FLIPPER_WIDGET_BACK" />
+                <action android:name="com.droid.whaly.action.FLIPPER_WIDGET_BLE_IOS" />
+                <action android:name="com.droid.whaly.action.FLIPPER_WIDGET_BLE_SAMSUNG" />
+                <action android:name="com.droid.whaly.action.FLIPPER_WIDGET_BLE_ANDROID" />
+                <action android:name="com.droid.whaly.action.FLIPPER_WIDGET_BLE_WINDOWS" />
             </intent-filter>
             <meta-data
                 android:name="android.appwidget.provider"

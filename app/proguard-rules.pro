@@ -33,11 +33,11 @@
 -dontwarn rikka.shizuku.**
 -dontwarn moe.shizuku.**
 
--keep class com.droid.dolphy.plugin.** { *; }
+-keep class com.droid.whaly.plugin.** { *; }
 -keep class androidx.compose.material.icons.** { *; }
 
 
 -keep class com.chaquo.python.** { *; }
 -dontwarn com.chaquo.python.**
 
--keep class com.droid.dolphy.tvcast.DolphyCastOptionsProvider { *; }
+-keep class com.droid.whaly.tvcast.WhalyCastOptionsProvider { *; }

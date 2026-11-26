@@ -1,10 +1,10 @@
-# Dolphy
+# Whaly
 
-Dolphy is an Android toolbox for infrared remotes, Bluetooth and BLE, NFC tags, local network tools, and device experiments. It also includes a plugin system and a small dolphin companion with home screen widgets.
+Whaly is an Android toolbox for infrared remotes, Bluetooth and BLE, NFC tags, local network tools, and device experiments. It also includes a plugin system and a small dolphin companion with home screen widgets.
 
 Requires Android 8.0 or later. The interface is available in English and Russian. Hardware support and Android permissions determine which tools are available on a particular phone.
 
-[Release channel on Telegram](https://t.me/Dolphy_app_official) · [Plugin documentation](docs/plugins.html) · [Plugin examples](plugin-examples)
+[Release channel on Telegram](https://t.me/Whaly_app_official) · [Plugin documentation](docs/plugins.html) · [Plugin examples](plugin-examples)
 
 ## Tools
 
@@ -27,9 +27,9 @@ IR transmission requires a physical transmitter. The phone cannot receive or lea
 
 An advertised protocol or manufacturer ID does not establish that a device is vulnerable. Compatibility varies with device firmware, Bluetooth implementation, and Android version.
 
-### Dolphy Chat
+### Whaly Chat
 
-Dolphy Chat is a nearby group chat over BLE. Open the chat on both phones, grant Bluetooth access, and choose a display name. Internet access and an account are not required.
+Whaly Chat is a nearby group chat over BLE. Open the chat on both phones, grant Bluetooth access, and choose a display name. Internet access and an account are not required.
 
 Messages are framed and split into packets, with UTF-8 decoded after the complete message has arrived. The screen shows pending, sent, and failed delivery states and lets you retry a failed message. Sending requires at least one discovered peer. A sent status means all selected peers acknowledged the Bluetooth writes; it is not a read receipt.
 
@@ -75,7 +75,7 @@ Select a local video and choose one of three playback paths:
 - **DLNA:** discover MediaRenderer devices using SSDP and send the video URL to the device's advertised AVTransport service.
 - **Browser:** open the local playback page on another device in the same network.
 
-The video is copied into temporary app storage on a background thread and served over local HTTP with byte range support. Replacement and ViewModel cleanup remove the temporary file. Keep Dolphy open while the receiver uses the file. The receiver must support the video's container and codecs, and the network must allow devices to communicate. DIAL application launch is not used as a substitute for video playback.
+The video is copied into temporary app storage on a background thread and served over local HTTP with byte range support. Replacement and ViewModel cleanup remove the temporary file. Keep Whaly open while the receiver uses the file. The receiver must support the video's container and codecs, and the network must allow devices to communicate. DIAL application launch is not used as a substitute for video playback.
 
 ### Appearance and companion
 
@@ -99,7 +99,7 @@ Bluetooth access is requested in the relevant tool. Root and Shizuku prompts are
 
 ## Plugins
 
-Install `.dolphyplugin` files from the plugin manager. The current plugin API supports Python plugins, UI components, callbacks, settings, files, device APIs, extension surfaces, and optional DEX libraries. A JavaScript runtime is retained for existing plugins.
+Install `.whalyplugin` files from the plugin manager. The current plugin API supports Python plugins, UI components, callbacks, settings, files, device APIs, extension surfaces, and optional DEX libraries. A JavaScript runtime is retained for existing plugins.
 
 Plugins run inside the app process. Install code from sources you trust: plugin declarations and safe mode are not an operating-system sandbox. Safe mode can help recover from a plugin that fails during startup. See the [API documentation](docs/plugins.html), [examples](plugin-examples), and [manual regression fixtures](plugin-test-suite).
 
@@ -132,12 +132,12 @@ The existing release configuration uses the Gradle debug signing key. Release si
 
 ## Source layout
 
-`app/src/main/java/com/droid/dolphy` contains the application, navigation, shared UI, and Bluetooth advertisement implementations. Feature packages include `chat`, `nfc`, `nrf`, `hid`, `qr`, `tvcast`, `network`, `printer`, and `plugin`. Application theme and shared state are separated into `AppTheme.kt` and `SpamViewModel.kt`; IR asset parsing and indexing are in `IrRepository.kt`.
+`app/src/main/java/com/droid/whaly` contains the application, navigation, shared UI, and Bluetooth advertisement implementations. Feature packages include `chat`, `nfc`, `nrf`, `hid`, `qr`, `tvcast`, `network`, `printer`, and `plugin`. Application theme and shared state are separated into `AppTheme.kt` and `SpamViewModel.kt`; IR asset parsing and indexing are in `IrRepository.kt`.
 
 `app/src/main/assets` contains IR collections, BLE manufacturer prefixes, companion animations, scripts, and local web assets. `docs` contains the project and plugin documentation. `plugin-examples` and `plugin-test-suite` contain source examples and manual regression fixtures.
 
 ## License and credits
 
-Dolphy is licensed under [GNU GPL v3](LICENSE). Bundled collections and third-party components retain their own licenses and notices; see, for example, the [Flipper-IRDB license](app/src/main/assets/Flipper-IRDB-main/LICENSE). The project includes upstream code, libraries, and assets rather than being written entirely from scratch.
+Whaly is licensed under [GNU GPL v3](LICENSE). Bundled collections and third-party components retain their own licenses and notices; see, for example, the [Flipper-IRDB license](app/src/main/assets/Flipper-IRDB-main/LICENSE). The project includes upstream code, libraries, and assets rather than being written entirely from scratch.
 
 Thanks to ZalexDev, ars3nb, Astrocodee, and the authors of the upstream Bluetooth tools, Flipper firmware, Flipper-IRDB, and the libraries used by the app.

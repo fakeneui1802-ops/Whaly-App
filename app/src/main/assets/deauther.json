@@ -4,7 +4,7 @@ import material.icons.PlayArrow
 import material.icons.Stop
 
 {
-  "id": "com.droid.dolphy.deauther.js",
+  "id": "com.droid.whaly.deauther.js",
   "name": "Wi-Fi Deauther (Decl)",
   "version": "1.0.0",
   "description": "Scan and deauthenticate Wi-Fi clients (Requires Root)",

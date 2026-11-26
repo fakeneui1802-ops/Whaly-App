@@ -4,14 +4,14 @@
     <string name="chat_status_scanning">Scanning…</string>
     <string name="chat_status_offline">Offline</string>
     <string name="chat_empty_title">No messages yet</string>
-    <string name="chat_empty_hint">Say hello to a nearby Dolphy user — new messages will show up here.</string>
+    <string name="chat_empty_hint">Say hello to a nearby Whaly user — new messages will show up here.</string>
     <!-- Plugin management screens -->
     <string name="pmanager_import_plugin">Import plugin</string>
     <string name="pmanager_plugin_store">Plugin Store</string>
     <string name="pabout_section_minimal">Minimal plugin</string>
     <string name="pabout_section_full_access">Full access</string>
     <string name="pabout_title_root">Android, Root and Shizuku</string>
-    <string name="pabout_body_root">api.getContext(), api.getApplicationContext(), api.getClassLoader(), api.getAndroid(), and api.getDevice() return real Dolphy Java objects. Commands are available through api.shellExec(), api.rootExec(), api.shizukuExec(), and api.smartExec().</string>
+    <string name="pabout_body_root">api.getContext(), api.getApplicationContext(), api.getClassLoader(), api.getAndroid(), and api.getDevice() return real Whaly Java objects. Commands are available through api.shellExec(), api.rootExec(), api.shizukuExec(), and api.smartExec().</string>
     <string name="pabout_section_radio">Radio interfaces</string>
     <string name="pabout_title_bluetooth">Bluetooth and BLE</string>
     <string name="pabout_body_bluetooth">api.getAndroid() provides advertising, GATT client/server, RFCOMM, bonding, and adapter details. api.getDevice() provides BLE scan, hardware capabilities, and system operations.</string>
@@ -24,15 +24,15 @@
     <string name="pabout_body_hook_modes">replace swaps the screen, overlay draws a free-form layer on top of it, top and bottom add a Material 3 panel, and fab adds a compact floating action. Route masks support *, e.g. ir_* or other/*.</string>
     <string name="pabout_section_state">State and settings</string>
     <string name="pabout_title_trusted">Trusted model</string>
-    <string name="pabout_body_trusted">A Python plugin runs inside the Dolphy process and can obtain app permissions, internal data, Root, and Shizuku. Only install code you have read or fully trust.</string>
-    <string name="psafe_clipboard_label">Dolphy plugin crash log</string>
+    <string name="pabout_body_trusted">A Python plugin runs inside the Whaly process and can obtain app permissions, internal data, Root, and Shizuku. Only install code you have read or fully trust.</string>
+    <string name="psafe_clipboard_label">Whaly plugin crash log</string>
     <string name="psafe_size_mb">%.1f MB</string>
     <string name="ppreview_size_mb">%.1f MB</string>
     <string name="ppreview_size_kb">%.1f KB</string>
     <string name="ppreview_size_bytes">%1$d B</string>
     <string name="ble_plugin_modes">Plugins</string>
 
-    <string name="app_name">Dolphy</string>
+    <string name="app_name">Whaly</string>
 
 
     <string name="nav_bluetooth">Bluetooth</string>
@@ -328,7 +328,7 @@
     <string name="hid_blueducky_info_title">BlueDucky</string>
     <string name="hid_blueducky_info_body">Performs a quiet connection to devices via the Blue Ducky vulnerability (CVE-2023-45866) — HID without PIN or pairing confirmation dialogs.\n\nWorks against vulnerable targets:\n• Android 4.2.2 – Android 13 (before 2023/2024 Bluetooth security patches)\n• Unpatched Linux BlueZ stacks\n• Some early iOS/macOS revisions\n\nOn Android 14+ and freshly patched OEMs the host may still require confirmation or reject unauthenticated HID. \"Connect\" is the normal path with dialogs; \"Quiet connect\" uses silent Just Works + auto-confirm pairing.</string>
     <string name="audio_whisper_pair">WhisperPair</string>
-    <string name="audio_dolphy_pair">DolphyPair</string>
+    <string name="audio_whaly_pair">WhalyPair</string>
     <string name="audio_hijack_starting">Starting hijack…</string>
     <string name="audio_hijack_ok">Hijack: %1$s</string>
     <string name="audio_hijack_fail">Hijack failed: %1$s</string>
@@ -395,7 +395,7 @@
     <string name="nfc_emulating">Emulating...</string>
     <string name="nfc_hce_not_supported">HCE is not supported on this device.</string>
     <string name="nfc_tag_not_found">Tag not found</string>
-    <string name="nfc_set_default_payment">Set Dolphy as default payment app.</string>
+    <string name="nfc_set_default_payment">Set Whaly as default payment app.</string>
     <string name="nfc_present_to_reader">Present phone to reader.</string>
     <string name="nfc_open_payment_settings">Open NFC payment settings</string>
     <string name="nfc_edit_mode">Edit</string>
@@ -613,7 +613,7 @@
     <string name="zero_u2f_not_supported">U2F is not supported in Android version</string>
 
 
-    <string name="splash_app_name">Dolphy</string>
+    <string name="splash_app_name">Whaly</string>
 
 
     <string name="ble_smart_home">BLE Smart Home</string>
@@ -674,7 +674,7 @@
     <string name="hid_paired">Paired</string>
     <string name="hid_device_lower">device</string>
     <string name="onboarding_welcome">Welcome</string>
-    <string name="onboarding_in_dolphy">to Dolphy!</string>
+    <string name="onboarding_in_whaly">to Whaly!</string>
     <string name="onboarding_tagline">Universal remote\ncontrol</string>
     <string name="onboarding_next">Next</string>
     <string name="privacy_setup_title">Privacy</string>
@@ -686,7 +686,7 @@
     <string name="privacy_step_rename">Rename the device</string>
     <string name="privacy_copy_and_setup">Copy and open settings</string>
     <string name="privacy_done">Done ✓</string>
-    <string name="settings_about_footer">Dolphy (%1$s)\nSome resources and code are derived from the Flipper Zero firmware project.\nCopyright © Flipper Devices.\nLicensed under the GNU GPL.</string>
+    <string name="settings_about_footer">Whaly (%1$s)\nSome resources and code are derived from the Flipper Zero firmware project.\nCopyright © Flipper Devices.\nLicensed under the GNU GPL.</string>
     <string name="ble_smarthome_need_perms">Bluetooth permissions are required for scanning.</string>
     <string name="ble_smarthome_device_not_found">Device not found</string>
     <string name="ble_smarthome_connect_failed">Could not connect</string>
@@ -949,8 +949,8 @@
     <string name="lan_scanner_log_audit_warn_creds">WARN: admin/admin found!</string>
     <string name="lan_scanner_log_audit_wps">Checking WPS status...</string>
     <string name="lan_scanner_log_audit_warn_wps">WARN: WPS V1 Enabled</string>
-    <string name="welcome_dialog_title">Welcome to Dolphy</string>
-    <string name="welcome_dialog_text">Your Dolphy reached Level 1 !\n\nDolphy is a free Android app for mobile pentesting that doesn\'t require Root rights. We recommend subscribing to the developer\'s Telegram channel so you don\'t miss updates!</string>
+    <string name="welcome_dialog_title">Welcome to Whaly</string>
+    <string name="welcome_dialog_text">Your Whaly reached Level 1 !\n\nWhaly is a free Android app for mobile pentesting that doesn\'t require Root rights. We recommend subscribing to the developer\'s Telegram channel so you don\'t miss updates!</string>
     <string name="welcome_dialog_btn_tg">Subscribe to TG</string>
     <string name="welcome_dialog_btn_support">Support</string>
     <string name="welcome_dialog_btn_ok">Got it</string>
@@ -968,7 +968,7 @@
     <string name="smarttv_cast_card_description">Stream video to TV via Chromecast, DIAL, DLNA and UPnP</string>
 
 
-    <string name="other_dolphy_chat_desc">BLE chat with other Dolphy users</string>
+    <string name="other_whaly_chat_desc">BLE chat with other Whaly users</string>
 
 
     <string name="wifi_brute_force_passwords">Passwords for Brute-Force</string>
@@ -1012,7 +1012,7 @@
     <string name="wifi_print_printer_info">Printer</string>
     <string name="wifi_print_reading">Reading printer capabilities…</string>
     <string name="wifi_print_document">Document</string>
-    <string name="wifi_print_document_desc">PDF, JPEG, PNG, and WebP are supported. Dolphy converts the file to PWG Raster when needed.</string>
+    <string name="wifi_print_document_desc">PDF, JPEG, PNG, and WebP are supported. Whaly converts the file to PWG Raster when needed.</string>
     <string name="wifi_print_choose_file">Choose file</string>
     <string name="wifi_print_change_file">Choose another file</string>
     <string name="wifi_print_settings">Print settings</string>
@@ -1043,19 +1043,19 @@
 
     <!-- Plugins -->
     <string name="plugin_manager_title">Plugins</string>
-    <string name="plugin_manager_card_title">Dolphy Python plugins</string>
-    <string name="plugin_manager_card_body">One textual .dolphyplugin file: custom screens, Bluetooth, Wi-Fi, NFC, IR, USB, Root, Shizuku, Shell, and direct Android API access.</string>
+    <string name="plugin_manager_card_title">Whaly Python plugins</string>
+    <string name="plugin_manager_card_body">One textual .whalyplugin file: custom screens, Bluetooth, Wi-Fi, NFC, IR, USB, Root, Shizuku, Shell, and direct Android API access.</string>
     <string name="plugin_manager_pick_file">Choose file</string>
     <string name="plugin_manager_about">Learn more</string>
     <string name="plugin_manager_installed">Installed</string>
-    <string name="plugin_manager_empty">No plugins yet. Choose a .dolphyplugin file above.</string>
+    <string name="plugin_manager_empty">No plugins yet. Choose a .whalyplugin file above.</string>
     <string name="plugin_manager_installed_toast">Plugin %1$s installed</string>
     <string name="plugin_manager_installed_msg">Installed: %1$s</string>
     <string name="plugin_manager_error">Error: %1$s</string>
     <string name="plugin_about_title">About plugins</string>
     <string name="plugin_about_guide_title">Author guide</string>
-    <string name="plugin_about_guide_body">A plugin is one textual Python .dolphyplugin file. Import it from Settings → General → Plugins → Choose file.\n\nPlugins can build Material 3 Expressive screens, add modules, use Bluetooth, Wi-Fi, NFC, IR, USB, files, networking, Root, Shizuku and Shell, import Android Java classes, and access Dolphy internals.</string>
-    <string name="plugin_preview_title">Dolphy plugin</string>
+    <string name="plugin_about_guide_body">A plugin is one textual Python .whalyplugin file. Import it from Settings → General → Plugins → Choose file.\n\nPlugins can build Material 3 Expressive screens, add modules, use Bluetooth, Wi-Fi, NFC, IR, USB, files, networking, Root, Shizuku and Shell, import Android Java classes, and access Whaly internals.</string>
+    <string name="plugin_preview_title">Whaly plugin</string>
     <string name="plugin_preview_install">Install</string>
     <string name="plugin_preview_update">Update</string>
     <string name="plugin_preview_installed">Installed</string>
@@ -1066,7 +1066,7 @@
     <string name="plugin_preview_file">File</string>
     <string name="plugin_preview_size">Size</string>
     <string name="plugin_preview_security">Full access</string>
-    <string name="plugin_preview_security_body">The plugin runs inside Dolphy and can use app permissions, Android APIs, Bluetooth, Wi-Fi, USB, Root, and Shizuku. Only install files from developers you trust.</string>
+    <string name="plugin_preview_security_body">The plugin runs inside Whaly and can use app permissions, Android APIs, Bluetooth, Wi-Fi, USB, Root, and Shizuku. Only install files from developers you trust.</string>
     <string name="plugin_preview_no_description">The developer did not provide a description.</string>
     <string name="plugin_preview_invalid">Could not open plugin</string>
     <string name="plugin_preview_install_success">Plugin installed</string>
@@ -1085,7 +1085,7 @@
     <string name="plugin_delete">Delete</string>
     <string name="plugin_empty_center">You don’t have any installed plugins yet</string>
     <string name="plugin_host_title">Plugin</string>
-    <string name="plugin_host_not_installed">Plugin “%1$s” is not installed.\nImport a .dolphyplugin file from Plugin manager.</string>
+    <string name="plugin_host_not_installed">Plugin “%1$s” is not installed.\nImport a .whalyplugin file from Plugin manager.</string>
     <string name="plugin_host_empty_screen">Empty screen</string>
     <string name="plugin_settings_title">Plugin settings</string>
     <string name="plugin_security_section">SECURITY</string>
@@ -1099,8 +1099,8 @@
     <string name="plugin_download_deny">Deny</string>
     <string name="plugin_download_unknown_size">unknown size</string>
     <string name="plugin_documentation_site">Documentation website</string>
-    <string name="plugin_open_with_hint">Open the plugin file with “Open with” and select Dolphy to install it</string>
-    <string name="plugin_system_warning_title">Dolphy 2.5 plugin system</string>
+    <string name="plugin_open_with_hint">Open the plugin file with “Open with” and select Whaly to install it</string>
+    <string name="plugin_system_warning_title">Whaly 2.5 plugin system</string>
     <string name="plugin_system_warning_text">This version introduces a powerful plugin system with broad freedom of action. The price of that freedom and extensive capability is security. Install plugins only from trusted sources and check them for malicious code. The developer is not responsible for damage caused by malicious code in a user plugin.</string>
     <string name="plugin_system_warning_countdown">OK (%1$d)</string>
     <string name="plugin_preview_permissions">Capabilities and access</string>
@@ -1152,7 +1152,7 @@
     <string name="bluetooth_scan_failed">Discovery failed. Check Bluetooth, permissions and location services.</string>
     <string name="chat_advertising_failed">Could not make this chat discoverable.</string>
     <string name="chat_start_failed">Could not start chat. Check Bluetooth and BLE advertising support.</string>
-    <string name="chat_no_recipients">No Dolphy users nearby. Open chat on the other device.</string>
+    <string name="chat_no_recipients">No Whaly users nearby. Open chat on the other device.</string>
     <string name="chat_send_not_ready">Chat is not ready yet — check Bluetooth and your name, then try again</string>
     <string name="chat_message_too_long">The message is too long. Shorten it and try again.</string>
     <string name="chat_change_name">Chat name</string>
@@ -1208,7 +1208,7 @@
     <string name="bad_usb_empty">Enter a Ducky script</string>
     <string name="bad_usb_done">Script finished</string>
     <string name="bad_usb_fail">Script failed</string>
-    <string name="audio_spoof_info_text">Plays audio on a device that opens the local Dolphy page. Both devices must be on the same Wi-Fi or local network. It does not use hosting services or external tunnels.</string>
+    <string name="audio_spoof_info_text">Plays audio on a device that opens the local Whaly page. Both devices must be on the same Wi-Fi or local network. It does not use hosting services or external tunnels.</string>
     <string name="nfc_status_disabled">NFC is off</string>
     <string name="nfc_prompt_enable">Turn on NFC in settings</string>
     <string name="nfc_open_settings">Settings</string>

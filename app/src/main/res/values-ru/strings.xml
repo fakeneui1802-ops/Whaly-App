@@ -5,14 +5,14 @@
     <string name="chat_status_scanning">Поиск…</string>
     <string name="chat_status_offline">Не в сети</string>
     <string name="chat_empty_title">Пока нет сообщений</string>
-    <string name="chat_empty_hint">Поздоровайтесь с пользователем Dolphy рядом — новые сообщения появятся здесь.</string>
+    <string name="chat_empty_hint">Поздоровайтесь с пользователем Whaly рядом — новые сообщения появятся здесь.</string>
     <!-- Экраны управления плагинами -->
     <string name="pmanager_import_plugin">Импортировать плагин</string>
     <string name="pmanager_plugin_store">Магазин плагинов</string>
     <string name="pabout_section_minimal">Минимальный плагин</string>
     <string name="pabout_section_full_access">Полный доступ</string>
     <string name="pabout_title_root">Android, Root и Shizuku</string>
-    <string name="pabout_body_root">api.getContext(), api.getApplicationContext(), api.getClassLoader(), api.getAndroid() и api.getDevice() возвращают реальные Java-объекты Dolphy. Команды доступны через api.shellExec(), api.rootExec(), api.shizukuExec() и api.smartExec().</string>
+    <string name="pabout_body_root">api.getContext(), api.getApplicationContext(), api.getClassLoader(), api.getAndroid() и api.getDevice() возвращают реальные Java-объекты Whaly. Команды доступны через api.shellExec(), api.rootExec(), api.shizukuExec() и api.smartExec().</string>
     <string name="pabout_section_radio">Радиоинтерфейсы</string>
     <string name="pabout_title_bluetooth">Bluetooth и BLE</string>
     <string name="pabout_body_bluetooth">Через api.getAndroid() доступны advertising, GATT client/server, RFCOMM, bonding и сведения об адаптере. api.getDevice() предоставляет BLE scan, возможности оборудования и системные операции.</string>
@@ -25,15 +25,15 @@
     <string name="pabout_body_hook_modes">replace заменяет экран, overlay рисует свободный слой поверх него, top и bottom добавляют Material 3-панель, fab добавляет компактное плавающее действие. Маски маршрутов поддерживают *, например ir_* или other/*.</string>
     <string name="pabout_section_state">Состояние и настройки</string>
     <string name="pabout_title_trusted">Доверенная модель</string>
-    <string name="pabout_body_trusted">Python-плагин выполняется внутри процесса Dolphy и может получить разрешения приложения, внутренние данные, Root и Shizuku. Устанавливайте только код, который вы прочитали или которому полностью доверяете.</string>
-    <string name="psafe_clipboard_label">Лог сбоя плагина Dolphy</string>
+    <string name="pabout_body_trusted">Python-плагин выполняется внутри процесса Whaly и может получить разрешения приложения, внутренние данные, Root и Shizuku. Устанавливайте только код, который вы прочитали или которому полностью доверяете.</string>
+    <string name="psafe_clipboard_label">Лог сбоя плагина Whaly</string>
     <string name="psafe_size_mb">%.1f МБ</string>
     <string name="ppreview_size_mb">%.1f МБ</string>
     <string name="ppreview_size_kb">%.1f КБ</string>
     <string name="ppreview_size_bytes">%1$d Б</string>
     <string name="ble_plugin_modes">Плагины</string>
     <string name="advertise_empty_presets">Вы пока не добавили ни одного устройства.</string>
-    <string name="app_name">Dolphy</string>
+    <string name="app_name">Whaly</string>
     <string name="nav_modules">Функции</string>
     <string name="settings_personalisation">Персонализация</string>
     <string name="settings_functions_menu_view">Вид меню функций</string>
@@ -194,7 +194,7 @@
     <string name="hid_blueducky_info_title">BlueDucky</string>
     <string name="hid_blueducky_info_body">Выполняет тихое подключение к устройствам через уязвимость Blue Ducky (CVE-2023-45866) — HID-соединение без окон PIN-кода и подтверждения pairing.\n\nРаботает на уязвимых целях:\n• Android 4.2.2 – Android 13 (до патчей Bluetooth security bulletins 2023/2024)\n• Linux BlueZ (непропатченные стеки)\n• Часть iOS/macOS в ранних ревизиях\n\nНа Android 14+ и свежих OEM-патчах хост может требовать подтверждение или отклонять unauthenticated HID. «Подключить» — обычный путь с диалогами; «Тихо подключиться» — silent Just Works + auto-confirm pairing.</string>
     <string name="audio_whisper_pair">WhisperPair</string>
-    <string name="audio_dolphy_pair">DolphyPair</string>
+    <string name="audio_whaly_pair">WhalyPair</string>
     <string name="audio_hijack_starting">Запуск перехвата…</string>
     <string name="audio_hijack_ok">Перехват: %1$s</string>
     <string name="audio_hijack_fail">Перехват не удался: %1$s</string>
@@ -479,7 +479,7 @@
     <string name="nfc_section_link">Ссылка в метке</string>
     <string name="nfc_section_main">Основная информация</string>
     <string name="nfc_section_ndef">NDEF</string>
-    <string name="nfc_set_default_payment">Выберите Dolphy приложением оплаты по умолчанию.</string>
+    <string name="nfc_set_default_payment">Выберите Whaly приложением оплаты по умолчанию.</string>
     <string name="nfc_show_hex">Показать HEX</string>
     <string name="nfc_tag_label_unknown">метки</string>
     <string name="nfc_tag_not_found">Метка не найдена</string>
@@ -517,7 +517,7 @@
     <string name="nfc_write_type_wifi_desc">Подключение по SSID и паролю (текстовая запись)</string>
     <string name="nfc_yes">Да</string>
     <string name="ok">OK</string>
-    <string name="onboarding_in_dolphy">в Dolphy!</string>
+    <string name="onboarding_in_whaly">в Whaly!</string>
     <string name="onboarding_next">Далее</string>
     <string name="onboarding_tagline">Универсальный пульт\nдистанционного управления</string>
     <string name="onboarding_welcome">Добро пожаловать</string>
@@ -571,7 +571,7 @@
     <string name="retry">Повторить</string>
     <string name="save">Сохранить</string>
     <string name="scan">Скан</string>
-    <string name="settings_about_footer">Dolphy (%1$s)\nНекоторые ресурсы и код основаны на прошивке Flipper Zero.\nCopyright © Flipper Devices.\nЛицензия GNU GPL.</string>
+    <string name="settings_about_footer">Whaly (%1$s)\nНекоторые ресурсы и код основаны на прошивке Flipper Zero.\nCopyright © Flipper Devices.\nЛицензия GNU GPL.</string>
     <string name="settings_accent_color">Акцентный цвет</string>
     <string name="settings_cyclic_dolphin_animation">Цикличная анимация</string>
     <string name="settings_security">Безопасность</string>
@@ -599,7 +599,7 @@
     <string name="smarttv_cast_title">SmartTV Cast</string>
     <string name="spam_status_current">Сейчас: %s</string>
     <string name="spam_status_empty">Сейчас: —</string>
-    <string name="splash_app_name">Dolphy</string>
+    <string name="splash_app_name">Whaly</string>
     <string name="start">Старт</string>
     <string name="stop">Стоп</string>
     <string name="success">Успешно</string>
@@ -785,7 +785,7 @@
     <string name="qr_audio_spoofer_title">QR Аудио Спуфер</string>
     <string name="qr_audio_spoofer_desc">Воспроизведение звуков через QR-код в локальной сети</string>
     <string name="audio_spoof_info_title">О Audio spoof</string>
-    <string name="audio_spoof_info_text">Функция запускает звуки на устройстве, открывшем локальную страницу Dolphy. Оба устройства должны находиться в одной Wi-Fi или локальной сети. Интернет, хостинги и внешние туннели не используются.</string>
+    <string name="audio_spoof_info_text">Функция запускает звуки на устройстве, открывшем локальную страницу Whaly. Оба устройства должны находиться в одной Wi-Fi или локальной сети. Интернет, хостинги и внешние туннели не используются.</string>
     <string name="qr_audio_spoofer_help">Подключите устройства к одной локальной сети, запустите сервер и откройте QR-код на другом устройстве. Ссылка недоступна из интернета.</string>
     <string name="qr_server_status">Статус сервера:</string>
     <string name="qr_server_running">Запущен</string>
@@ -887,7 +887,7 @@
     <string name="lan_mitm_root_warn">Root недоступен. ARP-спуф и сниффер требуют su — сначала получи root на этом устройстве.</string>
     <string name="lan_mitm_all_start">Открыть портал всем в сети</string>
     <string name="lan_mitm_all_stop">Остановить</string>
-    <string name="lan_mitm_all_desc">Broadcast ARP-спуф без выбора целей: у всех устройств в сети при следующем запросе откроется страница «Hacked by Dolphy». Android, Windows и iOS получат системное окно «Вход в сеть».</string>
+    <string name="lan_mitm_all_desc">Broadcast ARP-спуф без выбора целей: у всех устройств в сети при следующем запросе откроется страница «Hacked by Whaly». Android, Windows и iOS получат системное окно «Вход в сеть».</string>
     <string name="lan_mitm_active">Перехват активен</string>
     <string name="lan_mitm_log">Перехват</string>
     <string name="lan_mitm_log_empty">Ждём трафик устройств сети…</string>
@@ -954,8 +954,8 @@
     <string name="lan_scanner_log_audit_wps">Проверка статуса WPS...</string>
     <string name="lan_scanner_log_audit_warn_wps">ВНИМАНИЕ: WPS V1 включен</string>
     <string name="brand_unknown">Неизвестно</string>
-    <string name="welcome_dialog_title">Добро пожаловать в Dolphy</string>
-    <string name="welcome_dialog_text">Ваш Dolphy получил уровень 1 !\n\nDolphy - бесплатное Андроид-приложение для мобильного пентестинга, не требующее Root-прав. Советуем подписаться на Telegram-канал разработчика, чтобы не пропустить обновления!</string>
+    <string name="welcome_dialog_title">Добро пожаловать в Whaly</string>
+    <string name="welcome_dialog_text">Ваш Whaly получил уровень 1 !\n\nWhaly - бесплатное Андроид-приложение для мобильного пентестинга, не требующее Root-прав. Советуем подписаться на Telegram-канал разработчика, чтобы не пропустить обновления!</string>
     <string name="welcome_dialog_btn_tg">Подписаться на TG</string>
     <string name="welcome_dialog_btn_support">Поддержать</string>
     <string name="welcome_dialog_btn_ok">Понятно</string>
@@ -970,7 +970,7 @@
     <string name="qr_link_or_text">Ссылка или текст</string>
 
 
-    <string name="other_dolphy_chat_desc">Чат по BLE с другими пользователями Dolphy</string>
+    <string name="other_whaly_chat_desc">Чат по BLE с другими пользователями Whaly</string>
 
 
     <string name="wifi_brute_force_passwords">Пароли для Brute-Force</string>
@@ -1014,7 +1014,7 @@
     <string name="wifi_print_printer_info">Принтер</string>
     <string name="wifi_print_reading">Читаем возможности принтера…</string>
     <string name="wifi_print_document">Документ</string>
-    <string name="wifi_print_document_desc">Поддерживаются PDF, JPEG, PNG и WebP. При необходимости Dolphy преобразует файл в PWG Raster.</string>
+    <string name="wifi_print_document_desc">Поддерживаются PDF, JPEG, PNG и WebP. При необходимости Whaly преобразует файл в PWG Raster.</string>
     <string name="wifi_print_choose_file">Выбрать файл</string>
     <string name="wifi_print_change_file">Выбрать другой файл</string>
     <string name="wifi_print_settings">Настройки печати</string>
@@ -1045,19 +1045,19 @@
 
     <!-- Plugins -->
     <string name="plugin_manager_title">Плагины</string>
-    <string name="plugin_manager_card_title">Python-плагины Dolphy</string>
-    <string name="plugin_manager_card_body">Один текстовый файл .dolphyplugin: собственные экраны, Bluetooth, Wi-Fi, NFC, IR, USB, Root, Shizuku, Shell и прямой доступ к Android API.</string>
+    <string name="plugin_manager_card_title">Python-плагины Whaly</string>
+    <string name="plugin_manager_card_body">Один текстовый файл .whalyplugin: собственные экраны, Bluetooth, Wi-Fi, NFC, IR, USB, Root, Shizuku, Shell и прямой доступ к Android API.</string>
     <string name="plugin_manager_pick_file">Выбрать файл</string>
     <string name="plugin_manager_about">Подробнее</string>
     <string name="plugin_manager_installed">Установленные</string>
-    <string name="plugin_manager_empty">Пока нет плагинов. Выберите файл .dolphyplugin выше.</string>
+    <string name="plugin_manager_empty">Пока нет плагинов. Выберите файл .whalyplugin выше.</string>
     <string name="plugin_manager_installed_toast">Плагин %1$s установлен</string>
     <string name="plugin_manager_installed_msg">Установлен: %1$s</string>
     <string name="plugin_manager_error">Ошибка: %1$s</string>
     <string name="plugin_about_title">О плагинах</string>
     <string name="plugin_about_guide_title">Руководство автора</string>
-    <string name="plugin_about_guide_body">Плагин — один текстовый Python-файл .dolphyplugin. Импорт: Настройки → Общие → Плагины → Выбрать файл.\n\nПлагин может создавать экраны Material 3 Expressive, добавлять модули, работать с Bluetooth, Wi-Fi, NFC, IR, USB, файлами, сетью, Root, Shizuku и Shell, импортировать Java-классы Android и обращаться к внутренним API Dolphy.</string>
-    <string name="plugin_preview_title">Плагин Dolphy</string>
+    <string name="plugin_about_guide_body">Плагин — один текстовый Python-файл .whalyplugin. Импорт: Настройки → Общие → Плагины → Выбрать файл.\n\nПлагин может создавать экраны Material 3 Expressive, добавлять модули, работать с Bluetooth, Wi-Fi, NFC, IR, USB, файлами, сетью, Root, Shizuku и Shell, импортировать Java-классы Android и обращаться к внутренним API Whaly.</string>
+    <string name="plugin_preview_title">Плагин Whaly</string>
     <string name="plugin_preview_install">Установить</string>
     <string name="plugin_preview_update">Обновить</string>
     <string name="plugin_preview_installed">Установлен</string>
@@ -1068,7 +1068,7 @@
     <string name="plugin_preview_file">Файл</string>
     <string name="plugin_preview_size">Размер</string>
     <string name="plugin_preview_security">Полный доступ</string>
-    <string name="plugin_preview_security_body">Плагин выполняется внутри Dolphy и может использовать разрешения приложения, Android API, Bluetooth, Wi-Fi, USB, Root и Shizuku. Устанавливайте только файлы от разработчиков, которым доверяете.</string>
+    <string name="plugin_preview_security_body">Плагин выполняется внутри Whaly и может использовать разрешения приложения, Android API, Bluetooth, Wi-Fi, USB, Root и Shizuku. Устанавливайте только файлы от разработчиков, которым доверяете.</string>
     <string name="plugin_preview_no_description">Разработчик не добавил описание.</string>
     <string name="plugin_preview_invalid">Не удалось открыть плагин</string>
     <string name="plugin_preview_install_success">Плагин установлен</string>
@@ -1087,7 +1087,7 @@
     <string name="plugin_delete">Удалить</string>
     <string name="plugin_empty_center">У вас пока нет установленных плагинов</string>
     <string name="plugin_host_title">Плагин</string>
-    <string name="plugin_host_not_installed">Плагин «%1$s» не установлен.\nИмпортируйте .dolphyplugin через Управление плагинами.</string>
+    <string name="plugin_host_not_installed">Плагин «%1$s» не установлен.\nИмпортируйте .whalyplugin через Управление плагинами.</string>
     <string name="plugin_host_empty_screen">Пустой экран</string>
     <string name="plugin_settings_title">Настройки плагинов</string>
     <string name="plugin_security_section">БЕЗОПАСНОСТЬ</string>
@@ -1101,8 +1101,8 @@
     <string name="plugin_download_deny">Запретить</string>
     <string name="plugin_download_unknown_size">размер неизвестен</string>
     <string name="plugin_documentation_site">Документация на сайте</string>
-    <string name="plugin_open_with_hint">Откройте файл плагина через «Открыть с помощью» и выберите Dolphy для установки</string>
-    <string name="plugin_system_warning_title">Система плагинов Dolphy 2.5</string>
+    <string name="plugin_open_with_hint">Откройте файл плагина через «Открыть с помощью» и выберите Whaly для установки</string>
+    <string name="plugin_system_warning_title">Система плагинов Whaly 2.5</string>
     <string name="plugin_system_warning_text">В новой версии разработана мощная система плагинов с широкой свободой действий. Цена этой свободы и обширных возможностей — безопасность. Пожалуйста, устанавливайте плагины только из доверенных источников и проверяйте их на наличие вредоносного кода. Разработчик не несёт ответственности за ущерб, нанесённый вредоносным кодом в пользовательском плагине.</string>
     <string name="plugin_system_warning_countdown">OK (%1$d)</string>
     <string name="plugin_preview_permissions">Возможности и доступ</string>
@@ -1154,7 +1154,7 @@
     <string name="bluetooth_scan_failed">Поиск не запустился. Проверьте Bluetooth, разрешения и геолокацию.</string>
     <string name="chat_advertising_failed">Не удалось сделать чат доступным для других устройств.</string>
     <string name="chat_start_failed">Не удалось запустить чат. Проверьте Bluetooth и поддержку BLE-передачи.</string>
-    <string name="chat_no_recipients">Рядом нет пользователей Dolphy. Откройте чат на втором устройстве.</string>
+    <string name="chat_no_recipients">Рядом нет пользователей Whaly. Откройте чат на втором устройстве.</string>
     <string name="chat_send_not_ready">Чат ещё не готов — проверьте Bluetooth и имя, затем попробуйте снова</string>
     <string name="chat_message_too_long">Сообщение слишком длинное. Сократите его.</string>
     <string name="chat_change_name">Имя в чате</string>

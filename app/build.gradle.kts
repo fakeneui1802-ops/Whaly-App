@@ -13,11 +13,11 @@ plugins {
 }
 
 android {
-    namespace = "com.droid.dolphy"
+    namespace = "com.droid.whaly"
     compileSdk = 36
 
     defaultConfig {
-        applicationId = "com.droid.dolphy"
+        applicationId = "com.droid.whaly"
         minSdk = 26
         targetSdk = 36
         versionCode = 27
@@ -167,7 +167,7 @@ tasks.withType<Test>().configureEach {
         }
         val classpathJar = File(
             System.getProperty("java.io.tmpdir"),
-            "dolphy-${project.projectDir.absolutePath.hashCode()}-$name-classpath.jar"
+            "whaly-${project.projectDir.absolutePath.hashCode()}-$name-classpath.jar"
         )
         JarOutputStream(classpathJar.outputStream(), manifest).use { }
         classpath = files(classpathJar)
