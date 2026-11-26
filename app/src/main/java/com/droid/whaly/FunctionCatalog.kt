@@ -113,8 +113,13 @@ fun functionDestinationSections(): List<Pair<String, List<FunctionDestination>>>
             FunctionDestination(Icons.Default.Memory, "NFC Fuzzer", "APDU, oversize and SELECT storm against live cards", "other/nfc_fuzz", OtherSections.OTHER),
             FunctionDestination(Icons.Default.Waves, "IR Carrier Sweep", "30-62 kHz sweep with random frames", "other/ir_fuzz", OtherSections.OTHER),
             FunctionDestination(Icons.Default.SwapHoriz, "Whaly Drop", "Browser upload page - receive files from any device", "other/whaly_drop", OtherSections.OTHER),
-            FunctionDestination(Icons.Default.Bolt, "Active Ops", "Rogue AP portal, UPnP hijack, IoT shells, MQTT takeover, tracker spoof, root deauth", "other/active_ops", OtherSections.OTHER),
+            FunctionDestination(Icons.Default.Bolt, "Active Ops", "Rogue AP portal, UPnP hijack, IoT shells, MQTT takeover, tracker spoof", "other/active_ops", OtherSections.OTHER),
+            FunctionDestination(Icons.Default.Waves, "IR Troll", "Volume to 100, channel chaos, input hijack, power loop, mute war, menu lock", "other/ir_troll", OtherSections.OTHER),
+            FunctionDestination(Icons.Default.BluetoothSearching, "BLE Troll", "Name spam, ad storm, clone nearby, fake peripheral, pairing popup flood", "other/ble_troll", OtherSections.OTHER),
+            FunctionDestination(Icons.Default.CreditCard, "Card Guard", "Reads a contactless card and reports exactly what it exposes", "other/card_guard", OtherSections.OTHER),
             FunctionDestination(Icons.Default.Memory, "Mifare Classic", "Key recovery and full card dump, 50 default plus 10 UID-derived keys", "other/mifare", OtherSections.OTHER),
+            FunctionDestination(Icons.Default.Radar, "Scrapper", "Monitor-mode 802.11 capture, KARMA candidates, EAPOL and PMKID", "other/scrapper", OtherSections.OTHER, requiresRoot = true),
+            FunctionDestination(Icons.Default.Terminal, "Root Ops", "802.11 deauth flood and iptables traffic intercept", "other/root_ops", OtherSections.OTHER, requiresRoot = true),
             FunctionDestination(Icons.Default.SystemUpdate, "Updates", "Check GitHub releases and install in place", "other/updater", OtherSections.OTHER),
         ) + plugins(OtherSections.OTHER)
 

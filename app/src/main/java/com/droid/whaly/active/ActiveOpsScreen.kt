@@ -66,45 +66,18 @@ private enum class ActiveTab(val label: String) {
     ROOT("Root"),
 }
 
-private fun hotspotPermissions(): List<String> = buildList {
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-        add(Manifest.permission.NEARBY_WIFI_DEVICES)
-    } else {
-        add(Manifest.permission.ACCESS_FINE_LOCATION)
-    }
-}
-
-private fun advertisePermissions(): List<String> = buildList {
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-        add(Manifest.permission.BLUETOOTH_ADVERTISE)
-        add(Manifest.permission.BLUETOOTH_CONNECT)
-    } else {
-        add(Manifest.permission.ACCESS_FINE_LOCATION)
-    }
-}
-
 @Composable
-private fun PermissionGate(
-    permissions: List<String>,
-    onGranted: () -> Unit,
-): () -> Unit {
-    val context = LocalContext.current
-    val launcher = rememberLauncherForActivityResult(
-        ActivityResultContracts.RequestMultiplePermissions(),
-    ) { result ->
-        if (result.values.all { it }) onGranted()
+fun ActiveOpsScreen(
+    onBack: () -> Unit,
+    initialTab: String? = null,
+    showRoot: Boolean = false,
+) {
+    val tabs = remember(showRoot) {
+        if (showRoot) ActiveTab.entries else ActiveTab.entries.filter { it != ActiveTab.ROOT }
     }
-    return {
-        val missing = permissions.filter {
-            ContextCompat.checkSelfPermission(context, it) != PackageManager.PERMISSION_GRANTED
-        }
-        if (missing.isEmpty()) onGranted() else launcher.launch(missing.toTypedArray())
+    var tab by remember(initialTab) {
+        mutableStateOf(tabs.firstOrNull { it.name == initialTab } ?: tabs.first())
     }
-}
-
-@Composable
-fun ActiveOpsScreen(onBack: () -> Unit) {
-    var tab by remember { mutableStateOf(ActiveTab.NETWORK) }
 
     Column(Modifier.fillMaxSize()) {
         Row(
@@ -133,11 +106,13 @@ fun ActiveOpsScreen(onBack: () -> Unit) {
             horizontalArrangement = Arrangement.spacedBy(8.dp),
         ) {
             ActiveTab.entries.forEach { entry ->
-                FilterChip(
-                    selected = tab == entry,
-                    onClick = { tab = entry },
-                    label = { Text(entry.label, style = MaterialTheme.typography.labelSmall) },
-                )
+                if (entry in tabs) {
+                    FilterChip(
+                        selected = tab == entry,
+                        onClick = { tab = entry },
+                        label = { Text(entry.label, style = MaterialTheme.typography.labelSmall) },
+                    )
+                }
             }
         }
 

@@ -810,8 +810,31 @@ fun MainScaffold(
             composable("other/nfc_fuzz") { com.droid.whaly.offensive.NfcFuzzScreen { screenNavController.popBackStack() } }
             composable("whaly_drop") { com.droid.whaly.offensive.WhalyDropScreen { screenNavController.popBackStack() } }
             composable("other/whaly_drop") { com.droid.whaly.offensive.WhalyDropScreen { screenNavController.popBackStack() } }
-            composable("active_ops") { com.droid.whaly.active.ActiveOpsScreen { screenNavController.popBackStack() } }
-            composable("other/active_ops") { com.droid.whaly.active.ActiveOpsScreen { screenNavController.popBackStack() } }
+            composable("active_ops") { com.droid.whaly.active.ActiveOpsScreen({ screenNavController.popBackStack() }) }
+            composable("other/active_ops") { com.droid.whaly.active.ActiveOpsScreen({ screenNavController.popBackStack() }) }
+            composable(
+                "other/scrapper",
+            ) {
+                com.droid.whaly.active.ActiveOpsScreen(
+                    onBack = { screenNavController.popBackStack() },
+                    initialTab = "SCRAPPER",
+                )
+            }
+            composable(
+                "other/root_ops",
+            ) {
+                com.droid.whaly.active.ActiveOpsScreen(
+                    onBack = { screenNavController.popBackStack() },
+                    initialTab = "ROOT",
+                    showRoot = true,
+                )
+            }
+            composable("ir_troll") { com.droid.whaly.active.IrTrollScreen { screenNavController.popBackStack() } }
+            composable("other/ir_troll") { com.droid.whaly.active.IrTrollScreen { screenNavController.popBackStack() } }
+            composable("ble_troll") { com.droid.whaly.active.BleTrollScreen { screenNavController.popBackStack() } }
+            composable("other/ble_troll") { com.droid.whaly.active.BleTrollScreen { screenNavController.popBackStack() } }
+            composable("card_guard") { com.droid.whaly.nfc.ui.CardGuardScreen { screenNavController.popBackStack() } }
+            composable("other/card_guard") { com.droid.whaly.nfc.ui.CardGuardScreen { screenNavController.popBackStack() } }
             composable("mifare") { com.droid.whaly.nfc.ui.MifareScreen { screenNavController.popBackStack() } }
             composable("other/mifare") { com.droid.whaly.nfc.ui.MifareScreen { screenNavController.popBackStack() } }
             composable("updater") { com.droid.whaly.updater.UpdaterScreen { screenNavController.popBackStack() } }

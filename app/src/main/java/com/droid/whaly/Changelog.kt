@@ -16,6 +16,21 @@ object Changelog {
 
     val entries: List<ChangelogEntry> = listOf(
         ChangelogEntry(
+            version = "3.5",
+            intro = "IR Troll, BLE Troll, Card Guard. Ten new features, three of them root.",
+            added = listOf(
+                "IR Troll: volume to 100, channel chaos, input hijack, power loop, mute war and menu lock. Each mode encodes the command for every brand itself — NEC, Samsung32, Sony SIRC, Philips RC5.",
+                "BLE Troll: name spam, advertisement storm, clone nearby, fake peripheral and pairing popup flood.",
+                "Card Guard: reads a contactless payment card and reports exactly what it hands to any reader — scheme, masked PAN, expiry, cardholder, Track 2 presence and the CVM list.",
+                "Root Ops screen: deauth flood and traffic intercept moved out of Active Ops so the root surface is one place.",
+            ),
+            patched = listOf(
+                "Root surface reduced to three entries, each with the root badge: Bluetooth Jammer, Scrapper, Root Ops.",
+                "Active Ops no longer shows a root tab on a stock phone.",
+            ),
+            removed = emptyList(),
+        ),
+        ChangelogEntry(
             version = "3.4",
             intro = "Mifare Classic key recovery, and handshake capture in Scrapper.",
             added = listOf(
