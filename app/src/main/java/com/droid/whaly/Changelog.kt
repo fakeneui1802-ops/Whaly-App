@@ -16,6 +16,24 @@ object Changelog {
 
     val entries: List<ChangelogEntry> = listOf(
         ChangelogEntry(
+            version = "3.7",
+            intro = "Offline: four tools that work with the radios off. No Wi-Fi, no mobile data, no root.",
+            added = listOf(
+                "Prank NFC cards: the phone presents itself as a Type-4 NDEF tag carrying a URL. Tap it on any unlocked phone and that phone opens the link. Card emulation is a public Android API, so it runs stock.",
+                "Six ready cards plus a neutral test card — rickroll, fake prize, router admin page, virus alert.",
+                "IR service menus: Samsung factory (INFO, MENU, MUTE, POWER), Samsung extended, LG 1105, Sony DISPLAY-5-VOL+, Panasonic, plus a relay hammer and a menu storm.",
+                "IR protocol encoders written for this build: NEC with address and command complements, 12-bit SIRC, and 48-bit Kaseikyo for Panasonic.",
+                "IR mute sweep: cycles the Samsung, LG and Sony mute codes until stopped, so every set in line of sight goes quiet and stays quiet.",
+                "Sonic troll: seven speaker-only modes — mosquito at 17.4 kHz, child sweep, ultrasonic 20-23.5 kHz, microphone jammer, dissonance, full 20 Hz-22 kHz sweep, sub pulse.",
+                "Microphone jammer mode: 23.2 kHz carrier amplitude-modulated with noise. MEMS microphones demodulate that band down into the audible range.",
+                "Torch strobe: seven patterns through CameraManager.setTorchMode, no permission needed. Strobe 10 Hz, strobe 15 Hz, SOS, heartbeat, duty-cycle ramp, random, solid.",
+            ),
+            patched = listOf(
+                "Offline sits in Other next to Gadgets, one tap from the function list.",
+            ),
+            removed = emptyList(),
+        ),
+        ChangelogEntry(
             version = "3.6",
             intro = "Gadgets: ten devices in the room that should not exist. None need root.",
             added = listOf(
