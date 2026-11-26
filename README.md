@@ -4,7 +4,7 @@ Whaly is an Android toolbox for infrared remotes, Bluetooth and BLE, NFC tags, l
 
 Requires Android 8.0 or later. The interface is available in English and Russian. Hardware support and Android permissions determine which tools are available on a particular phone.
 
-[Release channel on Telegram](https://t.me/Whaly_app_official) · [Plugin documentation](docs/plugins.html) · [Plugin examples](plugin-examples)
+[Releases](https://github.com/fakeneui1802-ops/Whaly-App) · [Plugin documentation](docs/plugins.html) · [Plugin examples](plugin-examples)
 
 ## Tools
 
