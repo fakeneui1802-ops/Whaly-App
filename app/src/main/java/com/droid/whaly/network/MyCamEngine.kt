@@ -349,12 +349,12 @@ object MyCamEngine {
     private fun httpGet(urlStr: String, authHeader: String?, maxBodyBytes: Int = 256 * 1024): HttpResult? {
         var conn: HttpURLConnection? = null
         return try {
-            conn = URL(urlStr).openConnection() as HttpURLConnection
+            conn = GhostRoute.open(urlStr)
             conn.connectTimeout = HTTP_TIMEOUT_MS
             conn.readTimeout = HTTP_TIMEOUT_MS
             conn.instanceFollowRedirects = false
             conn.requestMethod = "GET"
-            conn.setRequestProperty("User-Agent", "CamCatch/1.0")
+            conn.setRequestProperty("User-Agent", GhostRoute.userAgent())
             if (authHeader != null) conn.setRequestProperty("Authorization", authHeader)
             val code = conn.responseCode
             val stream = if (code in 200..399) conn.inputStream else conn.errorStream
@@ -389,12 +389,12 @@ object MyCamEngine {
     private fun isMjpegStream(urlStr: String, authHeader: String?): Boolean {
         var conn: HttpURLConnection? = null
         return try {
-            conn = URL(urlStr).openConnection() as HttpURLConnection
+            conn = GhostRoute.open(urlStr)
             conn.connectTimeout = HTTP_TIMEOUT_MS
             conn.readTimeout = HTTP_TIMEOUT_MS
             conn.instanceFollowRedirects = false
             conn.requestMethod = "GET"
-            conn.setRequestProperty("User-Agent", "CamCatch/1.0")
+            conn.setRequestProperty("User-Agent", GhostRoute.userAgent())
             if (authHeader != null) conn.setRequestProperty("Authorization", authHeader)
             val code = conn.responseCode
             if (code !in 200..299) return false
@@ -410,12 +410,12 @@ object MyCamEngine {
     private fun isJpegSnapshot(urlStr: String, authHeader: String?): Boolean {
         var conn: HttpURLConnection? = null
         return try {
-            conn = URL(urlStr).openConnection() as HttpURLConnection
+            conn = GhostRoute.open(urlStr)
             conn.connectTimeout = HTTP_TIMEOUT_MS
             conn.readTimeout = HTTP_TIMEOUT_MS
             conn.instanceFollowRedirects = false
             conn.requestMethod = "GET"
-            conn.setRequestProperty("User-Agent", "CamCatch/1.0")
+            conn.setRequestProperty("User-Agent", GhostRoute.userAgent())
             if (authHeader != null) conn.setRequestProperty("Authorization", authHeader)
             val code = conn.responseCode
             if (code !in 200..299) return false
@@ -449,7 +449,7 @@ object MyCamEngine {
                     append("CSeq: 1\r\n")
                     append("Accept: application/sdp\r\n")
                     append("Authorization: ").append(authHeader).append("\r\n")
-                    append("User-Agent: CamCatch/1.0\r\n")
+                    append("User-Agent: " + GhostRoute.userAgent() + "\r\n")
                     append("\r\n")
                 }
                 socket.getOutputStream().write(request.toByteArray(Charsets.US_ASCII))
@@ -521,13 +521,13 @@ object MyCamEngine {
     }
 
     fun mjpegFrames(url: String, authHeader: String?): Flow<Bitmap> = flow {
-        val conn = URL(url).openConnection() as HttpURLConnection
+        val conn = GhostRoute.open(url)
         try {
             conn.connectTimeout = HTTP_TIMEOUT_MS
             conn.readTimeout = 15000
             conn.instanceFollowRedirects = false
             conn.requestMethod = "GET"
-            conn.setRequestProperty("User-Agent", "CamCatch/1.0")
+            conn.setRequestProperty("User-Agent", GhostRoute.userAgent())
             if (authHeader != null) conn.setRequestProperty("Authorization", authHeader)
             val input = BufferedInputStream(conn.inputStream, 128 * 1024)
             val frame = ByteArrayOutputStream(256 * 1024)
@@ -564,12 +564,12 @@ object MyCamEngine {
             var bmp: Bitmap? = null
             var conn: HttpURLConnection? = null
             try {
-                conn = URL(url).openConnection() as HttpURLConnection
+                conn = GhostRoute.open(url)
                 conn.connectTimeout = HTTP_TIMEOUT_MS
                 conn.readTimeout = HTTP_TIMEOUT_MS
                 conn.instanceFollowRedirects = false
                 conn.requestMethod = "GET"
-                conn.setRequestProperty("User-Agent", "CamCatch/1.0")
+                conn.setRequestProperty("User-Agent", GhostRoute.userAgent())
                 if (authHeader != null) conn.setRequestProperty("Authorization", authHeader)
                 if (conn.responseCode in 200..299) {
                     val bytes = conn.inputStream.readBytes()

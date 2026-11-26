@@ -324,7 +324,7 @@
     <string name="hid_device_other">Device</string>
     <string name="hid_connect">Connect</string>
     <string name="hid_quiet_connect">Quiet connect</string>
-    <string name="hid_quiet_connect_toast">Blue Ducky: connecting without PIN / confirmation…</string>
+    <string name="hid_quiet_connect_toast">Blue Ducky (target Android 4.2.2-13): connecting without PIN or confirmation.</string>
     <string name="hid_blueducky_info_title">BlueDucky</string>
     <string name="hid_blueducky_info_body">Performs a quiet connection to devices via the Blue Ducky vulnerability (CVE-2023-45866) - HID without PIN or pairing confirmation dialogs.
 

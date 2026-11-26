@@ -21,6 +21,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ErrorOutline
+import androidx.compose.material.icons.filled.Security
 import androidx.compose.material.icons.filled.WarningAmber
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
@@ -75,6 +76,17 @@ fun MyCamScreen(navController: NavController) {
     var rtspUrl by remember { mutableStateOf<String?>(null) }
     var attempt by remember { mutableIntStateOf(0) }
     var forcedMode by remember { mutableStateOf(false) }
+    var ghostEnabled by remember { mutableStateOf(GhostRoute.enabled) }
+    var ghostHost by remember { mutableStateOf(GhostRoute.host) }
+    var ghostPort by remember { mutableIntStateOf(GhostRoute.port) }
+    var showGhostDialog by remember { mutableStateOf(false) }
+
+    LaunchedEffect(Unit) {
+        GhostRoute.load(context)
+        ghostEnabled = GhostRoute.enabled
+        ghostHost = GhostRoute.host
+        ghostPort = GhostRoute.port
+    }
 
     LaunchedEffect(attempt) {
         phase = MyCamPhase.SCANNING
@@ -167,8 +179,120 @@ fun MyCamScreen(navController: NavController) {
             if (phase == MyCamPhase.SCANNING) {
                 ScanningCenter(statusText, Modifier.padding(top = headerPadding))
             }
+            GhostChip(
+                enabled = ghostEnabled,
+                modifier = Modifier
+                    .align(Alignment.BottomEnd)
+                    .padding(16.dp),
+                onClick = { showGhostDialog = true },
+            )
         }
     }
+
+    if (showGhostDialog) {
+        GhostDialog(
+            initialEnabled = ghostEnabled,
+            initialHost = ghostHost,
+            initialPort = ghostPort,
+            onDismiss = { showGhostDialog = false },
+            onSave = { enabled, host, port ->
+                GhostRoute.save(context, enabled, host, port)
+                ghostEnabled = GhostRoute.enabled
+                ghostHost = GhostRoute.host
+                ghostPort = GhostRoute.port
+                showGhostDialog = false
+                attempt++
+            },
+        )
+    }
+}
+
+@Composable
+private fun GhostChip(enabled: Boolean, modifier: Modifier = Modifier, onClick: () -> Unit) {
+    androidx.compose.material3.Surface(
+        onClick = onClick,
+        modifier = modifier,
+        shape = androidx.compose.foundation.shape.RoundedCornerShape(50),
+        color = if (enabled) {
+            MaterialTheme.colorScheme.tertiaryContainer
+        } else {
+            MaterialTheme.colorScheme.surfaceVariant
+        },
+        tonalElevation = 3.dp,
+    ) {
+        androidx.compose.foundation.layout.Row(
+            modifier = Modifier.padding(horizontal = 14.dp, vertical = 8.dp),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            Icon(
+                Icons.Default.Security,
+                contentDescription = null,
+                modifier = Modifier.size(16.dp),
+                tint = MaterialTheme.colorScheme.onSurfaceVariant,
+            )
+            androidx.compose.foundation.layout.Spacer(Modifier.size(6.dp))
+            Text(
+                if (enabled) "Ghost route on" else "Ghost route off",
+                style = MaterialTheme.typography.labelLarge,
+            )
+        }
+    }
+}
+
+@Composable
+private fun GhostDialog(
+    initialEnabled: Boolean,
+    initialHost: String,
+    initialPort: Int,
+    onDismiss: () -> Unit,
+    onSave: (Boolean, String, Int) -> Unit,
+) {
+    var enabled by remember { mutableStateOf(initialEnabled) }
+    var host by remember { mutableStateOf(initialHost) }
+    var port by remember { mutableStateOf(initialPort.toString()) }
+
+    androidx.compose.material3.AlertDialog(
+        onDismissRequest = onDismiss,
+        title = { Text("Ghost route") },
+        text = {
+            androidx.compose.foundation.layout.Column {
+                Text(
+                    "Stream through a SOCKS5 relay so the camera logs the exit node instead of this phone. " +
+                        "Orbot listens on 127.0.0.1:9050. The LAN scan that finds the camera still comes from " +
+                        "this device.",
+                    style = MaterialTheme.typography.bodySmall,
+                )
+                androidx.compose.foundation.layout.Spacer(Modifier.size(12.dp))
+                androidx.compose.foundation.layout.Row(verticalAlignment = Alignment.CenterVertically) {
+                    androidx.compose.material3.Switch(checked = enabled, onCheckedChange = { enabled = it })
+                    androidx.compose.foundation.layout.Spacer(Modifier.size(8.dp))
+                    Text(if (enabled) "Enabled" else "Direct")
+                }
+                androidx.compose.foundation.layout.Spacer(Modifier.size(8.dp))
+                androidx.compose.material3.OutlinedTextField(
+                    value = host,
+                    onValueChange = { host = it },
+                    label = { Text("Proxy host") },
+                    singleLine = true,
+                )
+                androidx.compose.foundation.layout.Spacer(Modifier.size(8.dp))
+                androidx.compose.material3.OutlinedTextField(
+                    value = port,
+                    onValueChange = { port = it.filter(Char::isDigit).take(5) },
+                    label = { Text("Port") },
+                    singleLine = true,
+                )
+            }
+        },
+        confirmButton = {
+            androidx.compose.material3.TextButton(
+                onClick = { onSave(enabled, host, port.toIntOrNull() ?: 9050) },
+            ) { Text("Save") }
+        },
+        dismissButton = {
+            androidx.compose.material3.TextButton(onClick = onDismiss) { Text("Cancel") }
+        },
+    )
 }
 
 @Composable

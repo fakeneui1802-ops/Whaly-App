@@ -159,13 +159,18 @@ object PersonaEngine {
 
         executor.execute {
             val advertiser = BluetoothAdvertiser()
-            val companyId = Personas.companyIdFor(persona)
             _status.value = "Broadcasting ${persona.label}"
             while (running.get()) {
-                val payload = persona.payloads[random.nextInt(persona.payloads.size)]
-                val data = AdvertiseData.Builder()
-                    .addManufacturerData(companyId, payload)
-                    .build()
+                val frame = persona.frames[random.nextInt(persona.frames.size)]
+                val data = AdvertiseData.Builder().apply {
+                    when (frame) {
+                        is PersonaFrame.Manufacturer -> addManufacturerData(frame.companyId, frame.data)
+                        is PersonaFrame.ServiceData -> {
+                            if (frame.includeUuid) addServiceUuid(android.os.ParcelUuid(frame.uuid))
+                            addServiceData(android.os.ParcelUuid(frame.uuid), frame.data)
+                        }
+                    }
+                }.build()
                 try {
                     advertiser.advertise(data, null)
                     _packets.value = _packets.value + 1
