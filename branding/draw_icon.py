@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """Whaly launcher art, drawn from code.
 
-Everything is painted on a 64x64 grid and blown up with nearest neighbour so
-the pixels stay square. Shapes go onto a mask first, the mask is dilated once
-to produce a uniform white outline, then the details land on top.
+Painted on a 64x64 grid and blown up with nearest neighbour so the pixels stay
+square. The whale goes onto a mask first, the mask is dilated twice for the
+two-pixel white outline, then the marks land on top clipped to the silhouette.
 """
 from __future__ import annotations
 
@@ -17,13 +17,13 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 GRID = 64
 SCALE = 8
 
-BLACK = (8, 10, 12)
+BLACK = (6, 8, 10)
 WHITE = (255, 255, 255)
-EYE = (58, 160, 255)
+EYE = (41, 148, 246)
 
-BG_NEAR = (26, 134, 224)
-BG_FAR = (9, 34, 60)
-BG_BLOCK = 4
+BG_NEAR = (27, 143, 224)
+BG_FAR = (9, 39, 64)
+BG_BLOCK = 8
 
 
 def background() -> Image.Image:
@@ -32,7 +32,7 @@ def background() -> Image.Image:
     blocks = GRID // BG_BLOCK
     for by in range(blocks):
         for bx in range(blocks):
-            # Diagonal ramp, brightest at the top left like the reference.
+            # Diagonal ramp, brightest at the top left like the reference art.
             t = (bx + by) / (2 * (blocks - 1))
             t = round(t * 5) / 5
             colour = tuple(round(BG_NEAR[i] + (BG_FAR[i] - BG_NEAR[i]) * t) for i in range(3))
@@ -45,20 +45,18 @@ def silhouette() -> Image.Image:
     mask = Image.new("L", (GRID, GRID), 0)
     draw = ImageDraw.Draw(mask)
 
-    # Tail: two fat swept lobes over a short stem.
-    draw.line([(32, 19), (19, 3)], fill=255, width=9)
-    draw.line([(32, 19), (45, 3)], fill=255, width=9)
-    draw.line([(32, 20), (32, 10)], fill=255, width=8)
+    # Tail: two thick lobes sweeping up and out from a short stem.
+    draw.line([(32, 21), (23, 3)], fill=255, width=11)
+    draw.line([(32, 21), (41, 3)], fill=255, width=11)
+    draw.rectangle((29, 12, 35, 23), fill=255)
 
-    # Head: wide dome.
-    draw.ellipse((12, 15, 52, 55), fill=255)
-
-    # Jaw block that carries the baleen.
-    draw.ellipse((17, 36, 47, 54), fill=255)
+    # Dome: widest at eye level, tapering into the jaw.
+    draw.ellipse((13, 18, 51, 52), fill=255)
+    draw.polygon([(15, 42), (49, 42), (47, 55), (41, 59), (32, 61), (23, 59), (17, 55)], fill=255)
 
     # Pectoral fins.
-    draw.polygon([(14, 40), (4, 50), (2, 57), (10, 53), (17, 45)], fill=255)
-    draw.polygon([(50, 40), (60, 50), (62, 57), (54, 53), (47, 45)], fill=255)
+    draw.polygon([(15, 43), (6, 52), (1, 58), (8, 58), (14, 53), (19, 46)], fill=255)
+    draw.polygon([(49, 43), (58, 52), (63, 58), (56, 58), (50, 53), (45, 46)], fill=255)
 
     return mask
 
@@ -83,23 +81,26 @@ def draw_details(image: Image.Image, mask: Image.Image) -> None:
     layer = Image.new("RGBA", image.size, (0, 0, 0, 0))
     draw = ImageDraw.Draw(layer)
 
-    # Brow: one white arc per eye running from the outer edge up to the crown.
-    draw.line([(17, 30), (20, 25), (25, 21), (31, 19)], fill=WHITE, width=2)
-    draw.line([(47, 30), (44, 25), (39, 21), (33, 19)], fill=WHITE, width=2)
+    # Brow: one continuous line from each cheek up over the crown.
+    draw.line(
+        [(12, 31), (15, 26), (20, 22), (26, 20), (32, 19), (38, 20), (44, 22), (49, 26), (52, 31)],
+        fill=WHITE,
+        width=2,
+    )
 
-    # Eyes: angular blue wedges, inner corner lower than the outer.
-    draw.polygon([(18, 31), (26, 26), (28, 30), (24, 35), (18, 35)], fill=EYE)
-    draw.polygon([(46, 31), (38, 26), (36, 30), (40, 35), (46, 35)], fill=EYE)
-    draw.rectangle((21, 29, 23, 30), fill=WHITE)
-    draw.rectangle((41, 29, 43, 30), fill=WHITE)
+    # Eyes: blue wedges tucked under the brow, wide at the outer edge.
+    draw.polygon([(15, 34), (23, 31), (24, 37), (20, 43), (15, 43)], fill=EYE)
+    draw.polygon([(49, 34), (41, 31), (40, 37), (44, 43), (49, 43)], fill=EYE)
+    draw.rectangle((18, 34, 20, 35), fill=WHITE)
+    draw.rectangle((44, 34, 46, 35), fill=WHITE)
 
-    # Mouth line separating the dome from the jaw.
-    draw.arc((15, 25, 49, 51), start=25, end=155, fill=WHITE, width=2)
+    # Mouth: shallow trough across the face.
+    draw.line([(16, 44), (23, 46), (41, 46), (48, 44)], fill=WHITE, width=2)
 
-    # Baleen: vertical plates hanging from the mouth line.
-    for x in range(21, 45, 4):
-        draw.line([(x, 41), (x, 51)], fill=WHITE, width=2)
-    draw.arc((18, 40, 46, 58), start=200, end=340, fill=WHITE, width=2)
+    # Baleen: thick plates hanging from the mouth into the jaw.
+    for x in range(19, 46, 4):
+        draw.line([(x, 47), (x, 56)], fill=WHITE, width=2)
+    draw.arc((16, 46, 48, 65), start=200, end=340, fill=WHITE, width=2)
 
     alpha = ImageChops.multiply(layer.split()[3], mask)
     image.paste(layer.convert("RGB"), (0, 0), alpha)
