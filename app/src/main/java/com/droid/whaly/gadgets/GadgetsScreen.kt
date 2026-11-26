@@ -50,6 +50,7 @@ private enum class GadgetTab(val label: String) {
     TV("TV"),
     AUDIO("Audio"),
     RADIO("Radio"),
+    WARD("Wardrive"),
 }
 
 @Composable
@@ -91,6 +92,7 @@ fun GadgetsScreen(onBack: () -> Unit) {
             GadgetTab.TV -> TvTab()
             GadgetTab.AUDIO -> AudioTab()
             GadgetTab.RADIO -> RadioTab()
+            GadgetTab.WARD -> WardriveTab()
         }
     }
 }
@@ -497,6 +499,105 @@ private fun RadioTab() {
                         OutlinedButton(onClick = {
                             ProximityAlarm.arm(target.address, threshold.toIntOrNull() ?: -75)
                         }) { Text("watch") }
+                    }
+                }
+            }
+        }
+    }
+}
+
+// ---------------------------------------------------------------------------------------------
+
+@Composable
+private fun WardriveTab() {
+    val context = LocalContext.current
+    val running by Wardrive.running.collectAsState()
+    val count by Wardrive.count.collectAsState()
+    val hits by Wardrive.hits.collectAsState()
+    val log by Wardrive.log.collectAsState()
+    var lastFile by remember { mutableStateOf<String?>(null) }
+
+    val launcher = androidx.activity.compose.rememberLauncherForActivityResult(
+        androidx.activity.result.contract.ActivityResultContracts.RequestPermission(),
+    ) { granted -> if (granted) Wardrive.start(context) }
+
+    fun withPermission(action: () -> Unit) {
+        val granted = androidx.core.content.ContextCompat.checkSelfPermission(
+            context,
+            android.Manifest.permission.ACCESS_FINE_LOCATION,
+        ) == android.content.pm.PackageManager.PERMISSION_GRANTED
+        if (granted) action() else launcher.launch(android.Manifest.permission.ACCESS_FINE_LOCATION)
+    }
+
+    LazyColumn(
+        modifier = Modifier.fillMaxSize().padding(horizontal = 16.dp),
+        contentPadding = PaddingValues(top = 8.dp, bottom = 160.dp),
+        verticalArrangement = Arrangement.spacedBy(12.dp),
+    ) {
+        item {
+            Panel(
+                "Wardrive",
+                "The Unleashed wardriving app needs the ESP32 devboard because the Flipper has " +
+                    "no radio. A phone has both halves already. Scans every 4 seconds, stamps " +
+                    "each new BSSID with a GPS fix, writes Wigle CSV and KML.",
+            ) {
+                Text("unique networks: $count", style = MaterialTheme.typography.bodySmall)
+                ButtonFlow {
+                    Button(
+                        onClick = {
+                            if (running) Wardrive.stop()
+                            else withPermission { Wardrive.start(context) }
+                        },
+                    ) { Text(if (running) "Stop" else "Start") }
+                    OutlinedButton(onClick = { Wardrive.reset() }) { Text("Reset") }
+                }
+                ButtonFlow {
+                    OutlinedButton(
+                        onClick = { lastFile = Wardrive.exportCsv(context)?.absolutePath },
+                        enabled = count > 0,
+                    ) { Text("Export CSV") }
+                    OutlinedButton(
+                        onClick = { lastFile = Wardrive.exportKml(context)?.absolutePath },
+                        enabled = count > 0,
+                    ) { Text("Export KML") }
+                }
+                lastFile?.let {
+                    Text(
+                        it,
+                        style = MaterialTheme.typography.labelSmall,
+                        fontFamily = FontFamily.Monospace,
+                        color = MaterialTheme.colorScheme.primary,
+                    )
+                }
+                LogBox(log)
+            }
+        }
+
+        item {
+            Panel(
+                "Last scan",
+                "Newest first. A network is only logged once, so walking the same street twice " +
+                    "does not duplicate it.",
+            ) {
+                if (hits.isEmpty()) {
+                    Text(
+                        "nothing logged yet",
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    )
+                }
+                hits.takeLast(25).reversed().forEach { hit ->
+                    Column(Modifier.fillMaxWidth()) {
+                        Text(
+                            hit.ssid.ifBlank { "(hidden)" },
+                            style = MaterialTheme.typography.bodySmall,
+                        )
+                        Text(
+                            "${hit.bssid}  ${hit.rssi} dBm  ${hit.frequency} MHz",
+                            style = MaterialTheme.typography.labelSmall,
+                            fontFamily = FontFamily.Monospace,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        )
                     }
                 }
             }

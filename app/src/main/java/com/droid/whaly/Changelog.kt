@@ -16,6 +16,22 @@ object Changelog {
 
     val entries: List<ChangelogEntry> = listOf(
         ChangelogEntry(
+            version = "3.9",
+            intro = "Two features lifted from the Flipper map, rebuilt from the spec. No code imported.",
+            added = listOf(
+                "NFC-V / 14443-B: ISO 15693 inventory with GET SYSTEM INFORMATION — DSFID, AFI, block size, block count, IC reference, and a recognised chip name (ICODE SLI, SLIX, SLIX2, SLI-S, DNA).",
+                "Full NFC-V block dump in addressed mode, with the block map shown as hex and copyable as a text dump.",
+                "Single-block write for SLIX, SLIX2 and ICODE, no key needed. Bytes are sent exactly as typed, so the length has to match the block size.",
+                "ISO 14443-B read: UID, application data, protocol info, and an ATTRIB probe that reports whether the card accepted the link.",
+                "Wardrive: scans every 4 seconds, stamps each new BSSID with a GPS fix, deduplicates by MAC. Exports Wigle CSV and KML to the app's external files directory.",
+            ),
+            patched = listOf(
+                "Gadgets gained a fifth tab for wardriving.",
+                "Both new screens use the shared scrollable chip strip and wrapping button rows from 3.8.",
+            ),
+            removed = emptyList(),
+        ),
+        ChangelogEntry(
             version = "3.8",
             intro = "Layout and text pass, plus two bugs that were silently doing nothing.",
             added = listOf(
