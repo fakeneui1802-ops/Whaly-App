@@ -163,6 +163,9 @@ object PersonaEngine {
             while (running.get()) {
                 val frame = persona.frames[random.nextInt(persona.frames.size)]
                 val data = AdvertiseData.Builder().apply {
+                    // Windows and macOS read the name out of the advertisement or scan response.
+                    // Without this the host shows the cached adapter name, not the persona.
+                    setIncludeDeviceName(true)
                     when (frame) {
                         is PersonaFrame.Manufacturer -> addManufacturerData(frame.companyId, frame.data)
                         is PersonaFrame.ServiceData -> {

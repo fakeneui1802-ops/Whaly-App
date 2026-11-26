@@ -162,6 +162,9 @@ object MyCamEngine {
         }
 
         val hosts = openPorts.entries
+            // The gateway on x.x.x.1 is the router. It answers on 80 and often on 554, so it
+            // shows up as a camera candidate and wastes the whole credential sweep.
+            .filter { (ip, _) -> ip.substringAfterLast('.') != "1" || ip == targetIp }
             .map { it.key to it.value }
             .sortedWith(
                 compareByDescending<Pair<String, List<Int>>> { it.second.any(HTTP_PORTS::contains) }
@@ -463,13 +466,32 @@ object MyCamEngine {
                 }
                 socket.getOutputStream().write(request.toByteArray(Charsets.US_ASCII))
                 socket.getOutputStream().flush()
-                val statusLine = socket.getInputStream().bufferedReader().readLine()
-                    ?: return RtspProbe.FAIL
-                when {
-                    statusLine.contains(" 200") -> RtspProbe.OK
-                    statusLine.contains(" 401") -> RtspProbe.BAD_AUTH
-                    else -> RtspProbe.FAIL
+                val reader = socket.getInputStream().bufferedReader()
+                val statusLine = reader.readLine() ?: return RtspProbe.FAIL
+                if (statusLine.contains(" 401")) return RtspProbe.BAD_AUTH
+                if (!statusLine.contains(" 200")) return RtspProbe.FAIL
+
+                // A 200 only proves something answered. Routers and NAS boxes on 554 happily
+                // return 200 with an HTML error page or an empty body. A real RTSP camera
+                // answers with an SDP that carries at least one m=video track.
+                var contentLength = 0
+                while (true) {
+                    val line = reader.readLine() ?: break
+                    if (line.isEmpty()) break
+                    val lower = line.lowercase()
+                    if (lower.startsWith("content-length:")) {
+                        contentLength = lower.substringAfter(':').trim().toIntOrNull() ?: 0
+                    }
+                    if (contentLength > 64 * 1024) return RtspProbe.FAIL
                 }
+                val body = StringBuilder()
+                val cap = contentLength.coerceIn(0, 64 * 1024)
+                while (body.length < cap) {
+                    val line = reader.readLine() ?: break
+                    body.append(line).append('\n')
+                }
+                val sdp = body.toString()
+                return if (sdp.contains("m=video", ignoreCase = true)) RtspProbe.OK else RtspProbe.FAIL
             }
         } catch (e: Exception) {
             RtspProbe.FAIL

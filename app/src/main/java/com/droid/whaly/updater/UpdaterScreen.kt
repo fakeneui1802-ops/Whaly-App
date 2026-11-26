@@ -57,7 +57,7 @@ fun UpdaterScreen(onBack: () -> Unit) {
             OffensiveHeader("Updates", "Installed build ${WhalyUpdater.currentVersion()}", onBack)
             Column(
                 modifier = Modifier
-                    .padding(16.dp)
+                    .padding(start = 16.dp, end = 16.dp, top = 16.dp, bottom = 130.dp)
                     .verticalScroll(rememberScrollState()),
             ) {
                 Card(

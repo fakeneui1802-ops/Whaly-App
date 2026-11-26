@@ -459,19 +459,28 @@ private const val TRANSPORT_LE = 2
             }
         }
 
-        val connected = forceProxyConnect(device)
+        val connected = if (bondState == BluetoothDevice.BOND_BONDED) {
+            forceProxyConnect(device)
+        } else {
+            // A HID Device connection cannot exist before the link key does. Bond first and
+            // let ACTION_BOND_STATE_CHANGED drive the connect; connecting here returns false
+            // and on Android 14+ it also aborts the bond that was in flight.
+            Log.i(tag, "BlueDucky: not bonded yet, bonding before connect")
+            false
+        }
         Log.i(tag, "BlueDucky: proxy.connect result=$connected")
 
-        if (bondState == BluetoothDevice.BOND_NONE) {
+        if (bondState != BluetoothDevice.BOND_BONDED) {
             val bondOk = createBondSilent(device)
             Log.i(tag, "BlueDucky: silent createBond started=$bondOk")
-        }
-
-        mainHandler.postDelayed({
-            if (silentBlueDuckyMode && currentState != BluetoothProfile.STATE_CONNECTED) {
-                forceProxyConnect(device)
+            if (!bondOk) {
+                mainHandler.postDelayed({
+                    if (silentBlueDuckyMode && currentState != BluetoothProfile.STATE_CONNECTED) {
+                        initiateSilentBlueDuckyConnect(device, proxy)
+                    }
+                }, 1200L)
             }
-        }, 400L)
+        }
     }
 
     @RequiresPermission(Manifest.permission.BLUETOOTH_CONNECT)
@@ -494,17 +503,27 @@ private const val TRANSPORT_LE = 2
     private fun createBondSilent(device: BluetoothDevice): Boolean {
         // HID over GATT (Blue Ducky) is an LE profile. Bonding over BREDR produces a Classic
         // link that the host will not accept for HOGP, which is the usual silent failure.
+        // The int overload is hidden and blocked by the non-SDK list on 14+, so it is only a
+        // fallback; the public createBond() negotiates the right transport itself.
         val viaLe = runCatching {
             val m = device.javaClass.getMethod("createBond", Int::class.javaPrimitiveType)
             m.invoke(device, TRANSPORT_LE) as? Boolean ?: false
         }.getOrDefault(false)
-        if (viaLe) return true
+        if (viaLe) {
+            Log.i(tag, "createBond: LE transport accepted")
+            return true
+        }
+        val publicBond = runCatching { device.createBond() }.getOrDefault(false)
+        if (publicBond) {
+            Log.i(tag, "createBond: public API accepted")
+            return true
+        }
         val viaBredr = runCatching {
             val m = device.javaClass.getMethod("createBond", Int::class.javaPrimitiveType)
             m.invoke(device, TRANSPORT_BREDR) as? Boolean ?: false
         }.getOrDefault(false)
-        if (viaBredr) return true
-        return runCatching { device.createBond() }.getOrDefault(false)
+        if (viaBredr) Log.i(tag, "createBond: BREDR fallback accepted")
+        return viaBredr
     }
 
     private fun setSilentBlueDuckyMode(enabled: Boolean) {

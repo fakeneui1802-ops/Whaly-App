@@ -34,7 +34,9 @@ object IrFuzzEngine {
         val appContext = context.applicationContext
         if (!IrBackend.isAvailable(appContext)) {
             running.set(false)
-            _status.value = "No IR transmitter"
+            _status.value =
+                "No IR emitter on this phone. ConsumerIrManager reports none. " +
+                    "Plug a USB IR blaster (USB-C OTG) or install an IR plugin."
             return
         }
         _bursts.value = 0

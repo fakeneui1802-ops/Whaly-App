@@ -196,6 +196,7 @@ fun ScannedDevicesScreen(
 
             LazyColumn(
                 modifier = Modifier.fillMaxSize().padding(horizontal = 16.dp),
+                contentPadding = androidx.compose.foundation.layout.PaddingValues(bottom = 140.dp),
                 verticalArrangement = Arrangement.spacedBy(6.dp),
             ) {
                 item { Spacer(Modifier.height(4.dp)) }

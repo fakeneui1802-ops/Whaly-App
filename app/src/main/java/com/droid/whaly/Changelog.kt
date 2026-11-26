@@ -16,6 +16,43 @@ object Changelog {
 
     val entries: List<ChangelogEntry> = listOf(
         ChangelogEntry(
+            version = "3.1.3",
+            intro = "Camera scan stops chasing the router, and the persona name reaches the host.",
+            added = emptyList(),
+            patched = listOf(
+                "Platform Spoofer now sets the local name inside the advertisement. Windows and macOS read the name from the advertisement, not from the adapter, so the host kept showing the old name.",
+                "Quiet Connect bonds before it connects. A HID Device link cannot exist without a link key, and connecting first aborted the bond that was already in flight.",
+                "Bonding tries the public API before the hidden int overload, which the non-SDK list blocks on Android 14 and newer.",
+                "CamCatch skips the gateway address. A router answers on 80 and 554, so it was picked as a camera and burned the whole password list.",
+                "RTSP probe now reads the SDP and requires an m=video track. A bare 200 from a router is no longer reported as a stream.",
+            ),
+            removed = emptyList(),
+        ),
+        ChangelogEntry(
+            version = "3.1.2",
+            intro = "Nothing hides behind the navigation pill any more.",
+            added = emptyList(),
+            patched = listOf(
+                "Persona list, GATT Flood list, Scanned Devices list and the Updates screen all reserve space for the floating navigation pill.",
+                "IR Carrier Sweep says what is missing and what to do about it instead of a bare No IR transmitter.",
+            ),
+            removed = emptyList(),
+        ),
+        ChangelogEntry(
+            version = "3.1.1",
+            intro = "Camera results are tappable, and the update log scrolls instead of clipping.",
+            added = listOf(
+                "Auto plugin updater, official catalogue only. A user-added source can add plugins but never overwrites what is installed.",
+                "Shizuku risk dialog listing what the grant actually hands over.",
+            ),
+            patched = listOf(
+                "Tapping a discovered camera opens CamCatch at that exact IP instead of rescanning the subnet.",
+                "The release notes box keeps its size and scrolls internally, so the whole changelog is readable.",
+                "Ghost route chip moved off the bottom navigation bar to the top-right of the camera screen.",
+            ),
+            removed = emptyList(),
+        ),
+        ChangelogEntry(
             version = "3.1",
             intro = "Update log. Everything below is in this build.",
             added = listOf(
