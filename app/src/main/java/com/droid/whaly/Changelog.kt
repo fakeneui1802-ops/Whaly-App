@@ -16,6 +16,21 @@ object Changelog {
 
     val entries: List<ChangelogEntry> = listOf(
         ChangelogEntry(
+            version = "3.3",
+            intro = "Scrapper, plus the Flipper features a phone can actually do.",
+            added = listOf(
+                "Scrapper: passive 802.11 capture from a monitor interface. Every MAC in range with vendor, every SSID each device probes for, every beacon with channel and encryption, and DNS on open networks. Saves a pcap.",
+                "KARMA candidates: the SSIDs neighbouring devices are asking for, ranked. Feed one to the Rogue AP tab and those devices try to join it.",
+                "TV-B-Gone: power toggle for 18 television families, encoded here rather than looked up. NEC, Samsung32, SIRC and RC5.",
+                "Beacon spam: iBeacon, Eddystone UID, Eddystone URL and AltBeacon with names you pick.",
+                "Tracker detector: the other direction. Flags a Find My, SmartTag or Tile frame that keeps showing up while you move.",
+            ),
+            patched = listOf(
+                "Active Ops gained Scrapper and Flipper tabs.",
+            ),
+            removed = emptyList(),
+        ),
+        ChangelogEntry(
             version = "3.2",
             intro = "Active Ops: seven new live attacks under one roof.",
             added = listOf(

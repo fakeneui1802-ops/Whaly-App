@@ -54,12 +54,15 @@ import androidx.core.content.ContextCompat
 import com.droid.whaly.RootUtils
 import com.droid.whaly.active.root.RootDeauthFlood
 import com.droid.whaly.active.root.RootIntercept
+import com.droid.whaly.active.root.Scrapper
 import kotlinx.coroutines.launch
 
 private enum class ActiveTab(val label: String) {
     NETWORK("Network"),
     PORTAL("Rogue AP"),
     TRACKER("Tracker"),
+    SCRAPPER("Scrapper"),
+    FLIPPER("Flipper"),
     ROOT("Root"),
 }
 
@@ -142,6 +145,8 @@ fun ActiveOpsScreen(onBack: () -> Unit) {
             ActiveTab.NETWORK -> NetworkTab()
             ActiveTab.PORTAL -> PortalTab()
             ActiveTab.TRACKER -> TrackerTab()
+            ActiveTab.SCRAPPER -> ScrapperTab()
+            ActiveTab.FLIPPER -> FlipperTab()
             ActiveTab.ROOT -> RootTab()
         }
     }
@@ -481,6 +486,40 @@ private fun TrackerTab() {
                 LogBlock(log)
             }
         }
+
+        item {
+            val detectorRunning by TrackerDetector.running.collectAsState()
+            val detectorStatus by TrackerDetector.status.collectAsState()
+            val sightings by TrackerDetector.sightings.collectAsState()
+            val startScan = PermissionGate(advertisePermissions()) { TrackerDetector.start() }
+            OpsCard(
+                "Tracker detector",
+                "The other direction: listens for Find My, SmartTag and Tile advertisements " +
+                    "and flags anything that keeps showing up while you move.",
+            ) {
+                Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                    Button(onClick = { if (detectorRunning) TrackerDetector.stop() else startScan() }) {
+                        Text(if (detectorRunning) "Stop" else "Scan")
+                    }
+                    OutlinedButton(onClick = { TrackerDetector.clear() }) { Text("Clear") }
+                }
+                Text(detectorStatus, style = MaterialTheme.typography.bodySmall)
+                Text("${sightings.size} tag(s)", style = MaterialTheme.typography.bodySmall)
+                sightings.forEach { sighting ->
+                    Text(
+                        "${sighting.ecosystem}  ${sighting.rssi} dBm  ×${sighting.count}" +
+                            if (sighting.following) "  FOLLOWING" else "",
+                        style = MaterialTheme.typography.bodySmall,
+                        fontFamily = FontFamily.Monospace,
+                        color = if (sighting.following) {
+                            MaterialTheme.colorScheme.error
+                        } else {
+                            MaterialTheme.colorScheme.onSurfaceVariant
+                        },
+                    )
+                }
+            }
+        }
     }
 }
 
@@ -597,6 +636,263 @@ private fun RootTab() {
                     )
                 }
                 LogBlock(interceptLog)
+            }
+        }
+    }
+}
+
+// ---------------------------------------------------------------------------------------------
+
+@Composable
+private fun ScrapperTab() {
+    val scope = rememberCoroutineScope()
+    val running by Scrapper.running.collectAsState()
+    val frames by Scrapper.frames.collectAsState()
+    val devices by Scrapper.devices.collectAsState()
+    val aps by Scrapper.aps.collectAsState()
+    val dns by Scrapper.dns.collectAsState()
+    val log by Scrapper.log.collectAsState()
+    val pcap by Scrapper.pcapPath.collectAsState()
+    var channel by remember { mutableStateOf("0") }
+
+    val probed = remember(devices) {
+        devices.flatMap { it.probes }.groupingBy { it }.eachCount()
+            .entries.sortedByDescending { it.value }.take(12)
+    }
+
+    LazyColumn(
+        modifier = Modifier.fillMaxSize().padding(horizontal = 16.dp),
+        contentPadding = PaddingValues(top = 8.dp, bottom = 160.dp),
+        verticalArrangement = Arrangement.spacedBy(12.dp),
+    ) {
+        item {
+            OpsCard(
+                "Scrapper",
+                "Puts the radio in monitor mode and reads the air. No Wi-Fi connection needed — " +
+                    "it is not on any network, it is watching every network at once.",
+            ) {
+                OutlinedTextField(
+                    value = channel,
+                    onValueChange = { channel = it.filter(Char::isDigit).take(3) },
+                    label = { Text("channel, 0 = hop all") },
+                    singleLine = true,
+                    modifier = Modifier.fillMaxWidth(),
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                )
+                Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                    Button(onClick = {
+                        if (Scrapper.isRunning()) Scrapper.stop()
+                        else Scrapper.start(channel.toIntOrNull() ?: 0)
+                    }) { Text(if (running) "Stop" else "Start") }
+                    OutlinedButton(onClick = { Scrapper.clear() }) { Text("Clear") }
+                }
+                Text("frames: $frames", style = MaterialTheme.typography.bodySmall)
+                KeyValue("devices", devices.size.toString())
+                KeyValue("access points", aps.size.toString())
+                KeyValue("dns queries", dns.size.toString())
+                pcap?.let { KeyValue("pcap", it.substringAfterLast('/')) }
+                LogBlock(log)
+            }
+        }
+
+        item {
+            OpsCard(
+                "What this can and cannot see",
+                "Read it once, then the numbers below make sense.",
+            ) {
+                Text(
+                    "Visible: every MAC in range with its vendor, every SSID each device probes " +
+                        "for — that is the saved-network list of every phone around you — every " +
+                        "beacon and probe response with channel, encryption and WPS, and DNS " +
+                        "queries on open networks.",
+                    style = MaterialTheme.typography.bodySmall,
+                )
+                Spacer(Modifier.height(6.dp))
+                Text(
+                    "Not visible: the contents of WPA2 traffic. Those payloads are encrypted " +
+                        "between the device and its access point, and a passive radio is not " +
+                        "part of that key exchange. Anyone claiming otherwise is selling " +
+                        "something. To read the payload you have to be the access point, which " +
+                        "is what the Rogue AP tab is for.",
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                )
+            }
+        }
+
+        if (probed.isNotEmpty()) {
+            item {
+                OpsCard(
+                    "KARMA candidates",
+                    "SSIDs that devices around you are asking for. Feed the top one to the Rogue AP " +
+                        "tab and those devices try to join it automatically.",
+                ) {
+                    probed.forEach { (ssid, count) ->
+                        Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+                            Text(
+                                "$ssid",
+                                style = MaterialTheme.typography.bodySmall,
+                                modifier = Modifier.weight(1f),
+                                fontFamily = FontFamily.Monospace,
+                            )
+                            Text(
+                                "×$count",
+                                style = MaterialTheme.typography.labelSmall,
+                                color = MaterialTheme.colorScheme.primary,
+                            )
+                        }
+                    }
+                }
+            }
+        }
+
+        if (devices.isNotEmpty()) {
+            item {
+                OpsCard("Devices in range", "${devices.size} station(s), strongest first") {
+                    devices.take(40).forEach { device ->
+                        Column(Modifier.padding(vertical = 4.dp)) {
+                            Text(
+                                "${device.mac}  ${device.rssi} dBm",
+                                style = MaterialTheme.typography.bodySmall,
+                                fontFamily = FontFamily.Monospace,
+                            )
+                            Text(
+                                "${device.vendor} · ${device.kind.name.lowercase()} · ${device.packets} frames",
+                                style = MaterialTheme.typography.labelSmall,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                            )
+                            if (device.probes.isNotEmpty()) {
+                                Text(
+                                    "probes: " + device.probes.take(6).joinToString(", "),
+                                    style = MaterialTheme.typography.labelSmall,
+                                    color = MaterialTheme.colorScheme.primary,
+                                )
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        if (aps.isNotEmpty()) {
+            item {
+                OpsCard("Access points", "${aps.size} beacon(s)") {
+                    aps.take(40).forEach { ap ->
+                        Text(
+                            "${ap.ssid}  ${ap.channel}ch  ${ap.rssi}dBm  " +
+                                (if (ap.encrypted) "WPA" else "OPEN") + (if (ap.wps) " WPS" else ""),
+                            style = MaterialTheme.typography.bodySmall,
+                            fontFamily = FontFamily.Monospace,
+                            color = if (!ap.encrypted) MaterialTheme.colorScheme.error
+                            else MaterialTheme.colorScheme.onSurfaceVariant,
+                        )
+                    }
+                }
+            }
+        }
+
+        if (dns.isNotEmpty()) {
+            item {
+                OpsCard("DNS seen", "Only from open networks — WPA2 hides the payload") {
+                    dns.takeLast(40).reversed().forEach { hit ->
+                        Text(
+                            "${hit.query}  ← ${hit.client.takeLast(5)}",
+                            style = MaterialTheme.typography.labelSmall,
+                            fontFamily = FontFamily.Monospace,
+                        )
+                    }
+                }
+            }
+        }
+    }
+}
+
+// ---------------------------------------------------------------------------------------------
+
+@Composable
+private fun FlipperTab() {
+    val context = LocalContext.current
+    val irRunning by TvBGone.running.collectAsState()
+    val irIndex by TvBGone.index.collectAsState()
+    val irLog by TvBGone.log.collectAsState()
+    val beaconRunning by BeaconSpam.running.collectAsState()
+    val beaconCount by BeaconSpam.count.collectAsState()
+    val beaconStatus by BeaconSpam.status.collectAsState()
+    var format by remember { mutableStateOf(BeaconSpam.Format.IBEACON) }
+    var names by remember { mutableStateOf("Whaly\nFree WiFi\nAirport\nStarbucks\nHOME-2.4G") }
+    val startBeacon = PermissionGate(advertisePermissions()) {
+        BeaconSpam.start(format, names.lines().map { it.trim() }.filter { it.isNotEmpty() })
+    }
+
+    LazyColumn(
+        modifier = Modifier.fillMaxSize().padding(horizontal = 16.dp),
+        contentPadding = PaddingValues(top = 8.dp, bottom = 160.dp),
+        verticalArrangement = Arrangement.spacedBy(12.dp),
+    ) {
+        item {
+            OpsCard(
+                "TV-B-Gone",
+                "Fires the power toggle for 18 television families. Something in the room turns off.",
+            ) {
+                Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                    Button(onClick = { TvBGone.fire(context, rounds = 2) }) { Text("Fire") }
+                    OutlinedButton(onClick = { TvBGone.stop() }) { Text("Stop") }
+                }
+                Text(
+                    if (irRunning) "code ${irIndex + 1}/${TvBGone.codes.size}" else "idle",
+                    style = MaterialTheme.typography.bodySmall,
+                )
+                LogBlock(irLog)
+            }
+        }
+
+        item {
+            OpsCard(
+                "Beacon spam",
+                "iBeacon, Eddystone and AltBeacon frames with names you pick. Every phone in " +
+                    "range sees them in its scan list.",
+            ) {
+                Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
+                    BeaconSpam.Format.entries.forEach { entry ->
+                        FilterChip(
+                            selected = format == entry,
+                            onClick = { format = entry },
+                            label = { Text(entry.label, style = MaterialTheme.typography.labelSmall) },
+                        )
+                    }
+                }
+                OutlinedTextField(
+                    value = names,
+                    onValueChange = { names = it },
+                    label = { Text("names, one per line") },
+                    modifier = Modifier.fillMaxWidth(),
+                    minLines = 3,
+                )
+                Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                    Button(onClick = { if (beaconRunning) BeaconSpam.stop() else startBeacon() }) {
+                        Text(if (beaconRunning) "Stop" else "Start")
+                    }
+                }
+                Text(beaconStatus, style = MaterialTheme.typography.bodySmall)
+                Text("frames: $beaconCount", style = MaterialTheme.typography.bodySmall)
+            }
+        }
+
+        item {
+            OpsCard("From the Flipper, on a phone", "What maps cleanly and what does not.") {
+                Text(
+                    "Works here: NFC read/write/emulate, IR blaster, Bad USB over HID, BLE spam, " +
+                        "beacon spam, tracker detect and spoof, Wi-Fi monitor capture and deauth " +
+                        "with root.",
+                    style = MaterialTheme.typography.bodySmall,
+                )
+                Spacer(Modifier.height(6.dp))
+                Text(
+                    "Needs hardware this phone does not have: Sub-GHz 433/315/868 MHz, 125 kHz " +
+                        "RFID, iButton, GPIO, MagSpoof. Those are radio front ends, not software.",
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                )
             }
         }
     }
