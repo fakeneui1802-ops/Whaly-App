@@ -1,5 +1,7 @@
 # Whaly
 
+Whaly is a fork of [Dolphy-App](https://github.com/unvoiddd/Dolphy-App), rebranded and extended. The original project is the base; every change in this repository is listed in [CHANGELOG](app/src/main/java/com/droid/whaly/Changelog.kt) and on the releases page.
+
 Whaly is an Android toolbox for infrared remotes, Bluetooth and BLE, NFC tags, local network tools, and device experiments. It also includes a plugin system and a small dolphin companion with home screen widgets.
 
 Requires Android 8.0 or later. The interface is available in English and Russian. Hardware support and Android permissions determine which tools are available on a particular phone.

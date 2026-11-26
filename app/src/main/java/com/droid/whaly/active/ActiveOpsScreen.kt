@@ -415,6 +415,12 @@ private fun PortalTab() {
                         style = MaterialTheme.typography.bodySmall,
                         fontFamily = FontFamily.Monospace,
                     )
+                    Text(
+                        "${entry.ip}  ${entry.agent.take(60)}",
+                        style = MaterialTheme.typography.labelSmall,
+                        fontFamily = FontFamily.Monospace,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    )
                 }
                 LogBlock(log)
             }

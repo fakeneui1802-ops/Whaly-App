@@ -16,6 +16,19 @@ object Changelog {
 
     val entries: List<ChangelogEntry> = listOf(
         ChangelogEntry(
+            version = "4.0",
+            intro = "Version history inside the app, richer portal capture, and fork attribution.",
+            added = listOf(
+                "Version history: the Updates tab opens a dialog listing every release, newest first. Tapping a version expands its Added, Patched and Removed sections in place.",
+                "Portal capture now records the client address and User-Agent alongside the submitted credentials, and logs every request path as it arrives.",
+            ),
+            patched = listOf(
+                "README and the project site now state that Whaly is a fork of Dolphy-App, with a link to the original repository.",
+                "Release notes rewritten in an impersonal register — a changelog describes the build, it does not address a reader.",
+            ),
+            removed = emptyList(),
+        ),
+        ChangelogEntry(
             version = "3.9",
             intro = "Two features lifted from the Flipper map, rebuilt from the spec. No code imported.",
             added = listOf(

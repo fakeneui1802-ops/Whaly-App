@@ -1,6 +1,7 @@
 package com.droid.whaly.updater
 
 import android.content.pm.PackageManager
+import com.droid.whaly.Changelog
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -14,7 +15,11 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.clickable
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
+import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.LinearProgressIndicator
@@ -28,6 +33,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
@@ -46,6 +52,7 @@ fun UpdaterScreen(onBack: () -> Unit) {
     var verifier by remember { mutableStateOf("unknown") }
     var note by remember { mutableStateOf("") }
     var showShizukuWarning by remember { mutableStateOf(false) }
+    var showHistory by remember { mutableStateOf(false) }
 
     fun refresh() {
         shizukuReady = SilentInstaller.shizukuReady()
@@ -55,11 +62,21 @@ fun UpdaterScreen(onBack: () -> Unit) {
     Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
         Column(modifier = Modifier.fillMaxSize()) {
             OffensiveHeader("Updates", "Installed build ${WhalyUpdater.currentVersion()}", onBack)
+            if (showHistory) {
+                VersionHistoryDialog(onDismiss = { showHistory = false })
+            }
             Column(
                 modifier = Modifier
                     .padding(start = 16.dp, end = 16.dp, top = 16.dp, bottom = 130.dp)
                     .verticalScroll(rememberScrollState()),
             ) {
+                OutlinedButton(
+                    onClick = { showHistory = true },
+                    modifier = Modifier.fillMaxWidth(),
+                ) {
+                    Text("Version history — ${Changelog.entries.size} releases")
+                }
+                Spacer(Modifier.height(12.dp))
                 Card(
                     modifier = Modifier.fillMaxWidth(),
                     colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant),
@@ -243,4 +260,82 @@ fun UpdaterScreen(onBack: () -> Unit) {
             },
         )
     }
+}
+
+/**
+ * Every entry in [Changelog], newest first, collapsed to a version row. Tapping a row opens
+ * that release in place so the whole history stays one scroll.
+ */
+@Composable
+private fun VersionHistoryDialog(onDismiss: () -> Unit) {
+    var open by remember { mutableStateOf<String?>(null) }
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        confirmButton = {
+            TextButton(onClick = onDismiss) { Text("Close") }
+        },
+        title = { Text("Version history") },
+        text = {
+            Column(
+                modifier = Modifier
+                    .heightIn(max = 460.dp)
+                    .verticalScroll(rememberScrollState()),
+            ) {
+                Changelog.entries.forEach { entry ->
+                    val expanded = open == entry.version
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .clickable { open = if (expanded) null else entry.version }
+                            .padding(vertical = 8.dp),
+                    ) {
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            Text(
+                                "v${entry.version}",
+                                style = MaterialTheme.typography.titleSmall,
+                                fontWeight = FontWeight.SemiBold,
+                                modifier = Modifier.weight(1f),
+                            )
+                            Text(
+                                if (expanded) "-" else "+",
+                                style = MaterialTheme.typography.titleSmall,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                            )
+                        }
+                        Text(
+                            entry.intro,
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        )
+                        if (expanded) {
+                            Spacer(Modifier.height(8.dp))
+                            ChangelogSection("Added", entry.added)
+                            ChangelogSection("Patched / Reworked / Fixed", entry.patched)
+                            ChangelogSection("Removed", entry.removed)
+                        }
+                    }
+                    HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
+                }
+            }
+        },
+    )
+}
+
+@Composable
+private fun ChangelogSection(title: String, lines: List<String>) {
+    if (lines.isEmpty()) return
+    Text(
+        title,
+        style = MaterialTheme.typography.labelMedium,
+        fontWeight = FontWeight.Bold,
+        color = MaterialTheme.colorScheme.primary,
+    )
+    lines.forEach { line ->
+        Text(
+            "� $line",
+            style = MaterialTheme.typography.bodySmall,
+            modifier = Modifier.padding(start = 6.dp, top = 2.dp),
+        )
+    }
+    Spacer(Modifier.height(6.dp))
 }

