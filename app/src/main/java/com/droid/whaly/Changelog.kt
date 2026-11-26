@@ -16,6 +16,23 @@ object Changelog {
 
     val entries: List<ChangelogEntry> = listOf(
         ChangelogEntry(
+            version = "4.2",
+            intro = "Field: five tools that work with every radio off.",
+            added = listOf(
+                "GATT explorer: scan, connect, enumerate every service and characteristic, read, write with or without response, subscribe to notifications. No radio dongle, no root.",
+                "Nordic UART terminal: service 6e400001, RX 6e400002, TX 6e400003. Talks to any ESP32, devboard or serial bridge over BLE.",
+                "Hidden camera finder: rear sensor with no preview surface, maximum luma inside the centre crop. IR pass in a dark room, lens-glint pass with the torch sweeping.",
+                "Magnetic finder: baseline-corrected magnetometer with a pitch-tracking tone. Studs, speakers, magnets and live conductors stand out against the Earth field.",
+                "Ultrasonic listener: 48 kHz capture ring-modulated by a 12 kHz carrier, shifting 15-24 kHz down into hearing. Playback and level meter.",
+                "Tracker finder: pick a BLE device, beep rate and tone follow RSSI. Finds where a tag is, where the proximity alarm only reports that it left.",
+            ),
+            patched = listOf(
+                "Field sits in Other, next to NFC-V.",
+                "All six tabs use the shared scrollable chip strip.",
+            ),
+            removed = emptyList(),
+        ),
+        ChangelogEntry(
             version = "4.1",
             intro = "Three pranks that run without being held.",
             added = listOf(

@@ -841,6 +841,8 @@ fun MainScaffold(
             composable("other/offline") { com.droid.whaly.offline.OfflineScreen { screenNavController.popBackStack() } }
             composable("nfc_v") { com.droid.whaly.nfc.ui.NfcVScreen { screenNavController.popBackStack() } }
             composable("other/nfc_v") { com.droid.whaly.nfc.ui.NfcVScreen { screenNavController.popBackStack() } }
+            composable("field") { com.droid.whaly.field.FieldScreen { screenNavController.popBackStack() } }
+            composable("other/field") { com.droid.whaly.field.FieldScreen { screenNavController.popBackStack() } }
             composable("mifare") { com.droid.whaly.nfc.ui.MifareScreen { screenNavController.popBackStack() } }
             composable("other/mifare") { com.droid.whaly.nfc.ui.MifareScreen { screenNavController.popBackStack() } }
             composable("updater") { com.droid.whaly.updater.UpdaterScreen { screenNavController.popBackStack() } }
