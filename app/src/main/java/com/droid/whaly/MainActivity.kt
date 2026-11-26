@@ -810,6 +810,8 @@ fun MainScaffold(
             composable("other/nfc_fuzz") { com.droid.whaly.offensive.NfcFuzzScreen { screenNavController.popBackStack() } }
             composable("whaly_drop") { com.droid.whaly.offensive.WhalyDropScreen { screenNavController.popBackStack() } }
             composable("other/whaly_drop") { com.droid.whaly.offensive.WhalyDropScreen { screenNavController.popBackStack() } }
+            composable("active_ops") { com.droid.whaly.active.ActiveOpsScreen { screenNavController.popBackStack() } }
+            composable("other/active_ops") { com.droid.whaly.active.ActiveOpsScreen { screenNavController.popBackStack() } }
             composable("updater") { com.droid.whaly.updater.UpdaterScreen { screenNavController.popBackStack() } }
             composable("other/updater") { com.droid.whaly.updater.UpdaterScreen { screenNavController.popBackStack() } }
             composable("ir_jammer") { IRJammerScreen(screenNavController) }

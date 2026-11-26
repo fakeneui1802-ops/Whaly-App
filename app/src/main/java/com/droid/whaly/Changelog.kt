@@ -16,6 +16,25 @@ object Changelog {
 
     val entries: List<ChangelogEntry> = listOf(
         ChangelogEntry(
+            version = "3.2",
+            intro = "Active Ops: seven new live attacks under one roof.",
+            added = listOf(
+                "Rogue access point with a sign-in portal. Starts a local-only hotspot, serves a captive page on it, and records every username and password typed into it.",
+                "UPnP port hijack. Discovers the router's IGD over SSDP and opens a port forward to this phone through AddPortMapping.",
+                "IoT shell sweep. Telnet on 23, 2323 and 2333 across the /24 with 17 default credential pairs, then runs commands on whatever answers.",
+                "MQTT broker takeover. Full 3.1.1 CONNECT, SUBSCRIBE # and PUBLISH over TCP, so every smart-home topic lands on the phone.",
+                "Print bomb. Finds IPP endpoints on 631 and pushes a job to every one, repeatedly.",
+                "Discovery flood. SSDP M-SEARCH plus NOTIFY and mDNS service enumeration at 30 ms, which drops hubs and TVs off the network.",
+                "Tracker impersonation. Find My, SmartTag and Tile frames with a rotating identifier, which raises unwanted-tracking alerts on nearby phones.",
+                "Root: 802.11 deauthentication flood. Capability probe for monitor mode and mdk4, aireplay-ng or nexutil, then a live deauth run.",
+                "Root: traffic intercept. iptables DNAT for DNS and plain HTTP plus a hosts-file pin, with a local responder and a tap that forwards the request onward.",
+            ),
+            patched = listOf(
+                "Active Ops is reachable from Other, one tap from the function list.",
+            ),
+            removed = emptyList(),
+        ),
+        ChangelogEntry(
             version = "3.1.3",
             intro = "Camera scan stops chasing the router, and the persona name reaches the host.",
             added = emptyList(),
