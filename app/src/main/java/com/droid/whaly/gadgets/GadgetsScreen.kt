@@ -1,6 +1,7 @@
 package com.droid.whaly.gadgets
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -36,6 +37,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -51,6 +53,7 @@ private enum class GadgetTab(val label: String) {
     AUDIO("Audio"),
     RADIO("Radio"),
     WARD("Wardrive"),
+    PRANK("Pranks"),
 }
 
 @Composable
@@ -93,6 +96,7 @@ fun GadgetsScreen(onBack: () -> Unit) {
             GadgetTab.AUDIO -> AudioTab()
             GadgetTab.RADIO -> RadioTab()
             GadgetTab.WARD -> WardriveTab()
+            GadgetTab.PRANK -> PranksTab()
         }
     }
 }

@@ -16,6 +16,20 @@ object Changelog {
 
     val entries: List<ChangelogEntry> = listOf(
         ChangelogEntry(
+            version = "4.1",
+            intro = "Three pranks that run without being held.",
+            added = listOf(
+                "TV prank: six autonomous IR modes on a random interval — volume crawl, random power, input flip, mute war, channel drift, sleep timer. Runs for as long as it is left on, no interaction after start.",
+                "Wake bomb: Wake-on-LAN flood. Six 0xFF bytes then the target address sixteen times, sent to UDP 9 and 7, repeating. Reads targets from /proc/net/arp and falls back to manual entry when the table is restricted.",
+                "Join QR: renders the rogue access point's SSID and passphrase as a scannable Wi-Fi QR, so one scan joins the network. Solves the no-DNS problem without root — the portal address is shown underneath.",
+            ),
+            patched = listOf(
+                "Gadgets gained a Pranks tab, sixth in the strip.",
+                "TvPrank reuses the NEC encoders from the Offline build rather than duplicating them.",
+            ),
+            removed = emptyList(),
+        ),
+        ChangelogEntry(
             version = "4.0",
             intro = "Version history inside the app, richer portal capture, and fork attribution.",
             added = listOf(
