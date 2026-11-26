@@ -38,6 +38,10 @@ fun PersonaScreen(onBack: () -> Unit) {
     val packets by PersonaEngine.packets.collectAsState()
     val status by PersonaEngine.status.collectAsState()
 
+    androidx.compose.runtime.LaunchedEffect(Unit) {
+        PersonaEngine.restoreIfStale(context)
+    }
+
     Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
         Column(modifier = Modifier.fillMaxSize()) {
             Row(

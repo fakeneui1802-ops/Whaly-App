@@ -39,6 +39,30 @@ object PersonaEngine {
 
     private var restoreName: String? = null
     private var registeredTypes: List<String> = emptyList()
+    private var appContext: Context? = null
+
+    private const val PREFS = "WhalyPersonaPrefs"
+    private const val KEY_ORIGINAL_NAME = "original_bluetooth_name"
+
+    /**
+     * A persona changes the real adapter name, so a crash or a force-stop would leave the
+     * phone advertising as an iPhone until the user notices. The original is written to
+     * disk before the first change and restored on the next launch.
+     */
+    fun restoreIfStale(context: Context) {
+        if (running.get()) return
+        val prefs = context.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
+        val original = prefs.getString(KEY_ORIGINAL_NAME, null) ?: return
+        val radio = adapter()
+        if (radio != null) {
+            try {
+                if (radio.isEnabled && radio.name != original) radio.name = original
+            } catch (_: SecurityException) {
+            } catch (_: Exception) {
+            }
+        }
+        prefs.edit().remove(KEY_ORIGINAL_NAME).apply()
+    }
 
     @SuppressLint("MissingPermission")
     private fun adapter(): BluetoothAdapter? = try {
@@ -53,7 +77,14 @@ object PersonaEngine {
         val adapter = adapter() ?: return
         if (!adapter.isEnabled) return
         try {
-            restoreName = adapter.name
+            val current = adapter.name
+            restoreName = current
+            if (current != null && current != name) {
+                appContext?.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
+                    ?.edit()
+                    ?.putString(KEY_ORIGINAL_NAME, current)
+                    ?.apply()
+            }
             adapter.setName(name)
         } catch (error: SecurityException) {
             Log.w(TAG, "Bluetooth name needs BLUETOOTH_CONNECT", error)
@@ -118,6 +149,7 @@ object PersonaEngine {
     fun start(context: Context, persona: Persona) {
         if (!running.compareAndSet(false, true)) return
         val appContext = context.applicationContext
+        this.appContext = appContext
         _active.value = persona
         _packets.value = 0
         _status.value = "Starting ${persona.label}"
