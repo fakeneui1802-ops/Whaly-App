@@ -326,7 +326,14 @@
     <string name="hid_quiet_connect">Quiet connect</string>
     <string name="hid_quiet_connect_toast">Blue Ducky: connecting without PIN / confirmation…</string>
     <string name="hid_blueducky_info_title">BlueDucky</string>
-    <string name="hid_blueducky_info_body">Performs a quiet connection to devices via the Blue Ducky vulnerability (CVE-2023-45866) — HID without PIN or pairing confirmation dialogs.\n\nWorks only against unpatched targets:\n• Android 4.2.2 – 10 (no fix was ever released)\n• Android 11 – 13 with a security patch level older than 2023-12-05\n• Unpatched Linux BlueZ stacks\n\nEvery Android build with the 2023-12-05 patch level or newer rejects unauthenticated HID. A patched Android 13 or 14 target will show a confirmation dialog or refuse the link — that is the fix working, not a bug in the app. Check the target's Settings → About phone → Android security update before testing.</string>
+    <string name="hid_blueducky_info_body">Performs a quiet connection to devices via the Blue Ducky vulnerability (CVE-2023-45866) - HID without PIN or pairing confirmation dialogs.
+
+Works only against unpatched targets:
+- Android 4.2.2 to 10 (no fix was ever released)
+- Android 11 to 13 with a security patch level older than 2023-12-05
+- Unpatched Linux BlueZ stacks
+
+Every Android build with the 2023-12-05 patch level or newer rejects unauthenticated HID. A patched Android 13 or 14 target shows a confirmation dialog or refuses the link - that is the fix working, not a bug in the app. Check the target under Settings, About phone, Android security update before testing.</string>
     <string name="audio_whisper_pair">WhisperPair</string>
     <string name="audio_whaly_pair">WhalyPair</string>
     <string name="audio_hijack_starting">Starting hijack…</string>
