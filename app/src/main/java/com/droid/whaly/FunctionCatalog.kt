@@ -99,6 +99,9 @@ fun functionDestinationSections(): List<Pair<String, List<FunctionDestination>>>
             FunctionDestination(Icons.Default.Chat, "Whaly Chat", chatDesc, "other/whaly_chat_global", OtherSections.BLUETOOTH),
             FunctionDestination(Icons.Default.Keyboard, hidTitle, hidDesc, "hid", OtherSections.BLUETOOTH),
             FunctionDestination(Icons.Default.BluetoothDisabled, "Bluetooth Jammer", "L2CAP flood attack", "other/bluetooth_jammer", OtherSections.BLUETOOTH),
+            FunctionDestination(Icons.Default.SmartToy, "Platform Spoofer", "Impersonate an iPhone, AirPods or Mac over BLE, Bluetooth name and mDNS", "other/persona", OtherSections.BLUETOOTH),
+            FunctionDestination(Icons.Default.BugReport, "BLE Attack Lab", "Sour Apple, Find My spoof and Fast Pair bomb", "other/ble_attack", OtherSections.BLUETOOTH),
+            FunctionDestination(Icons.Default.SyncProblem, "GATT Flood", "Connection storm against one peripheral", "other/gatt_flood", OtherSections.BLUETOOTH),
         ) + plugins(OtherSections.BLUETOOTH))
         sections += OtherSections.OTHER to listOf(
             FunctionDestination(Icons.Outlined.Nfc, nfcTitle, nfcDesc, "other/nfc_tools", OtherSections.OTHER),
@@ -106,6 +109,9 @@ fun functionDestinationSections(): List<Pair<String, List<FunctionDestination>>>
             FunctionDestination(Icons.Filled.WifiOff, "WI-FI Attacks", netHubDesc, "other/network_diagnostic_hub", OtherSections.OTHER),
             FunctionDestination(Icons.Default.Cast, tvCastTitle, tvCastDesc, "other/smarttv_cast", OtherSections.OTHER),
             FunctionDestination(Icons.Default.Router, lanTitle, lanDesc, "other/lan_scanner", OtherSections.OTHER),
+            FunctionDestination(Icons.Default.Memory, "NFC Fuzzer", "APDU, oversize and SELECT storm against live cards", "other/nfc_fuzz", OtherSections.OTHER),
+            FunctionDestination(Icons.Default.Waves, "IR Carrier Sweep", "30-62 kHz sweep with random frames", "other/ir_fuzz", OtherSections.OTHER),
+            FunctionDestination(Icons.Default.SwapHoriz, "Whaly Drop", "Browser upload page - receive files from any device", "other/whaly_drop", OtherSections.OTHER),
         ) + plugins(OtherSections.OTHER)
 
         val pluginSection = plugins(OtherSections.PLUGINS)

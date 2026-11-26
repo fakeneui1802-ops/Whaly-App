@@ -2,6 +2,7 @@
 import java.util.jar.Manifest
 import java.util.jar.Attributes
 import java.util.jar.JarOutputStream
+import java.util.Properties
 
 plugins {
     alias(libs.plugins.android.application)
@@ -12,16 +13,36 @@ plugins {
     alias(libs.plugins.chaquopy)
 }
 
+// Release signing lives outside version control. Without the file the build falls back to the
+// debug key, which keeps CI green but cannot update an installed release build.
+val keystorePropertiesFile = rootProject.file("keystore.properties")
+val keystoreProperties = Properties().apply {
+    if (keystorePropertiesFile.exists()) {
+        keystorePropertiesFile.inputStream().use { load(it) }
+    }
+}
+
 android {
     namespace = "com.droid.whaly"
     compileSdk = 36
+
+    signingConfigs {
+        if (keystorePropertiesFile.exists()) {
+            create("release") {
+                storeFile = rootProject.file(keystoreProperties.getProperty("storeFile"))
+                storePassword = keystoreProperties.getProperty("storePassword")
+                keyAlias = keystoreProperties.getProperty("keyAlias")
+                keyPassword = keystoreProperties.getProperty("keyPassword")
+            }
+        }
+    }
 
     defaultConfig {
         applicationId = "com.droid.whaly"
         minSdk = 26
         targetSdk = 36
-        versionCode = 27
-        versionName = "2.7"
+        versionCode = 28
+        versionName = "2.8"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
@@ -48,7 +69,11 @@ android {
             isMinifyEnabled = true
             isShrinkResources = true
             isProfileable = false
-            signingConfig = signingConfigs.getByName("debug")
+            signingConfig = if (keystorePropertiesFile.exists()) {
+                signingConfigs.getByName("release")
+            } else {
+                signingConfigs.getByName("debug")
+            }
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"

@@ -782,6 +782,18 @@ fun MainScaffold(
             }
             composable("ir_storm") { IRStormScreen(screenNavController) }
             composable("other/ir_storm") { IRStormScreen(screenNavController) }
+            composable("ir_fuzz") { com.droid.whaly.offensive.IrFuzzScreen { screenNavController.popBackStack() } }
+            composable("other/ir_fuzz") { com.droid.whaly.offensive.IrFuzzScreen { screenNavController.popBackStack() } }
+            composable("persona") { com.droid.whaly.offensive.PersonaScreen { screenNavController.popBackStack() } }
+            composable("other/persona") { com.droid.whaly.offensive.PersonaScreen { screenNavController.popBackStack() } }
+            composable("ble_attack") { com.droid.whaly.offensive.BleAttackScreen { screenNavController.popBackStack() } }
+            composable("other/ble_attack") { com.droid.whaly.offensive.BleAttackScreen { screenNavController.popBackStack() } }
+            composable("gatt_flood") { com.droid.whaly.offensive.GattFloodScreen { screenNavController.popBackStack() } }
+            composable("other/gatt_flood") { com.droid.whaly.offensive.GattFloodScreen { screenNavController.popBackStack() } }
+            composable("nfc_fuzz") { com.droid.whaly.offensive.NfcFuzzScreen { screenNavController.popBackStack() } }
+            composable("other/nfc_fuzz") { com.droid.whaly.offensive.NfcFuzzScreen { screenNavController.popBackStack() } }
+            composable("whaly_drop") { com.droid.whaly.offensive.WhalyDropScreen { screenNavController.popBackStack() } }
+            composable("other/whaly_drop") { com.droid.whaly.offensive.WhalyDropScreen { screenNavController.popBackStack() } }
             composable("ir_jammer") { IRJammerScreen(screenNavController) }
             composable("other/ir_jammer") { IRJammerScreen(screenNavController) }
             composable("universal_remotes_home") { UniversalRemotesHomeScreen(screenNavController) }

@@ -44,6 +44,7 @@ class KeyboardService : Service() {
 
 
         private const val TRANSPORT_BREDR = 1
+private const val TRANSPORT_LE = 2
         private const val SILENT_RETRY_MS = 1200L
         private const val SILENT_RETRY_MAX = 12
     }
@@ -71,6 +72,7 @@ class KeyboardService : Service() {
     private var silentBlueDuckyMode = false
     private val silentPairingReceiverRegistered = AtomicBoolean(false)
     private var silentRetryCount = 0
+    private var silentRegisterRetries = 0
     private val silentRetryRunnable = object : Runnable {
         override fun run() {
             if (!silentBlueDuckyMode) return
@@ -430,6 +432,23 @@ class KeyboardService : Service() {
 
         runCatching { bluetoothAdapter?.cancelDiscovery() }
 
+        // A HID Device app must be registered before connect() or the proxy returns false
+        // silently. Registration is asynchronous, so retry once it lands.
+        if (!appRegistered) {
+            Log.w(tag, "BlueDucky: HID app not registered, registering first")
+            registerApp()
+            if (silentRegisterRetries < 3) {
+                silentRegisterRetries++
+                mainHandler.postDelayed({
+                    if (silentBlueDuckyMode && hidDeviceProxy != null) {
+                        initiateSilentBlueDuckyConnect(device, hidDeviceProxy!!)
+                    }
+                }, 700L)
+            }
+            return
+        }
+        silentRegisterRetries = 0
+
         if (bondState == BluetoothDevice.BOND_BONDING) {
             Log.i(tag, "BlueDucky: cancel stuck bonding via removeBond")
             runCatching {
@@ -473,11 +492,18 @@ class KeyboardService : Service() {
 
     @RequiresPermission(Manifest.permission.BLUETOOTH_CONNECT)
     private fun createBondSilent(device: BluetoothDevice): Boolean {
-        val viaTransport = runCatching {
+        // HID over GATT (Blue Ducky) is an LE profile. Bonding over BREDR produces a Classic
+        // link that the host will not accept for HOGP, which is the usual silent failure.
+        val viaLe = runCatching {
+            val m = device.javaClass.getMethod("createBond", Int::class.javaPrimitiveType)
+            m.invoke(device, TRANSPORT_LE) as? Boolean ?: false
+        }.getOrDefault(false)
+        if (viaLe) return true
+        val viaBredr = runCatching {
             val m = device.javaClass.getMethod("createBond", Int::class.javaPrimitiveType)
             m.invoke(device, TRANSPORT_BREDR) as? Boolean ?: false
         }.getOrDefault(false)
-        if (viaTransport) return true
+        if (viaBredr) return true
         return runCatching { device.createBond() }.getOrDefault(false)
     }
 
