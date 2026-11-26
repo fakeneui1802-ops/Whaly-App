@@ -678,8 +678,24 @@ fun MainScaffold(
             composable("other/lan_camera_scan") { CameraNetworkScanScreen(screenNavController) }
             composable("lan_camera_results") { CameraNetworkResultsScreen(screenNavController) }
             composable("other/lan_camera_results") { CameraNetworkResultsScreen(screenNavController) }
-            composable("my_cam") { MyCamScreen(screenNavController) }
-            composable("other/my_cam") { MyCamScreen(screenNavController) }
+            composable(
+                "my_cam?ip={ip}",
+                arguments = listOf(navArgument("ip") { type = NavType.StringType; defaultValue = "" }),
+            ) { entry ->
+                com.droid.whaly.network.MyCamScreen(
+                    screenNavController,
+                    entry.arguments?.getString("ip"),
+                )
+            }
+            composable(
+                "other/my_cam?ip={ip}",
+                arguments = listOf(navArgument("ip") { type = NavType.StringType; defaultValue = "" }),
+            ) { entry ->
+                com.droid.whaly.network.MyCamScreen(
+                    screenNavController,
+                    entry.arguments?.getString("ip"),
+                )
+            }
             composable("wifi_print") { WifiPrintScreen(screenNavController) }
             composable("other/wifi_print") { WifiPrintScreen(screenNavController) }
             composable("smarttv_cast") { SmartTvCastScreen(screenNavController) }

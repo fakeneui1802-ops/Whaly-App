@@ -10,6 +10,7 @@ import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -460,7 +461,7 @@ fun CameraNetworkResultsScreen(navController: NavController) {
                         )
                     }
                     items(cameras, key = { it.ip }) { cam ->
-                        CameraResultCard(cam)
+                        CameraResultCard(cam) { navController.navigate("my_cam?ip=${cam.ip}") }
                     }
                 }
 
@@ -481,10 +482,10 @@ fun CameraNetworkResultsScreen(navController: NavController) {
 }
 
 @Composable
-private fun CameraResultCard(cam: CameraNetworkScanner.FoundCamera) {
+private fun CameraResultCard(cam: CameraNetworkScanner.FoundCamera, onClick: () -> Unit) {
     val accent = MaterialTheme.colorScheme.primary
     MaterialCard(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier.fillMaxWidth().clickable(onClick = onClick),
         accentColor = accent,
         contentPadding = 16.dp,
     ) {

@@ -50,6 +50,76 @@ object Changelog {
             ),
             removed = emptyList(),
         ),
+        ChangelogEntry(
+            version = "2.9.2",
+            intro = "Two corrections from testing against a real Android 13 host.",
+            added = emptyList(),
+            patched = listOf(
+                "Fast Pair service data is the three-byte model id again; the old frame carried a leading zero and trailing noise.",
+                "Bluetooth name is written to disk before a persona changes it and restored after a force-stop.",
+            ),
+            removed = emptyList(),
+        ),
+        ChangelogEntry(
+            version = "2.9.1",
+            intro = "Launcher art replaced with the supplied artwork.",
+            added = listOf(
+                "branding/from_image.py slices a real source image into every icon slot.",
+            ),
+            patched = listOf(
+                "Every density, the adaptive layer, the monochrome layer and the site icon now come from the source file.",
+            ),
+            removed = emptyList(),
+        ),
+        ChangelogEntry(
+            version = "2.9",
+            intro = "Scooter recon, a device tree and a silent install path.",
+            added = listOf(
+                "Fleet detection for Voi, Lime, Bird, Tier, Dott, Bolt and Okai.",
+                "Generic GATT explorer with a service table and traffic log.",
+                "CRC16/XMODEM frame builders for Ninebot and Xiaomi.",
+                "Rental opcode sweep.",
+                "Scanned Devices tree: type, then brand, then device.",
+                "Silent installer through Shizuku or root, with a package verifier switch.",
+            ),
+            patched = emptyList(),
+            removed = emptyList(),
+        ),
+        ChangelogEntry(
+            version = "2.8.2",
+            intro = "Icon pass matched to the reference art.",
+            added = emptyList(),
+            patched = listOf(
+                "Dome widened at eye level and tapered into the jaw.",
+                "Brow is one continuous line; eyes enlarged; baleen cage widened to seven plates.",
+                "Fins dropped and thickened, tail lobes fattened, background blocks doubled.",
+            ),
+            removed = emptyList(),
+        ),
+        ChangelogEntry(
+            version = "2.8.1",
+            intro = "Whale blue site palette and the Telegram links restored.",
+            added = emptyList(),
+            patched = listOf(
+                "Every colour in the site stylesheet moved off orange, dark mode included.",
+                "Telegram links point at t.me/whaly_app_official again.",
+            ),
+            removed = emptyList(),
+        ),
+        ChangelogEntry(
+            version = "2.8",
+            intro = "First fork release. Dolphy is now Whaly.",
+            added = listOf(
+                "Persona engine, BLE Attack Lab, GATT Flood, NFC Fuzz, IR Fuzz, Whaly Drop.",
+                "In-app updater that installs over the running build.",
+            ),
+            patched = listOf(
+                "Quiet Connect bonds over the LE transport before BR/EDR and retries HID app registration.",
+            ),
+            removed = listOf(
+                "Every Dolphy reference: package, plugin extension, symbols, docs.",
+            ),
+        ),
     )
 
     fun forVersion(version: String): ChangelogEntry =

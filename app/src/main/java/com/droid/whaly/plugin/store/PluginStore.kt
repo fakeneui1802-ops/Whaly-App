@@ -455,13 +455,30 @@ object PluginStoreRepository {
         if (!_autoUpdate.value || autoUpdateRan) return
         autoUpdateRan = true
         refresh(force = false)
-        val catalog = _plugins.value
+        // Only the official Dolphy catalogue is allowed to push updates. A user-added
+        // source can add new plugins but never replaces what is already installed.
+        val catalog = _plugins.value.filter { it.sourceId == DEFAULT_SOURCE.id }
         for (plugin in catalog) {
             val match = installedMatch(plugin, installed) ?: continue
-            if (match.manifest.version.trim() != plugin.version.trim()) {
+            if (isNewer(plugin.version, match.manifest.version)) {
                 runCatching { install(plugin) }
             }
         }
+    }
+
+    private fun isNewer(remote: String, local: String): Boolean {
+        fun parts(value: String) = value.trim()
+            .removePrefix("v")
+            .split('.', '-', '+')
+            .map { it.takeWhile(Char::isDigit).toIntOrNull() ?: 0 }
+        val a = parts(remote)
+        val b = parts(local)
+        for (index in 0 until maxOf(a.size, b.size)) {
+            val left = a.getOrElse(index) { 0 }
+            val right = b.getOrElse(index) { 0 }
+            if (left != right) return left > right
+        }
+        return false
     }
 
     private fun saveSources() {

@@ -114,13 +114,15 @@ object MyCamEngine {
         onStatus: (Status) -> Unit,
         onLog: (String) -> Unit,
         forceAll: Boolean = false,
+        targetIp: String? = null,
     ): ScanResult =
-        withContext(Dispatchers.IO) { findCameraInternal(onStatus, onLog, forceAll) }
+        withContext(Dispatchers.IO) { findCameraInternal(onStatus, onLog, forceAll, targetIp) }
 
     private suspend fun findCameraInternal(
         onStatus: (Status) -> Unit,
         onLog: (String) -> Unit,
         forceAll: Boolean,
+        targetIp: String? = null,
     ): ScanResult {
         var cameraSeen = false
         var hostsResponded = 0
@@ -141,7 +143,14 @@ object MyCamEngine {
         if (forceAll) onLog("Mode: checking all network devices")
 
         onStatus(Status.Searching)
-        val openPorts = scanSubnet(prefix, onLog)
+        // A camera picked from the results list goes straight to its own address instead of
+        // rescanning the whole subnet.
+        val openPorts: Map<String, List<Int>> = if (targetIp != null) {
+            onLog("Direct target: $targetIp")
+            mapOf(targetIp to listOf(80, 8080, 81, 8000, 554, 8554))
+        } else {
+            scanSubnet(prefix, onLog)
+        }
         if (openPorts.isEmpty()) {
             onLog("No devices with open ports found after two passes")
             onLog("Check that the phone is on the same Wi-Fi network as the cameras and that client isolation (AP isolation) is disabled")

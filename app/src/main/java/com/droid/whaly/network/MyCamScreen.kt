@@ -65,7 +65,7 @@ import kotlinx.coroutines.flow.catch
 private enum class MyCamPhase { SCANNING, LIVE_MJPEG, LIVE_SNAPSHOT, LIVE_RTSP, NO_CAMERAS, ERROR }
 
 @Composable
-fun MyCamScreen(navController: NavController) {
+fun MyCamScreen(navController: NavController, targetIp: String? = null) {
     val accent = MaterialTheme.colorScheme.primary
     val context = LocalContext.current
     var phase by remember { mutableStateOf(MyCamPhase.SCANNING) }
@@ -108,6 +108,7 @@ fun MyCamScreen(navController: NavController) {
             },
             onLog = { msg -> logLines = logLines + msg },
             forceAll = forcedMode,
+            targetIp = targetIp?.takeIf { it.isNotBlank() },
         )
 
         when (val target = result.target) {
@@ -182,8 +183,8 @@ fun MyCamScreen(navController: NavController) {
             GhostChip(
                 enabled = ghostEnabled,
                 modifier = Modifier
-                    .align(Alignment.BottomEnd)
-                    .padding(16.dp),
+                    .align(Alignment.TopEnd)
+                    .padding(top = headerPadding + 4.dp, end = 16.dp),
                 onClick = { showGhostDialog = true },
             )
         }

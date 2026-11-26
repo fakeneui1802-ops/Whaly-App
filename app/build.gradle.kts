@@ -41,8 +41,8 @@ android {
         applicationId = "com.droid.whaly"
         minSdk = 26
         targetSdk = 36
-        versionCode = 36
-        versionName = "3.1"
+        versionCode = 37
+        versionName = "3.1.1"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
