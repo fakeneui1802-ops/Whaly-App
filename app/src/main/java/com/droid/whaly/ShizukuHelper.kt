@@ -97,6 +97,65 @@ object ShizukuHelper {
         }
     }
 
+    /**
+     * Runs a command and streams [input] into its stdin, then waits for the exit code.
+     * `pm install -S <size>` reads the APK from stdin, which is how adb and the shell
+     * install without the confirmation dialog Play Protect puts in front of sideloads.
+     */
+    fun runShellCommandWithStdin(command: String, input: java.io.File): String {
+        return try {
+            if (!Shizuku.pingBinder()) {
+                return resultJson(-1, "", "Shizuku not running")
+            }
+            if (Shizuku.checkSelfPermission() != android.content.pm.PackageManager.PERMISSION_GRANTED) {
+                return resultJson(-1, "", "Shizuku permission not granted")
+            }
+
+            val process = createRemoteProcess(command)
+                ?: return resultJson(-1, "", "newProcess returned null / method missing (R8?)")
+
+            val pool = Executors.newFixedThreadPool(2)
+            try {
+                val outFuture = pool.submit(Callable { readFully(process.inputStream) })
+                val errFuture = pool.submit(Callable { readFully(process.errorStream) })
+
+                try {
+                    process.outputStream.use { sink ->
+                        input.inputStream().use { source -> source.copyTo(sink, 64 * 1024) }
+                    }
+                } catch (e: Exception) {
+                    Log.w(TAG, "stdin write failed", e)
+                }
+
+                val code = try {
+                    process.waitFor()
+                } catch (_: Exception) {
+                    -1
+                }
+                val out = try {
+                    outFuture.get(120, TimeUnit.SECONDS)
+                } catch (_: Exception) {
+                    ""
+                }
+                val err = try {
+                    errFuture.get(10, TimeUnit.SECONDS)
+                } catch (_: Exception) {
+                    ""
+                }
+                resultJson(code, out, err)
+            } finally {
+                pool.shutdownNow()
+                try {
+                    process.destroy()
+                } catch (_: Exception) {
+                }
+            }
+        } catch (e: Exception) {
+            Log.e(TAG, "stdin command failed", e)
+            resultJson(-1, "", e.javaClass.simpleName + ": " + (e.message ?: ""))
+        }
+    }
+
     private fun createRemoteProcess(command: String): Process? {
         val method = resolveNewProcessMethod()
             ?: throw NoSuchMethodException(

@@ -84,6 +84,7 @@ fun functionDestinationSections(): List<Pair<String, List<FunctionDestination>>>
             FunctionDestination(Icons.Default.Warning, irStormTitle, irStormDesc, "other/ir_storm", OtherSections.INFRARED),
             FunctionDestination(Icons.Default.WifiTethering, irJammerTitle, irJammerDesc, "other/ir_jammer", OtherSections.INFRARED),
             FunctionDestination(Icons.Default.Tv, irUnivTitle, irUnivDesc, "other/universal_remotes_home", OtherSections.INFRARED),
+            FunctionDestination(Icons.Default.BluetoothSearching, "Scanned Devices", "Everything advertising in range, sorted by device type and brand", "other/scanned_devices", OtherSections.INFRARED),
         ) + plugins(OtherSections.INFRARED)
         val compactStyle = LocalContext.current
             .getSharedPreferences("WhalyPrefs", android.content.Context.MODE_PRIVATE)
@@ -98,7 +99,7 @@ fun functionDestinationSections(): List<Pair<String, List<FunctionDestination>>>
             FunctionDestination(Icons.Default.Bluetooth, "NRF Scanner", nrfDesc, "other/nrf_scanner", OtherSections.BLUETOOTH),
             FunctionDestination(Icons.Default.Chat, "Whaly Chat", chatDesc, "other/whaly_chat_global", OtherSections.BLUETOOTH),
             FunctionDestination(Icons.Default.Keyboard, hidTitle, hidDesc, "hid", OtherSections.BLUETOOTH),
-            FunctionDestination(Icons.Default.BluetoothDisabled, "Bluetooth Jammer", "L2CAP flood attack", "other/bluetooth_jammer", OtherSections.BLUETOOTH),
+            FunctionDestination(Icons.Default.BluetoothDisabled, "Bluetooth Jammer", "L2CAP flood attack (root, l2ping)", "other/bluetooth_jammer", OtherSections.BLUETOOTH, requiresRoot = true),
             FunctionDestination(Icons.Default.SmartToy, "Platform Spoofer", "Impersonate an iPhone, AirPods or Mac over BLE, Bluetooth name and mDNS", "other/persona", OtherSections.BLUETOOTH),
             FunctionDestination(Icons.Default.BugReport, "BLE Attack Lab", "Sour Apple, Find My spoof and Fast Pair bomb", "other/ble_attack", OtherSections.BLUETOOTH),
             FunctionDestination(Icons.Default.SyncProblem, "GATT Flood", "Connection storm against one peripheral", "other/gatt_flood", OtherSections.BLUETOOTH),

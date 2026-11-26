@@ -649,6 +649,7 @@ fun IRFlipperHome(navController: NavController) {
     val quickLinks = listOf(
         Triple(Icons.Default.Star, favTitle, "other/ir_favorites"),
         Triple(Icons.Default.FolderOpen, userRemotesTitle, "other/user_ir_remotes"),
+        Triple(Icons.Default.BluetoothSearching, "Scanned Devices", "other/scanned_devices"),
     )
     val catRows = buildList {
         add(Triple(Icons.Default.Tv, "TVs", "other/ir_tv_home"))

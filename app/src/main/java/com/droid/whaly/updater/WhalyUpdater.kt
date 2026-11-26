@@ -150,6 +150,19 @@ object WhalyUpdater {
 
     fun install(context: Context) {
         val file = pendingFile ?: return
+        _state.value = _state.value.copy(message = "Installing...")
+
+        // Silent routes first: the shell uid skips the Play Protect scan dialog entirely.
+        val silent = SilentInstaller.install(context, file)
+        if (silent.ok) {
+            _state.value = _state.value.copy(
+                status = UpdateStatus.READY,
+                message = "Installed via ${silent.route.label}",
+            )
+            return
+        }
+        _state.value = _state.value.copy(message = silent.detail)
+
         try {
             val installer = context.packageManager.packageInstaller
             val params = PackageInstaller.SessionParams(PackageInstaller.SessionParams.MODE_FULL_INSTALL)

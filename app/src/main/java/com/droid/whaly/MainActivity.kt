@@ -879,6 +879,12 @@ fun MainScaffold(
             composable("other/scooter_hack") {
                 com.droid.whaly.scooter.ScooterHackScreen(screenNavController)
             }
+            composable("scanned_devices") {
+                com.droid.whaly.scanned.ScannedDevicesScreen(onBack = { screenNavController.popBackStack() })
+            }
+            composable("other/scanned_devices") {
+                com.droid.whaly.scanned.ScannedDevicesScreen(onBack = { screenNavController.popBackStack() })
+            }
             composable("nrf_scanner") {
                 val context = LocalContext.current
                 com.droid.whaly.nrf.NrfScannerScreen(context, screenNavController)

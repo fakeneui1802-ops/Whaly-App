@@ -238,6 +238,16 @@ class ScooterHackViewModel(app: Application) : AndroidViewModel(app) {
             "e22",
             "e25",
             "e45",
+            "voi",
+            "voiager",
+            "lime",
+            "bird",
+            "tier",
+            "dott",
+            "bolt",
+            "okai",
+            "e-scooter",
+            "escooter",
         )
 
         fun isHardScooterMatch(result: ScanResult): Boolean {
