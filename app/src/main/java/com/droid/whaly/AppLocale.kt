@@ -11,7 +11,11 @@ object AppLocale {
     fun wrap(context: Context): Context {
         val prefs = context.getSharedPreferences("WhalyPrefs", Context.MODE_PRIVATE)
         val language = prefs.getString("app_language", "ru") ?: "ru"
-        val locale = Locale.forLanguageTag(if (language == "en") "en" else "ru")
+        val tag = when (language) {
+            "en", "de", "es" -> language
+            else -> "ru"
+        }
+        val locale = Locale.forLanguageTag(tag)
         Locale.setDefault(locale)
 
         val config = Configuration(context.resources.configuration)

@@ -94,8 +94,10 @@ object PluginStoreRepository {
 
     private val DEFAULT_SOURCE = StoreSource(
         id = "official",
-        label = "Whaly Plugins",
-        indexUrl = "https://raw.githubusercontent.com/unvoiddd/Whaly-app-Plugins/HEAD/index.json",
+        label = "Dolphy Plugins",
+        // The upstream catalogue. The fork ships the same index in assets, so a missing
+        // repository or a dead network still lists everything.
+        indexUrl = "https://raw.githubusercontent.com/unvoiddd/Dolphy-App-Plugins/HEAD/index.json",
         builtIn = true,
     )
 
@@ -179,7 +181,16 @@ object PluginStoreRepository {
     }
 
     private fun fetchIndex(source: StoreSource): List<StorePlugin> {
-        val raw = httpGetText(source.indexUrl, MAX_INDEX_BYTES)
+        val raw = try {
+            httpGetText(source.indexUrl, MAX_INDEX_BYTES)
+        } catch (error: Exception) {
+            // Bundled copy of the upstream catalogue, so the store is never empty.
+            if (!source.builtIn) throw error
+            Log.w(TAG, "index fetch failed, using bundled catalogue", error)
+            appContext.assets.open("plugin-store/index.json")
+                .bufferedReader()
+                .use { it.readText() }
+        }
         val root = JSONObject(raw)
         val array: JSONArray = root.optJSONArray("plugins") ?: JSONArray()
         val out = ArrayList<StorePlugin>(array.length())

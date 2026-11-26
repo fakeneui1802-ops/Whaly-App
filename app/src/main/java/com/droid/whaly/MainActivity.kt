@@ -2653,27 +2653,49 @@ fun WelcomeDialog(
     onSubscribe: () -> Unit,
     onSupport: () -> Unit
 ) {
+    val entry = remember { Changelog.forVersion(BuildConfig.VERSION_NAME) }
     AlertDialog(
         onDismissRequest = onDismiss,
         title = {
             Text(
-                stringResource(R.string.welcome_dialog_title),
+                "Whaly v${BuildConfig.VERSION_NAME}",
                 style = MaterialTheme.typography.headlineSmall,
                 fontWeight = FontWeight.Bold
             )
         },
         text = {
             Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .heightIn(max = 420.dp)
+                    .verticalScroll(rememberScrollState())
             ) {
-                LevelUpAnimation(modifier = Modifier.size(128.dp, 64.dp))
-                Spacer(Modifier.height(16.dp))
                 Text(
-                    stringResource(R.string.welcome_dialog_text),
+                    entry.intro,
                     style = MaterialTheme.typography.bodyMedium,
-                    textAlign = TextAlign.Start
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
+                if (entry.added.isNotEmpty()) {
+                    Spacer(Modifier.height(12.dp))
+                    Text("Added", style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.Bold)
+                    entry.added.forEach { line ->
+                        Text("• $line", style = MaterialTheme.typography.bodySmall)
+                    }
+                }
+                if (entry.patched.isNotEmpty()) {
+                    Spacer(Modifier.height(12.dp))
+                    Text("Patched / Reworked / Fixed", style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.Bold)
+                    entry.patched.forEach { line ->
+                        Text("• $line", style = MaterialTheme.typography.bodySmall)
+                    }
+                }
+                if (entry.removed.isNotEmpty()) {
+                    Spacer(Modifier.height(12.dp))
+                    Text("Removed", style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.Bold)
+                    entry.removed.forEach { line ->
+                        Text("• $line", style = MaterialTheme.typography.bodySmall)
+                    }
+                }
             }
         },
         confirmButton = {

@@ -313,6 +313,19 @@ private fun FeaturedCard(plugin: StorePlugin, onClick: () -> Unit) {
                         maxLines = 2,
                         overflow = TextOverflow.Ellipsis,
                     )
+                    if (plugin.sourceId == "official") {
+                        Surface(
+                            shape = MaterialTheme.shapes.small,
+                            color = MaterialTheme.colorScheme.tertiaryContainer,
+                            contentColor = MaterialTheme.colorScheme.onTertiaryContainer,
+                        ) {
+                            Text(
+                                "Dolphy Plugin",
+                                style = MaterialTheme.typography.labelSmall,
+                                modifier = Modifier.padding(horizontal = 6.dp, vertical = 2.dp),
+                            )
+                        }
+                    }
                 }
             }
             Text(

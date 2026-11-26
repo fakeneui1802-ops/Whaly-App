@@ -127,17 +127,20 @@ fun SettingsScreen(spamViewModel: SpamViewModel, whalyViewModel: WhalyViewModel,
                                 )
                             }
                             SingleChoiceSegmentedButtonRow(modifier = Modifier.fillMaxWidth()) {
-                                listOf(
-                                    stringResource(R.string.language_russian) to "ru",
+                                val languages = listOf(
+                                    "Русский" to "ru",
                                     "English" to "en",
-                                ).forEachIndexed { index, (label, language) ->
+                                    "Deutsch" to "de",
+                                    "Español" to "es",
+                                )
+                                languages.forEachIndexed { index, (label, language) ->
                                     SegmentedButton(
                                         selected = appLanguage == language,
                                         onClick = {
                                             spamViewModel.setAppLanguage(language)
                                             applyInAppLocale(context)
                                         },
-                                        shape = SegmentedButtonDefaults.itemShape(index, 2),
+                                        shape = SegmentedButtonDefaults.itemShape(index, languages.size),
                                         label = { Text(label) },
                                     )
                                 }

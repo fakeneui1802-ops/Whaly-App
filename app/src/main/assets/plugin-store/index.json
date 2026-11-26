@@ -1,0 +1,594 @@
+{
+  "format": "dolphy-plugins-v1",
+  "count": 42,
+  "plugins": [
+    {
+      "id": 16,
+      "name": "Anti Device Detector",
+      "version": "1.0.0",
+      "author": "(Dolphy User) L1tWin",
+      "description": {
+        "ru": "О плагине:\nРежим снижения заметности устройства:\nФункция, предназначенная для уменьшения возможности обнаружения устройства. При активации, Bluetooth, Wi-Fi, NFC и геолокация, устройство становится менее заметным для других устройств и сервисов, которые используют эти соединения для его обнаружения.",
+        "en": "About the plugin:\nDevice Visibility Reduction Mode:\nA feature designed to reduce the ability to detect the device. When activated, Bluetooth, Wi-Fi, NFC, and location services are disabled, making the device less visible to other devices and services that use these connections to detect it."
+      },
+      "file": "plugins/anti_device_detector/anti_device_detector.dolphyplugin",
+      "download_url": "https://raw.githubusercontent.com/unvoiddd/Dolphy-app-Plugins/main/plugins/anti_device_detector/anti_device_detector.dolphyplugin",
+      "post_url": "https://t.me/c/3966541757/27751",
+      "updated_at": "2026-09-29 12:00:17"
+    },
+    {
+      "id": 37,
+      "name": "ASCII Text Generator",
+      "version": "1.1.0",
+      "author": "@maratichka",
+      "description": {
+        "ru": "ASCII Text Generator - Позволяет вам в долю секунды делать самые разные ASCII текста! Самые популярные и самые легендарные ASCII шрифты уже вшиты в плагин. Наслаждайтесь!",
+        "en": "ASCII Text Generator – Create a wide variety of ASCII text in a split second! The most popular and iconic ASCII fonts are already built into the plugin. Enjoy!"
+      },
+      "file": "plugins/ascii_text_generator/ascii_text_generator.dolphyplugin",
+      "download_url": "https://raw.githubusercontent.com/unvoiddd/Dolphy-app-Plugins/main/plugins/ascii_text_generator/ascii_text_generator.dolphyplugin",
+      "post_url": "https://t.me/c/3966541757/47841",
+      "updated_at": "2026-11-22 12:05:11"
+    },
+    {
+      "id": 8,
+      "name": "Battery Level Changer + GPS Spoofer",
+      "version": "3.2.0",
+      "author": "Artpart_13",
+      "description": {
+        "ru": "Меняет местоположение GPS и уровень батареи(визуал) при помощи Shizuku (на гугл картах не работоет)",
+        "en": "Changes GPS location and battery level (visual) using Shizuku (does not work on Google Maps)."
+      },
+      "file": "plugins/battery_level_changer_gps_spoofer/battery_level_changer_gps_spoofer.dolphyplugin",
+      "download_url": "https://raw.githubusercontent.com/unvoiddd/Dolphy-app-Plugins/main/plugins/battery_level_changer_gps_spoofer/battery_level_changer_gps_spoofer.dolphyplugin",
+      "post_url": "https://t.me/c/3966541757/23929",
+      "updated_at": "2026-09-16 13:53:59"
+    },
+    {
+      "id": 20,
+      "name": "Battery Visual",
+      "version": "1.1",
+      "author": "@aowahub",
+      "description": {
+        "ru": "Battery Visual — плагин для DOLPHY, позволяющий через Shizuku визуально устанавливать процент батареи от 0% до 100% и возвращать реальное значение.",
+        "en": "Battery Visual – is a plugin for DOLPHY that allows you to visually set the battery percentage (from 0% to 100%) via Shizuku and revert to the actual value."
+      },
+      "file": "plugins/battery_visual/battery_visual.dolphyplugin",
+      "download_url": "https://raw.githubusercontent.com/unvoiddd/Dolphy-app-Plugins/main/plugins/battery_visual/battery_visual.dolphyplugin",
+      "post_url": "https://t.me/c/3966541757/28274",
+      "updated_at": "2026-10-01 05:59:27"
+    },
+    {
+      "id": 10,
+      "name": "BLE Guard",
+      "version": "1.0",
+      "author": "WinterBalls",
+      "description": {
+        "ru": "Защищает телефон от BLE-спама, изменяя флаги фонового сканирования устройств.",
+        "en": "Protects the phone from BLE spam by modifying the flags for background device scanning."
+      },
+      "file": "plugins/ble_guard/ble_guard.dolphyplugin",
+      "download_url": "https://raw.githubusercontent.com/unvoiddd/Dolphy-app-Plugins/main/plugins/ble_guard/ble_guard.dolphyplugin",
+      "post_url": "https://t.me/c/3966541757/26832",
+      "updated_at": "2026-09-25 22:01:33"
+    },
+    {
+      "id": 23,
+      "name": "BLE Radar Locator",
+      "version": "1.5.3",
+      "author": "@Da_koroche",
+      "description": {
+        "ru": "BLE Radar Locator 1.5.3\nЧто нового:\n- компас: точки и роза крутятся вместе с телефоном\n- свип больше не дёргается при обновлении\n- фильтры, сортировка, CSV, логи\nРаньше был просто список, теперь реальный радар",
+        "en": "BLE Radar Locator 1.5.3\nWhat's new:\n- compass: dots and rose spin with your phone\n- sweep no longer jerks on refresh\n- filters, sorting, CSV, logs\nUsed to be just a list, now an actual radar"
+      },
+      "file": "plugins/ble_radar_locator/ble_radar_locator.dolphyplugin",
+      "download_url": "https://raw.githubusercontent.com/unvoiddd/Dolphy-app-Plugins/main/plugins/ble_radar_locator/ble_radar_locator.dolphyplugin",
+      "post_url": "https://t.me/c/3966541757/31450",
+      "updated_at": "2026-10-07 02:26:07"
+    },
+    {
+      "id": 1,
+      "name": "BLE Scanner DEX MD3E",
+      "version": "1.0.0",
+      "author": "@its_droid",
+      "description": {
+        "ru": "Тестовый плагин с ble сканером и подробной информацией о найденных устройствах",
+        "en": "A test plugin with a BL scanner and detailed information about found devices."
+      },
+      "file": "plugins/ble_scanner_dex_md3e/ble_scanner_dex_md3e.dolphyplugin",
+      "download_url": "https://raw.githubusercontent.com/unvoiddd/Dolphy-app-Plugins/main/plugins/ble_scanner_dex_md3e/ble_scanner_dex_md3e.dolphyplugin",
+      "post_url": "https://t.me/c/3966541757/20058",
+      "updated_at": "2026-08-27 12:16:44"
+    },
+    {
+      "id": 24,
+      "name": "BT PWN Lab",
+      "version": "4.3",
+      "author": "antimage",
+      "description": {
+        "ru": "Джемер, бле сканер, много уязвимостей используется, мой первый плагин, думаю дальше развивать, там все вайб код, но я проверял, нормально вроде. ТРЕБУЕТСЯ: АНДРОИД 13, РУТ, БЛЮТУЗ++ МОДУЛЬ",
+        "en": "Jammer, BLE scanner, many exploits/CVE are used. This is my first plugin and I plan to develop it further. It's pure vibe code, but I've tested it and everything works fine. REQUIREMENTS: ANDROID 13, ROOT, BLUETOOTH++ MODULE (BlueZ tools)."
+      },
+      "file": "plugins/bt_pwn_lab/bt_pwn_lab.dolphyplugin",
+      "download_url": "https://raw.githubusercontent.com/unvoiddd/Dolphy-app-Plugins/main/plugins/bt_pwn_lab/bt_pwn_lab.dolphyplugin",
+      "post_url": "https://t.me/c/3966541757/34342",
+      "updated_at": "2026-10-16 04:43:38"
+    },
+    {
+      "id": 6,
+      "name": "Cortex",
+      "version": "1.1.0",
+      "author": "h3rovnik",
+      "description": {
+        "ru": "Плагин для преобразования текста в декоративные шриты. Поддерживает девять стилей. Позволяет копировать результат в буфер обмена и очищать ввод.",
+        "en": "A plugin for converting text into decorative fonts. It supports nine styles and allows you to copy the result to the clipboard and clear the input."
+      },
+      "file": "plugins/cortex/cortex.dolphyplugin",
+      "download_url": "https://raw.githubusercontent.com/unvoiddd/Dolphy-app-Plugins/main/plugins/cortex/cortex.dolphyplugin",
+      "post_url": "https://t.me/c/3966541757/41836",
+      "updated_at": "2026-11-02 15:16:26"
+    },
+    {
+      "id": 35,
+      "name": "Dolphy AI Assistant",
+      "version": "1.0.0",
+      "author": "@miohaze",
+      "description": {
+        "ru": "Ии создатель плагинов. (Написано с помощью специального промта канала и мной).",
+        "en": "Ai creator of plugins❤️ (writer - me and chatgpt)"
+      },
+      "file": "plugins/dolphy_ai_assistant/dolphy_ai_assistant.dolphyplugin",
+      "download_url": "https://raw.githubusercontent.com/unvoiddd/Dolphy-app-Plugins/main/plugins/dolphy_ai_assistant/dolphy_ai_assistant.dolphyplugin",
+      "post_url": "https://t.me/c/3966541757/46035",
+      "updated_at": "2026-11-14 17:36:37"
+    },
+    {
+      "id": 41,
+      "name": "Dolphy DOOM",
+      "version": "1.1.1",
+      "author": "@CMEPTOHOCTNbIY",
+      "description": {
+        "ru": "Самодельный DOOM. Игра бесконечна. после окончания трех уровней следует следующий этаж, с каждым этажом играть все сложнее.",
+        "en": "Homemade DOOM. The game is endless. After completing three levels, the next floor follows, and it gets more difficult to play with each floor."
+      },
+      "file": "plugins/dolphy_doom/dolphy_doom.dolphyplugin",
+      "download_url": "https://raw.githubusercontent.com/unvoiddd/Dolphy-app-Plugins/main/plugins/dolphy_doom/dolphy_doom.dolphyplugin",
+      "post_url": "https://t.me/c/3966541757/48790",
+      "updated_at": "2026-11-26 08:03:55"
+    },
+    {
+      "id": 39,
+      "name": "Dolphy en Español",
+      "version": "1.2.0",
+      "author": "Woodchaman",
+      "description": {
+        "ru": "переводить английский и русский на испанский",
+        "en": "Translate English and Russian into Spanish"
+      },
+      "file": "plugins/dolphy_en_espa_ol/dolphy_en_espa_ol.dolphyplugin",
+      "download_url": "https://raw.githubusercontent.com/unvoiddd/Dolphy-app-Plugins/main/plugins/dolphy_en_espa_ol/dolphy_en_espa_ol.dolphyplugin",
+      "post_url": "https://t.me/c/3966541757/48448",
+      "updated_at": "2026-11-25 05:41:52"
+    },
+    {
+      "id": 13,
+      "name": "Dolphy Performance Booster",
+      "version": "1.0.0",
+      "author": "@Evil6767",
+      "description": {
+        "ru": "По факту должен оптимизировать dolphy это вайбкод так что если вам скучно можете установить (тест)",
+        "en": "Essentially, Dolphy is supposed to optimize things—it's a \"vibe code,\" so if you're bored, you can install it (test)"
+      },
+      "file": "plugins/dolphy_performance_booster/dolphy_performance_booster.dolphyplugin",
+      "download_url": "https://raw.githubusercontent.com/unvoiddd/Dolphy-app-Plugins/main/plugins/dolphy_performance_booster/dolphy_performance_booster.dolphyplugin",
+      "post_url": "https://t.me/c/3966541757/27000",
+      "updated_at": "2026-09-27 06:03:04"
+    },
+    {
+      "id": 42,
+      "name": "Dolphy Snake",
+      "version": "1.0.2",
+      "author": "@CMEPTOHOCTNbIY",
+      "description": {
+        "ru": "классическая змейка в Dolphy",
+        "en": "the classic snake in Dolphy"
+      },
+      "file": "plugins/dolphy_snake/dolphy_snake.dolphyplugin",
+      "download_url": "https://raw.githubusercontent.com/unvoiddd/Dolphy-app-Plugins/main/plugins/dolphy_snake/dolphy_snake.dolphyplugin",
+      "post_url": "https://t.me/c/3966541757/48791",
+      "updated_at": "2026-11-26 08:04:01"
+    },
+    {
+      "id": 25,
+      "name": "DroidMonitor",
+      "version": "1.2.1",
+      "author": "@Da_koroche",
+      "description": {
+        "ru": "DroidMonitor — мониторинг Android в Dolphy\n\nПредставляю DroidMonitor — плагин для мониторинга системы Android с показателями CPU, RAM, накопителя, батареи и сети. Есть журнал диагностики для поиска ошибок. Буду рад отзывам и предложениям по улучшению!",
+        "en": "DroidMonitor — Android System Monitor for Dolphy\n\nIntroducing DroidMonitor, a Dolphy plugin for monitoring Android system metrics, including CPU, RAM, storage, battery, and network status. It also includes diagnostic logs to help identify issues. Feedback and suggestions are welcome!"
+      },
+      "file": "plugins/droidmonitor/droidmonitor.dolphyplugin",
+      "download_url": "https://raw.githubusercontent.com/unvoiddd/Dolphy-app-Plugins/main/plugins/droidmonitor/droidmonitor.dolphyplugin",
+      "post_url": "https://t.me/c/3966541757/34677",
+      "updated_at": "2026-10-17 16:09:35"
+    },
+    {
+      "id": 28,
+      "name": "Fake Battery",
+      "version": "1.0.0",
+      "author": "Rimitech",
+      "description": {
+        "ru": "плагин может использоваться для подделки уровня заряда батареи",
+        "en": "My plugin can be used to fake your Phone battery level"
+      },
+      "file": "plugins/fake_battery/fake_battery.dolphyplugin",
+      "download_url": "https://raw.githubusercontent.com/unvoiddd/Dolphy-app-Plugins/main/plugins/fake_battery/fake_battery.dolphyplugin",
+      "post_url": "https://t.me/c/3966541757/40279",
+      "updated_at": "2026-10-31 09:20:41"
+    },
+    {
+      "id": 9,
+      "name": "Fast WiFi Bruteforce",
+      "version": "10.8.1",
+      "author": "@Da_koroche",
+      "description": {
+        "ru": "Плагин Dolphy для перебора WPA2-PSK паролей через Shizuku. Сканирует сети, распознаёт Enterprise, поддерживает свои словари и сохраняет прогресс. Требует Dolphy 2.5+, Shizuku с правами и Android 11+",
+        "en": "Dolphy plugin for WPA2-PSK password brute-force via Shizuku. Scans networks, detects Enterprise, supports custom dictionaries, keeps color-coded logs and saves progress. Requires Dolphy 2.5+, Shizuku with permissions and Android 11+."
+      },
+      "file": "plugins/fast_wifi_bruteforce/fast_wifi_bruteforce.dolphyplugin",
+      "download_url": "https://raw.githubusercontent.com/unvoiddd/Dolphy-app-Plugins/main/plugins/fast_wifi_bruteforce/fast_wifi_bruteforce.dolphyplugin",
+      "post_url": "https://t.me/c/3966541757/40296",
+      "updated_at": "2026-10-31 11:02:36"
+    },
+    {
+      "id": 36,
+      "name": "Glass Bar",
+      "version": "3.73.17",
+      "author": "@Da_koroche",
+      "description": {
+        "ru": "Glass Bar — нижняя панель навигации в стиле Liquid Glass с реалистичным преломлением, размытием, свечением и радужной дисперсией. Плавная анимация и гибкая настройка эффектов. Не работает? Перезапустите или переключите плагин.",
+        "en": "Glass Bar — a Liquid Glass navigation bar with realistic refraction, blur, glow and rainbow dispersion. Smooth animations and customizable effects. Not working? Restart or toggle the plugin."
+      },
+      "file": "plugins/glass_bar/glass_bar.dolphyplugin",
+      "download_url": "https://raw.githubusercontent.com/unvoiddd/Dolphy-app-Plugins/main/plugins/glass_bar/glass_bar.dolphyplugin",
+      "post_url": "https://t.me/c/3966541757/48525",
+      "updated_at": "2026-11-25 15:03:15"
+    },
+    {
+      "id": 32,
+      "name": "GPT Agent",
+      "version": "2.0.0",
+      "author": "@Da_koroche",
+      "description": {
+        "ru": "GPT Agent — чат с ChatGPT прямо в Dolphy по вашему API-ключу. Стриминг ответов, персоны, рассуждения. Агент умеет выполнять shell и root-команды, читать и писать файлы, смотреть батарею, Wi-Fi, Bluetooth, буфер обмена. Может создавать плагины Dolphy. Есть команды, история и настройки.",
+        "en": "GPT Agent is a ChatGPT chat inside Dolphy using your own API key. Streaming replies, personas, reasoning. The agent can run shell and root commands, read and write files, check battery, Wi-Fi, Bluetooth, clipboard. It can also build Dolphy plugins. Includes commands, history and settings."
+      },
+      "file": "plugins/gpt_agent/gpt_agent.dolphyplugin",
+      "download_url": "https://raw.githubusercontent.com/unvoiddd/Dolphy-app-Plugins/main/plugins/gpt_agent/gpt_agent.dolphyplugin",
+      "post_url": "https://t.me/c/3966541757/45897",
+      "updated_at": "2026-11-14 11:09:53"
+    },
+    {
+      "id": 14,
+      "name": "Hardware Status",
+      "version": "1.4",
+      "author": "Bluemod",
+      "description": {
+        "ru": "Проверка  NFC ble ик gps",
+        "en": "NFC ble IR  GPS check"
+      },
+      "file": "plugins/hardware_status/hardware_status.dolphyplugin",
+      "download_url": "https://raw.githubusercontent.com/unvoiddd/Dolphy-app-Plugins/main/plugins/hardware_status/hardware_status.dolphyplugin",
+      "post_url": "https://t.me/c/3966541757/27020",
+      "updated_at": "2026-09-27 12:38:57"
+    },
+    {
+      "id": 34,
+      "name": "HTML & CSS Preview",
+      "version": "1.1.0",
+      "author": "@Dobrak_w",
+      "description": {
+        "ru": "Интерактивный предпросмотр HTML и CSS кода или файлов в реальном времени. Встроенный WebView с поддержкой прокрутки, переключение вкладок и удобный редактор.",
+        "en": "Real-time interactive preview of HTML and CSS code or files. Built-in WebView with scrolling support, tab switching, and a convenient editor."
+      },
+      "file": "plugins/html_css_preview/html_css_preview.dolphyplugin",
+      "download_url": "https://raw.githubusercontent.com/unvoiddd/Dolphy-app-Plugins/main/plugins/html_css_preview/html_css_preview.dolphyplugin",
+      "post_url": "https://t.me/c/3966541757/45994",
+      "updated_at": "2026-11-14 15:12:29"
+    },
+    {
+      "id": 17,
+      "name": "iCloud Spoof",
+      "version": "1.0.0",
+      "author": "WinterBalls",
+      "description": {
+        "ru": "Улучшенный BLE-спам для iOS 17+ через iCloud и Nearby Info сервисы.",
+        "en": "Enhanced BLE spam for iOS 17+ via iCloud and Nearby Info services."
+      },
+      "file": "plugins/icloud_spoof/icloud_spoof.dolphyplugin",
+      "download_url": "https://raw.githubusercontent.com/unvoiddd/Dolphy-app-Plugins/main/plugins/icloud_spoof/icloud_spoof.dolphyplugin",
+      "post_url": "https://t.me/c/3966541757/27874",
+      "updated_at": "2026-09-29 18:24:29"
+    },
+    {
+      "id": 19,
+      "name": "IR Transceiver",
+      "version": "2.1.1",
+      "author": "@Abamazanat",
+      "description": {
+        "ru": "Форк USB-C IR Backend от Pinaplast. Долго допиливал и исправлял ошибки. Умеет отправлять и записывать ИК-сигналы через USB-донглы и 3.5мм джек. Поддерживает файлы Flipper .ir, все протоколы и перебор кодов. На реальном железе ещё не тестировал — обо всех багах обязательно пишите мне",
+        "en": "Fork of Pinaplast's USB-C IR Backend. Spent a lot of time fixing bugs and polishing it. Transmits and learns IR via USB dongles and 3.5mm audio. Supports Flipper .ir files, all protocols, and code bruteforce. Not tested on real hardware yet — please report any bugs to me"
+      },
+      "file": "plugins/ir_transceiver/ir_transceiver.dolphyplugin",
+      "download_url": "https://raw.githubusercontent.com/unvoiddd/Dolphy-app-Plugins/main/plugins/ir_transceiver/ir_transceiver.dolphyplugin",
+      "post_url": "https://t.me/c/3966541757/42565",
+      "updated_at": "2026-11-04 14:03:57"
+    },
+    {
+      "id": 33,
+      "name": "MineSweeper",
+      "version": "1.1.0",
+      "author": "@maratichka",
+      "description": {
+        "ru": "Сапёр! - простенькая игра, которая теперь будет прямо в вашем приложении Dolphy! Есть несколько видов сложности для проверки ваших умений.",
+        "en": "Minesweeper! - a simple game that’s now available right inside your Dolphy app! There are several difficulty levels to put your skills to the test."
+      },
+      "file": "plugins/minesweeper/minesweeper.dolphyplugin",
+      "download_url": "https://raw.githubusercontent.com/unvoiddd/Dolphy-app-Plugins/main/plugins/minesweeper/minesweeper.dolphyplugin",
+      "post_url": "https://t.me/c/3966541757/45993",
+      "updated_at": "2026-11-14 15:11:38"
+    },
+    {
+      "id": 7,
+      "name": "Module Checker",
+      "version": "1.0.0",
+      "author": "Topzi",
+      "description": {
+        "ru": "Чекер возможностей вашего устройства. Проверка работоспособности функций.",
+        "en": "Your device's capabilities checker. Check the functionality of its functions."
+      },
+      "file": "plugins/module_checker/module_checker.dolphyplugin",
+      "download_url": "https://raw.githubusercontent.com/unvoiddd/Dolphy-app-Plugins/main/plugins/module_checker/module_checker.dolphyplugin",
+      "post_url": "https://t.me/c/3966541757/23510",
+      "updated_at": "2026-09-14 15:25:55"
+    },
+    {
+      "id": 22,
+      "name": "Morse Code",
+      "version": "1.2.0",
+      "author": "@halil2017l",
+      "description": {
+        "ru": "Передавай сообщения азбукой Морзе: тон, вибро или показ. SOS, HELLO и свои тексты.",
+        "en": "Send messages in Morse code: via tone, vibration, or visual display. Send SOS, HELLO, and your own custom text."
+      },
+      "file": "plugins/morse_code/morse_code.dolphyplugin",
+      "download_url": "https://raw.githubusercontent.com/unvoiddd/Dolphy-app-Plugins/main/plugins/morse_code/morse_code.dolphyplugin",
+      "post_url": "https://t.me/c/3966541757/29279",
+      "updated_at": "2026-10-03 09:21:29"
+    },
+    {
+      "id": 31,
+      "name": "Network Audit Pro",
+      "version": "1.6.1",
+      "author": "Pinaplast",
+      "description": {
+        "ru": "Аудитор домашних роутеров: доступ к панели (Basic/Digest/форма), Telnet и UPnP-замеры, поиск утечек конфигов, отчёты и журнал событий. Плагин рабочий, но требует тестов на разных роутерах. Если будут баги или ошибки, просьба скидывать их мне в ТГ: @Pinaplast457",
+        "en": "Home router auditor: admin panel access (Basic/Digest/login form), Telnet and UPnP probes, config leak detection, reports and event log. The plugin is working but requires testing on different routers. If you find any bugs or errors, please report them to me on Telegram: @Pinaplast457"
+      },
+      "file": "plugins/network_audit_pro/network_audit_pro.dolphyplugin",
+      "download_url": "https://raw.githubusercontent.com/unvoiddd/Dolphy-app-Plugins/main/plugins/network_audit_pro/network_audit_pro.dolphyplugin",
+      "post_url": "https://t.me/c/3966541757/44647",
+      "updated_at": "2026-11-08 08:59:26"
+    },
+    {
+      "id": 30,
+      "name": "Signal Jammer Root v2",
+      "version": "2.0.0",
+      "author": "@Da_koroche",
+      "description": {
+        "ru": "Плагин-глушилка для Dolphy c root: BLE-флуд, Wi-Fi deauth, ИК-шторм.\n\nНастраиваемое время помех (1-120 сек)\n\nи живое окно логов для проверки работы.\n\nПоказывает статус root, BLE и ИК при\n\nзапуске.",
+        "en": "Dolphy root jammer plugin: BLE flood, Wi-Fi deauth, IR storm. Adjustable duration (1-120 sec) and live log window to verify operation. Shows root, BLE and IR status on load."
+      },
+      "file": "plugins/signal_jammer_root_v2/signal_jammer_root_v2.dolphyplugin",
+      "download_url": "https://raw.githubusercontent.com/unvoiddd/Dolphy-app-Plugins/main/plugins/signal_jammer_root_v2/signal_jammer_root_v2.dolphyplugin",
+      "post_url": "https://t.me/c/3966541757/42416",
+      "updated_at": "2026-11-03 21:52:32"
+    },
+    {
+      "id": 15,
+      "name": "Smart Terminal",
+      "version": "1.12.2",
+      "author": "@dzemikreal",
+      "description": {
+        "ru": "Умный терминал для выполнения команд Android прямо в Dolphy. Поддержка Root и Shizuku, несколько терминалов, живой вывод команд и управление запущенными процессами.\nДо 8 терминалов одновременно, история команд, сохранение рабочей директории, переключение Root/Shizuku, остановка и управление процессами.",
+        "en": "A smart terminal for executing Android commands directly in Dolphy. Supports Root and Shizuku, multiple terminals, live command output, and running process management.\n\nUp to 8 terminals simultaneously, command history, working directory persistence, Root/Shizuku switching, and process stopping and management."
+      },
+      "file": "plugins/smart_terminal/smart_terminal.dolphyplugin",
+      "download_url": "https://raw.githubusercontent.com/unvoiddd/Dolphy-app-Plugins/main/plugins/smart_terminal/smart_terminal.dolphyplugin",
+      "post_url": "https://t.me/c/3966541757/30948",
+      "updated_at": "2026-10-05 13:09:15"
+    },
+    {
+      "id": 18,
+      "name": "TV5A Remote",
+      "version": "2.1.0",
+      "author": "@halil2017l",
+      "description": {
+        "ru": "ИК-пульт для ТВ-бокса INEXT TV5A (Alma TV) через ИК-порт телефона.\nПротокол RC5, частота 36 кГц. Кнопки: питание, громкость, mute,\nканалы, стрелки, OK, меню, назад, домой. Есть проверка адресов\nRC5 (0 / 5 / 26 / 1). Работает без Wi-Fi и ADB.\nТребуется телефон с ИК-портом (например, Vivo V70).",
+        "en": "IR remote for the INEXT TV5A (Alma TV) TV box using the phone's IR blaster. RC5 protocol, 36 kHz frequency. Buttons: power, volume, mute, channels, arrow keys, OK, menu, back, home. Includes address verification RC5 (0/5 / 26 / 1). Works without Wi-Fi or ADB. Requires a phone with an IR blaster (e.g., Vivo V70)."
+      },
+      "file": "plugins/tv5a_remote/tv5a_remote.dolphyplugin",
+      "download_url": "https://raw.githubusercontent.com/unvoiddd/Dolphy-app-Plugins/main/plugins/tv5a_remote/tv5a_remote.dolphyplugin",
+      "post_url": "https://t.me/c/3966541757/28149",
+      "updated_at": "2026-09-30 19:58:13"
+    },
+    {
+      "id": 21,
+      "name": "USB-C & BUILD-IN IR",
+      "version": "1.0.0",
+      "author": "Claude & bsfwl",
+      "description": {
+        "ru": "Форк плагина   @Squezze21 \nДобавлено: ручной перебор, поддержка встроенного ИК.",
+        "en": "Fork of the @Squeeze21 plugin \nAdded: manual brute force, built-in IR support."
+      },
+      "file": "plugins/usb_c_build_in_ir/usb_c_build_in_ir.dolphyplugin",
+      "download_url": "https://raw.githubusercontent.com/unvoiddd/Dolphy-app-Plugins/main/plugins/usb_c_build_in_ir/usb_c_build_in_ir.dolphyplugin",
+      "post_url": "https://t.me/c/3966541757/28283",
+      "updated_at": "2026-10-01 06:12:59"
+    },
+    {
+      "id": 2,
+      "name": "USB-C IR Backend",
+      "version": "1.0.4",
+      "author": "Pinaplast",
+      "description": {
+        "ru": "Отправляет штатные IR-сигналы через внешний USB-C IR-донгл, если он подключен. Плагин работает, но требует теста на разных устройствах; если вы смогли протестить его на своем устройстве, просьба отписать мне @Pinaplast457",
+        "en": "Sends standard IR signals via an external USB-C IR dongle if connected. The plugin works, but requires testing on different devices. If you've tested it on your device, please let me know @Pinaplast457"
+      },
+      "file": "plugins/usb_c_ir_backend/usb_c_ir_backend.dolphyplugin",
+      "download_url": "https://raw.githubusercontent.com/unvoiddd/Dolphy-app-Plugins/main/plugins/usb_c_ir_backend/usb_c_ir_backend.dolphyplugin",
+      "post_url": "https://t.me/c/3966541757/20533",
+      "updated_at": "2026-08-28 08:53:03"
+    },
+    {
+      "id": 11,
+      "name": "USB-C IR Combo (TX+RX)",
+      "version": "1.0.0",
+      "author": "@squezze21",
+      "description": {
+        "ru": "Объединённый backend для внешнего USB-C IR-донгла: приём (запись сигналов, виртуальные пульты) и передача через ОДНО и то же USB-соединение, без конфликта интерфейса между двумя отдельными плагинами. ТХ-протоколы (кодировщики ElkSmart/ZaZa) основаны на usb_c_ir_backend.",
+        "en": "Unified backend for an external USB-C IR dongle: receive (signal recording, virtual remotes) and transmit over the same USB connection, with no interface conflicts between two separate plugins. TX protocols (ElkSmart/ZaZa encoders) are based on usb_c_ir_backend."
+      },
+      "file": "plugins/usb_c_ir_combo_tx_rx/usb_c_ir_combo_tx_rx.dolphyplugin",
+      "download_url": "https://raw.githubusercontent.com/unvoiddd/Dolphy-app-Plugins/main/plugins/usb_c_ir_combo_tx_rx/usb_c_ir_combo_tx_rx.dolphyplugin",
+      "post_url": "https://t.me/c/3966541757/26925",
+      "updated_at": "2026-09-26 10:38:01"
+    },
+    {
+      "id": 5,
+      "name": "WebSiteMe",
+      "version": "1.0.0",
+      "author": "h3rovnik",
+      "description": {
+        "ru": "Многофункциональный плагин, обеспечивающий быстрый доступ к встроенным сервисам,\nа также к любым дополнительным сайтам, которые пользователь добавляет через кнопку «+» в интерфейсе. Плагин поддерживает авторизацию и доступны функции входа и выхода из учётной записи.",
+        "en": "A multifunctional plugin providing quick access to built-in services as well as any additional sites added by the user via the \"+\" button in the interface. The plugin supports authentication, including account login and logout functions."
+      },
+      "file": "plugins/websiteme/websiteme.dolphyplugin",
+      "download_url": "https://raw.githubusercontent.com/unvoiddd/Dolphy-app-Plugins/main/plugins/websiteme/websiteme.dolphyplugin",
+      "post_url": "https://t.me/c/3966541757/23028",
+      "updated_at": "2026-09-10 14:33:05"
+    },
+    {
+      "id": 4,
+      "name": "Wi-Fi info",
+      "version": "1.0.0",
+      "author": "h3rovnik",
+      "description": {
+        "ru": "Плагин сканирует доступные Wi-Fi сети и показывает их параметры SSID, BSSID, RSSI, частота, канал, тип шифрования, ширина канала, производитель, имя оператора, центральная частота, timestamp, предоставляя пользователю развернутую информацию о Wi-Fi.",
+        "en": "The plugin scans available Wi-Fi networks and displays their parameters such as SSID, BSSID, RSSI, frequency, channel, encryption type, channel width, manufacturer, operator name, center frequency, and timestamp providing the user with detailed information about the Wi-Fi networks."
+      },
+      "file": "plugins/wi_fi_info/wi_fi_info.dolphyplugin",
+      "download_url": "https://raw.githubusercontent.com/unvoiddd/Dolphy-app-Plugins/main/plugins/wi_fi_info/wi_fi_info.dolphyplugin",
+      "post_url": "https://t.me/c/3966541757/21197",
+      "updated_at": "2026-08-30 13:03:01"
+    },
+    {
+      "id": 29,
+      "name": "Wi-Fi Wordlist Lab",
+      "version": "2.4.1",
+      "author": "@rvanyiu",
+      "description": {
+        "ru": "Плагин демонстрирует мою идею из другой ветки: умный брутфорс Wi-Fi. Он адаптируется под SSID и переменные (Wi_Fi_name+123 = ALBIBEK123). Приоритет шаблонов меняется стрелками в редакторе. Есть диапазоны, встроенная база частых паролей и лимит генерации.",
+        "en": "This plugin demos my idea from another forum thread: smart Wi-Fi bruteforce. It adapts to the SSID and variables (Wi_Fi_name+123 = ALBIBEK123). You set template priority using arrows in the editor. Supports ranges, a built-in wordlist, and generation limits."
+      },
+      "file": "plugins/wi_fi_wordlist_lab/wi_fi_wordlist_lab.dolphyplugin",
+      "download_url": "https://raw.githubusercontent.com/unvoiddd/Dolphy-app-Plugins/main/plugins/wi_fi_wordlist_lab/wi_fi_wordlist_lab.dolphyplugin",
+      "post_url": "https://t.me/c/3966541757/42179",
+      "updated_at": "2026-11-03 19:38:23"
+    },
+    {
+      "id": 3,
+      "name": "WiFi Stresser",
+      "version": "4.0.4",
+      "author": "Pixel Floppa",
+      "description": {
+        "ru": "Аудит и стресс-тест Wi-Fi шлюзов: L4/L7 флуд (UDP, TCP, HTTP, Slowloris), обход WAF/Rate-limit и L2-скан. До 2048 потоков, автоопределение IP, живой счётчик пак/сек, пинг цели и журнал ошибок. Работает без Root (нужен только для L2).",
+        "en": "Audit & stress-test Wi-Fi gateways: L4/L7 flood (UDP, TCP, HTTP, Slowloris), WAF/rate-limit bypass, and L2 scan. Up to 2048 threads, auto IP detection, live PPS counter, target ping, and error log. Works without Root (needed only for L2)."
+      },
+      "file": "plugins/wifi_stresser/wifi_stresser.dolphyplugin",
+      "download_url": "https://raw.githubusercontent.com/unvoiddd/Dolphy-app-Plugins/main/plugins/wifi_stresser/wifi_stresser.dolphyplugin",
+      "post_url": "https://t.me/c/3966541757/46125",
+      "updated_at": "2026-11-15 06:40:12"
+    },
+    {
+      "id": 12,
+      "name": "Металлоискатель",
+      "version": "1.0.4",
+      "author": "@DobryyPIRATIK",
+      "description": {
+        "ru": "Металлоискатель для Dolphy @DobryyPIRATIK\n\nДетектор металла на магнитном сенсоре. Точное поле в мкТл, калибровка в одно нажатие, регулируемый порог. Чем ближе цель — тем чаще и громче треск. Вибрация.\n\nПоиск проводки и труб в стенах, монет, гвоздей, проверка сумок и мебели.\n\nСтарт → Калибровка → медленно ведите к цели.",
+        "en": "Metal Detector for Dolphy @DobryyPIRATIK\n\nMetal detector using magnetic sensor. Accurate field in µT, one-tap calibration, adjustable threshold. Closer target — faster and louder clicks. Vibration.\n\nFind wiring and pipes in walls, metal coins, nails, check bags and furniture.\n\nStart → Calibrate → slowly move to target."
+      },
+      "file": "plugins/metalloiskatel/metalloiskatel.dolphyplugin",
+      "download_url": "https://raw.githubusercontent.com/unvoiddd/Dolphy-app-Plugins/main/plugins/metalloiskatel/metalloiskatel.dolphyplugin",
+      "post_url": "https://t.me/c/3966541757/26999",
+      "updated_at": "2026-09-27 06:02:51"
+    },
+    {
+      "id": 27,
+      "name": "Металлоискатель PRO",
+      "version": "2.0",
+      "author": "@frostmench1k. @DobryyPIRATIK.",
+      "description": {
+        "ru": "Металлоискатель PRO 2.0 (@frostmench1k & @DobryyPIRATIK). Детектор металла на 3D-сенсоре с авто-калибровкой. Звук и вибрация Гейгера. Поиск проводки, труб, монет и жучков. Старт → Калибровка → Медленно ведите к цели.",
+        "en": "Metal Detector PRO 2.0 (@frostmench1k & @DobryyPIRATIK). 3D magnetic sensor, 2s auto-calibration, Geiger sound & vibration. Search wiring, pipes, coins & bugs. Start → Calibrate → Move phone to target."
+      },
+      "file": "plugins/metalloiskatel_pro/metalloiskatel_pro.dolphyplugin",
+      "download_url": "https://raw.githubusercontent.com/unvoiddd/Dolphy-app-Plugins/main/plugins/metalloiskatel_pro/metalloiskatel_pro.dolphyplugin",
+      "post_url": "https://t.me/c/3966541757/35337",
+      "updated_at": "2026-10-20 17:22:06"
+    },
+    {
+      "id": 40,
+      "name": "Новогодний плагин",
+      "version": "1.0.7",
+      "author": "@Da_koroche",
+      "description": {
+        "ru": "Что?.. СНЕГ?! Да, теперь даже Dolphy готовится к Новому году!\n\n❄️ Новогодний плагин с анимированным снегопадом на фоне всего приложения.\n\n🎄 Погрузитесь в зимнюю атмосферу прямо во время использования Dolphy!\n\nА Dolphy... похоже, зима уже здесь!",
+        "en": "What? SNOW?! Yes, now even Dolphy is getting ready for the New Year!\n\n❄️ New Year's plugin with animated snowfall in the background of the entire app.\n\n🎄 Immerse yourself in the winter atmosphere right while you use it."
+      },
+      "file": "plugins/novogodniy_plagin/novogodniy_plagin.dolphyplugin",
+      "download_url": "https://raw.githubusercontent.com/unvoiddd/Dolphy-app-Plugins/main/plugins/novogodniy_plagin/novogodniy_plagin.dolphyplugin",
+      "post_url": "https://t.me/c/3966541757/48776",
+      "updated_at": "2026-11-26 05:21:11"
+    },
+    {
+      "id": 26,
+      "name": "Строительный уровень (Bubble Level)",
+      "version": "1.1.0",
+      "author": "@frostmench1k",
+      "description": {
+        "ru": "Цифровой строительный уровень для Dolphy: пузырёк в реальном времени, режимы Пол / Стена / Уклон %, калибровка «Ноль», Hold, звук и вибрация при выравнивании, порог точности, история замеров и шаринг. Автор @frostmench1k.",
+        "en": "Digital bubble level for Dolphy: live tilt bubble, Floor / Wall / Slope % modes, Zero calibration, Hold, sound & vibration when level, adjustable threshold, measurement history and share. By @frostmench1k."
+      },
+      "file": "plugins/stroitelnyy_uroven_bubble_level/stroitelnyy_uroven_bubble_level.dolphyplugin",
+      "download_url": "https://raw.githubusercontent.com/unvoiddd/Dolphy-app-Plugins/main/plugins/stroitelnyy_uroven_bubble_level/stroitelnyy_uroven_bubble_level.dolphyplugin",
+      "post_url": "https://t.me/c/3966541757/35336",
+      "updated_at": "2026-10-20 17:21:58"
+    },
+    {
+      "id": 38,
+      "name": "Эквалайзер",
+      "version": "1.4.40",
+      "author": "@Da_koroche",
+      "description": {
+        "ru": "Что?.. ЧТО!?! Вы не просили, а я сделал!\n\nСистемный эквалайзер с Web-интерфейсом. Python + Java, совместимость с Glass Bar. В Minecraft будем играть)\n\n⚠️ Рекомендуется отключить оптимизированный режим.\n\nА Дельфин... сами узнаете!\n\nРаботает на уровне «Wavelet».",
+        "en": "What?.. WHAT!?! You didn't ask, but I made it anyway!\n\nA system-wide equalizer with a Web UI. Python + Java, Glass Bar compatibility. Guess we're playing Minecraft)\n\n⚠️ Optimized Mode is best disabled.\n\nAnd the Dolphin... You'll find out!\n\nPerforms on Wavelet's level."
+      },
+      "file": "plugins/ekvalayzer/ekvalayzer.dolphyplugin",
+      "download_url": "https://raw.githubusercontent.com/unvoiddd/Dolphy-app-Plugins/main/plugins/ekvalayzer/ekvalayzer.dolphyplugin",
+      "post_url": "https://t.me/c/3966541757/47998",
+      "updated_at": "2026-11-23 09:22:04"
+    }
+  ]
+}
