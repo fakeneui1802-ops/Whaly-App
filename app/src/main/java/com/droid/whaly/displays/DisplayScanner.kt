@@ -107,6 +107,34 @@ object DisplayScanner {
         _results.value = (existing + found).sortedWith(
             compareBy<Found> { it.kind.ordinal }.thenBy { it.name.lowercase() },
         )
+        if (found.host.isNotBlank() && !found.host.contains(':')) probeAdb(found)
+    }
+
+    /**
+     * Kindermann panels and most Android-based whiteboards run Android underneath. A panel
+     * with ADB enabled answers on 5555, which identifies the OS even when the mDNS name is
+     * just a room number. The probe is a TCP connect, not a scan of the whole subnet.
+     */
+    private fun probeAdb(found: Found) {
+        Thread({
+            val open = runCatching {
+                java.net.Socket().use { socket ->
+                    socket.connect(java.net.InetSocketAddress(found.host, 5555), 350)
+                    true
+                }
+            }.getOrDefault(false)
+            if (!open) return@Thread
+            _results.value = _results.value.map {
+                if (it.host == found.host && it.name == found.name) {
+                    it.copy(
+                        kind = if (it.kind == Kind.UNKNOWN) Kind.DISPLAY else it.kind,
+                        detail = it.detail + " · AndroidOS, ADB 5555 open",
+                    )
+                } else {
+                    it
+                }
+            }
+        }, "whaly-display-adb").apply { isDaemon = true; start() }
     }
 
     fun stop() {

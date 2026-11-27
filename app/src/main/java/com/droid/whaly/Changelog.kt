@@ -23,6 +23,7 @@ object Changelog {
                 "SSDP M-SEARCH with LOCATION parsing for UPnP media renderers and basic devices.",
                 "BLE name pass for panels that advertise a pairing service and never touch the LAN until paired.",
                 "Classification for whiteboards, projectors, displays and printers, including Kindermann, Promethean, SMART, Clevertouch, Prowise, Newline, Epson, BenQ, Optoma, NEC and Casio.",
+                "AndroidOS probe: a discovered host that answers on TCP 5555 is marked as an Android display with ADB open, which covers Kindermann panels running Android underneath.",
             ),
             patched = listOf(
                 "Platform Spoofer states the AirDrop limit plainly: discovery is AWDL over Wi-Fi, not BLE.",
