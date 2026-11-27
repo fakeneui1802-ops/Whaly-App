@@ -25,6 +25,9 @@ class ScooterHackViewModel(app: Application) : AndroidViewModel(app) {
     private val _isScanning = MutableStateFlow(false)
     val isScanning: StateFlow<Boolean> = _isScanning.asStateFlow()
 
+    private val _scanError = MutableStateFlow<String?>(null)
+    val scanError: StateFlow<String?> = _scanError.asStateFlow()
+
     private val _connectedAddress = MutableStateFlow<String?>(null)
     val connectedAddress: StateFlow<String?> = _connectedAddress.asStateFlow()
 
@@ -34,16 +37,19 @@ class ScooterHackViewModel(app: Application) : AndroidViewModel(app) {
 
     private val scanCallback = object : ScanCallback() {
         override fun onScanResult(callbackType: Int, result: ScanResult) {
-            if (!isHardScooterMatch(result)) return
+            // Every BLE device is listed. Rental fleets rotate names and hide their service
+            // UUIDs behind a random address, so a hard filter is how a scooter stays invisible.
             val address = result.device.address ?: return
             val name = result.device.name
                 ?: result.scanRecord?.deviceName
-                ?: "Scooter"
+                ?: ""
             val rssi = result.rssi
+            val likely = isHardScooterMatch(result)
             val existing = deviceMap[address]
             deviceMap[address] = (existing ?: ScooterDevice(address, name, rssi)).copy(
-                name = if (name.isNotBlank()) name else existing?.name ?: "Scooter",
+                name = if (name.isNotBlank()) name else existing?.name ?: "",
                 rssi = rssi,
+                likely = likely || existing?.likely == true,
                 isConnected = existing?.isConnected == true || _connectedAddress.value == address,
                 isConnecting = existing?.isConnecting == true,
                 batteryPercent = existing?.batteryPercent,
@@ -54,6 +60,7 @@ class ScooterHackViewModel(app: Application) : AndroidViewModel(app) {
 
         override fun onScanFailed(errorCode: Int) {
             _isScanning.value = false
+            _scanError.value = "scan failed ($errorCode)"
         }
     }
 
@@ -71,29 +78,22 @@ class ScooterHackViewModel(app: Application) : AndroidViewModel(app) {
         if (_isScanning.value) return
         val scanner = a.bluetoothLeScanner ?: return
 
-        val filters = listOf(
-            ScanFilter.Builder()
-                .setServiceUuid(ParcelUuid(ScooterProtocol.SERVICE_UUID))
-                .build(),
-            ScanFilter.Builder()
-                .setManufacturerData(ScooterProtocol.NINEBOT_MANUFACTURER_ID, byteArrayOf())
-                .build(),
-        )
+        // No filters: a filtered scan is a scan that misses the fleet.
         val settings = ScanSettings.Builder()
             .setScanMode(ScanSettings.SCAN_MODE_LOW_LATENCY)
+            .setCallbackType(ScanSettings.CALLBACK_TYPE_ALL_MATCHES)
+            .setMatchMode(ScanSettings.MATCH_MODE_AGGRESSIVE)
             .build()
 
+        _scanError.value = null
         try {
             scanner.startScan(null, settings, scanCallback)
             _isScanning.value = true
-        } catch (_: SecurityException) {
-            try {
-                scanner.startScan(filters, settings, scanCallback)
-                _isScanning.value = true
-            } catch (_: Exception) {
-                _isScanning.value = false
-            }
-        } catch (_: Exception) {
+        } catch (error: SecurityException) {
+            _scanError.value = "scan permission denied"
+            _isScanning.value = false
+        } catch (error: Exception) {
+            _scanError.value = error.message ?: "scan failed"
             _isScanning.value = false
         }
     }
@@ -196,6 +196,12 @@ class ScooterHackViewModel(app: Application) : AndroidViewModel(app) {
         gattClient?.sendTuningPayload(payload, label)
     }
 
+    fun sendLimeSpp(address: String, frame: ScooterFrames.Frame) {
+        LimeSppClient.send(getApplication(), address, frame) { ok, message ->
+            updateDevice(address) { it.copy(statusMessage = message) }
+        }
+    }
+
     private fun updateDevice(address: String, transform: (ScooterDevice) -> ScooterDevice) {
         val cur = deviceMap[address] ?: return
         deviceMap[address] = transform(cur)
@@ -204,7 +210,11 @@ class ScooterHackViewModel(app: Application) : AndroidViewModel(app) {
 
     private fun publish() {
         _devices.value = deviceMap.values
-            .sortedWith(compareByDescending<ScooterDevice> { it.isConnected }.thenByDescending { it.rssi })
+            .sortedWith(
+                compareByDescending<ScooterDevice> { it.isConnected }
+                    .thenByDescending { it.likely }
+                    .thenByDescending { it.rssi },
+            )
             .toList()
     }
 
@@ -241,6 +251,7 @@ class ScooterHackViewModel(app: Application) : AndroidViewModel(app) {
             "voi",
             "voiager",
             "lime",
+            "lime-",
             "bird",
             "tier",
             "dott",

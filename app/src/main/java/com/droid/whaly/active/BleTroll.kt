@@ -199,10 +199,9 @@ object BleTroll {
             while (active.get()) {
                 val data: AdvertiseData = when (mode) {
                     Mode.NAME_SPAM -> {
-                        val name = names[index % names.size]
-                        runCatching { adapter.name = name.take(248) }
+                        // No adapter rename and no local name: the real name never goes on air.
                         AdvertiseData.Builder()
-                            .setIncludeDeviceName(true)
+                            .setIncludeDeviceName(false)
                             .build()
                     }
                     Mode.AD_STORM -> {
@@ -214,16 +213,13 @@ object BleTroll {
                             .build()
                     }
                     Mode.CLONE -> {
-                        val name = target?.name?.ifBlank { names[index % names.size] }
-                            ?: names[index % names.size]
-                        runCatching { adapter.name = name.take(248) }
-                        val builder = AdvertiseData.Builder().setIncludeDeviceName(true)
+                        val builder = AdvertiseData.Builder().setIncludeDeviceName(false)
                         target?.uuids?.take(4)?.forEach { uuid ->
                             runCatching { builder.addServiceUuid(ParcelUuid(UUID.fromString(uuid))) }
                         }
                         builder.build()
                     }
-                    else -> AdvertiseData.Builder().setIncludeDeviceName(true).build()
+                    else -> AdvertiseData.Builder().setIncludeDeviceName(false).build()
                 }
                 try {
                     advertiser.stopAdvertising(callback)
@@ -255,8 +251,7 @@ object BleTroll {
                 }
             }
             runCatching { advertiser.stopAdvertising(callback) }
-            if (originalName != null) runCatching { adapter.name = originalName }
-            append("restored adapter name")
+            append("advertising stopped — adapter name was never written")
         }, "whaly-ble-troll").start()
     }
 
@@ -321,14 +316,13 @@ object BleTroll {
             override fun onStartFailure(errorCode: Int) = append("advertise failed $errorCode")
         }
         try {
-            runCatching { adapter.name = "Whaly Keyboard" }
             advertiser?.startAdvertising(
                 AdvertiseSettings.Builder()
                     .setAdvertiseMode(AdvertiseSettings.ADVERTISE_MODE_LOW_LATENCY)
                     .setConnectable(true)
                     .build(),
                 AdvertiseData.Builder()
-                    .setIncludeDeviceName(true)
+                    .setIncludeDeviceName(false)
                     .addServiceUuid(ParcelUuid(keyboardUuid))
                     .build(),
                 callback,

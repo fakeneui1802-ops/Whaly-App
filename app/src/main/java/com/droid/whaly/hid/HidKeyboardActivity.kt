@@ -668,9 +668,7 @@ class HidKeyboardActivity : ComponentActivity(), KeyboardService.Listener {
         runCatching { unregisterReceiver(discoveryReceiver) }
 
 
-        if (originalBtName != null && (ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_CONNECT) == PackageManager.PERMISSION_GRANTED || Build.VERSION.SDK_INT < Build.VERSION_CODES.S)) {
-            bluetoothAdapter?.name = originalBtName
-        }
+        // The adapter name is never written by this app, so nothing is restored here.
 
         if (keyboardServiceBound) {
             keyboardService?.setListener(null)

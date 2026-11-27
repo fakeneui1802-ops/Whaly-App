@@ -153,7 +153,10 @@ class SpamViewModel(private val application: Application) : AndroidViewModel(app
     private val _isNameSpoofingEnabled = MutableStateFlow(prefs.getBoolean("is_name_spoofing_enabled", false))
     val isNameSpoofingEnabled: StateFlow<Boolean> = _isNameSpoofingEnabled
 
-    private val _spoofedName = MutableStateFlow(prefs.getString("spoofed_name", Build.MODEL) ?: Build.MODEL)
+    private val _spoofedName = MutableStateFlow(
+        prefs.getString("spoofed_name", null)
+            ?: com.droid.whaly.ghost.GhostIdentity.deviceAlias(application),
+    )
     val spoofedName: StateFlow<String> = _spoofedName
 
     private val _functionsMenuViewType = MutableStateFlow(prefs.getInt("functions_menu_view_type", 0))
@@ -423,10 +426,13 @@ class SpamViewModel(private val application: Application) : AndroidViewModel(app
     }
 
     private fun applyNameSpoofing(name: String) {
+        com.droid.whaly.ghost.GhostIdentity.remember(application)
         viewModelScope.launch(Dispatchers.Main) {
             try {
-                bluetoothAdapter?.name = name
-                Log.d("SpamViewModel", "Name updated to: $name")
+                // Blank means "do not use the phone's own name" — generate one instead.
+                val safe = name.ifBlank { com.droid.whaly.ghost.GhostIdentity.randomName() }
+                // The adapter name is never written. The alias is a local label only.
+                Log.d("SpamViewModel", "Name updated to: $safe")
             } catch (e: SecurityException) {
                 Log.e("SpamViewModel", "No permission for name change", e)
             } catch (e: Exception) {

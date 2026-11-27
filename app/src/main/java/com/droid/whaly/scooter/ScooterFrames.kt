@@ -92,4 +92,17 @@ object ScooterFrames {
         "voi", "voiager", "lime", "lime-s", "bird", "tier", "dott", "bolt",
         "circ", "hive", "wind", "okai", "shared", "scooter", "e-scooter", "escooter",
     )
+
+    /**
+     * Lime SJ2.5 serial frames. Published against LIS01_FW_1.8.5_201911162121000.
+     * Header 46 43, read/write byte, code, two-byte length, payload, CRC-16/XMODEM.
+     */
+    val limeSpp: List<Frame> = listOf(
+        Frame("Lime firmware", byteArrayOf(0x46, 0x43, 0x11, 0x14, 0x00, 0x00, 0xEA.toByte(), 0xFB.toByte())),
+        Frame("Lime UART", byteArrayOf(0x46, 0x43, 0x11, 0x15, 0x00, 0x00, 0xDD.toByte(), 0xCB.toByte())),
+        Frame("Lime hardware", byteArrayOf(0x46, 0x43, 0x11, 0x18, 0x00, 0x00, 0x9F.toByte(), 0x9A.toByte())),
+        Frame("Lime light", byteArrayOf(0x46, 0x43, 0x16, 0x13, 0x00, 0x01, 0xF1.toByte(), 0x5D, 0x92.toByte())),
+        Frame("Lime wheel lock", byteArrayOf(0x46, 0x43, 0x16, 0x63, 0x00, 0x01, 0xF1.toByte(), 0x1F, 0xE7.toByte())),
+        Frame("Lime wheel unlock", byteArrayOf(0x46, 0x43, 0x16, 0x63, 0x00, 0x01, 0xF0.toByte(), 0x0F, 0xC6.toByte())),
+    )
 }

@@ -73,6 +73,7 @@ fun ScooterHackScreen(
     val accent = MaterialTheme.colorScheme.primary
     val devices by viewModel.devices.collectAsState()
     val isScanning by viewModel.isScanning.collectAsState()
+    val scanError by viewModel.scanError.collectAsState()
     val colorScheme = MaterialTheme.colorScheme
 
     val permissionLauncher = rememberLauncherForActivityResult(
@@ -156,7 +157,7 @@ fun ScooterHackScreen(
                             )
                         } else {
                             Text(
-                                text = stringResource(R.string.scooter_empty),
+                                text = scanError ?: stringResource(R.string.scooter_empty),
                                 color = colorScheme.onSurfaceVariant,
                                 style = MaterialTheme.typography.bodyMedium,
                             )
@@ -178,7 +179,8 @@ fun ScooterHackScreen(
                             count = devices.size,
                             accent = accent,
                             onToggleConnect = { viewModel.toggleConnection(context, scooter) },
-                            onSendPayload = { payload, label -> viewModel.sendTuningPayload(payload, label) }
+                            onSendPayload = { payload, label -> viewModel.sendTuningPayload(payload, label) },
+                            onSendSpp = { frame -> viewModel.sendLimeSpp(scooter.address, frame) }
                         )
                     }
                 }
@@ -195,6 +197,7 @@ private fun ScooterDeviceCard(
     accent: Color,
     onToggleConnect: () -> Unit,
     onSendPayload: (ByteArray, String) -> Unit,
+    onSendSpp: (ScooterFrames.Frame) -> Unit,
 ) {
     val colorScheme = MaterialTheme.colorScheme
     val connected = scooter.isConnected
@@ -232,7 +235,7 @@ private fun ScooterDeviceCard(
 
                 Column(modifier = Modifier.weight(1f)) {
                     Text(
-                        text = scooter.name,
+                        text = scooter.name.ifBlank { "Unnamed BLE device" },
                         style = MaterialTheme.typography.titleMedium,
                         fontWeight = FontWeight.SemiBold,
                         color = colorScheme.onSurface,
@@ -244,6 +247,13 @@ private fun ScooterDeviceCard(
                         color = colorScheme.onSurfaceVariant,
                         maxLines = 1,
                     )
+                    if (scooter.likely) {
+                        Text(
+                            text = "scooter signature",
+                            style = MaterialTheme.typography.labelSmall,
+                            color = accent,
+                        )
+                    }
                     if (!scooter.statusMessage.isNullOrBlank()) {
                         Text(
                             text = scooter.statusMessage,
@@ -299,6 +309,24 @@ private fun ScooterDeviceCard(
                     ActionChip(icon = icon, label = "Gen 1", accent = accent) { onSendPayload(ScooterProtocol.PAYLOAD_GEN_1, "Gen 1") }
                     ActionChip(icon = icon, label = "Gen 2", accent = accent) { onSendPayload(ScooterProtocol.PAYLOAD_GEN_2, "Gen 2") }
                     ActionChip(icon = icon, label = "Gen 3", accent = accent) { onSendPayload(ScooterProtocol.PAYLOAD_GEN_3, "Gen 3") }
+                }
+                if (scooter.name.lowercase().startsWith("lime")) {
+                    Spacer(Modifier.height(10.dp))
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .clip(androidx.compose.foundation.shape.RoundedCornerShape(16.dp))
+                            .background(colorScheme.surfaceVariant.copy(alpha = 0.55f))
+                            .padding(horizontal = 10.dp, vertical = 10.dp)
+                            .horizontalScroll(rememberScrollState()),
+                        horizontalArrangement = Arrangement.spacedBy(16.dp),
+                        verticalAlignment = Alignment.CenterVertically,
+                    ) {
+                        val icon = Icons.Filled.Build
+                        ScooterFrames.limeSpp.forEach { frame ->
+                            ActionChip(icon = icon, label = frame.label, accent = accent) { onSendSpp(frame) }
+                        }
+                    }
                 }
             }
         }

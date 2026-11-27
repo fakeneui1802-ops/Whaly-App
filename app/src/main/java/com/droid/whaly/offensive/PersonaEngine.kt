@@ -52,16 +52,8 @@ object PersonaEngine {
     fun restoreIfStale(context: Context) {
         if (running.get()) return
         val prefs = context.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
-        val original = prefs.getString(KEY_ORIGINAL_NAME, null) ?: return
-        val radio = adapter()
-        if (radio != null) {
-            try {
-                if (radio.isEnabled && radio.name != original) radio.name = original
-            } catch (_: SecurityException) {
-            } catch (_: Exception) {
-            }
-        }
         prefs.edit().remove(KEY_ORIGINAL_NAME).apply()
+        // The adapter name is read-only in this app; nothing to restore.
     }
 
     @SuppressLint("MissingPermission")
@@ -71,38 +63,19 @@ object PersonaEngine {
         null
     }
 
+    /**
+     * The adapter name is never written. A persona is a payload and an mDNS record; the
+     * phone's real name stays in the vault and is never on air, and nothing can leave the
+     * adapter renamed if the process dies mid-run.
+     */
     @SuppressLint("MissingPermission")
     private fun applyBluetoothName(name: String?) {
-        if (name == null) return
-        val adapter = adapter() ?: return
-        if (!adapter.isEnabled) return
-        try {
-            val current = adapter.name
-            restoreName = current
-            if (current != null && current != name) {
-                appContext?.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
-                    ?.edit()
-                    ?.putString(KEY_ORIGINAL_NAME, current)
-                    ?.apply()
-            }
-            adapter.setName(name)
-        } catch (error: SecurityException) {
-            Log.w(TAG, "Bluetooth name needs BLUETOOTH_CONNECT", error)
-        } catch (error: Exception) {
-            Log.w(TAG, "Bluetooth name rejected", error)
-        }
+        val context = appContext ?: return
+        com.droid.whaly.ghost.GhostIdentity.remember(context)
     }
 
-    @SuppressLint("MissingPermission")
     private fun restoreBluetoothName() {
-        val original = restoreName ?: return
-        val adapter = adapter() ?: return
-        try {
-            if (adapter.isEnabled) adapter.name = original
-        } catch (_: SecurityException) {
-        } catch (_: Exception) {
-        }
-        restoreName = null
+        // The adapter name is never written, so there is nothing to put back.
     }
 
     private fun registerMdns(context: Context, persona: Persona) {
@@ -163,9 +136,9 @@ object PersonaEngine {
             while (running.get()) {
                 val frame = persona.frames[random.nextInt(persona.frames.size)]
                 val data = AdvertiseData.Builder().apply {
-                    // Windows and macOS read the name out of the advertisement or scan response.
-                    // Without this the host shows the cached adapter name, not the persona.
-                    setIncludeDeviceName(true)
+                    // The local name is deliberately omitted: the real adapter name must never
+                    // be transmitted, and the persona is carried by the payload alone.
+                    setIncludeDeviceName(false)
                     when (frame) {
                         is PersonaFrame.Manufacturer -> addManufacturerData(frame.companyId, frame.data)
                         is PersonaFrame.ServiceData -> {

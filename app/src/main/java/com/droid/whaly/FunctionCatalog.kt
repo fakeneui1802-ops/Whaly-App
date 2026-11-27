@@ -122,6 +122,8 @@ fun functionDestinationSections(): List<Pair<String, List<FunctionDestination>>>
             FunctionDestination(Icons.Default.Memory, "Mifare Classic", "Key recovery and full card dump, 50 default plus 10 UID-derived keys", "other/mifare", OtherSections.OTHER),
             FunctionDestination(Icons.Outlined.Nfc, "NFC-V / 14443-B", "ISO 15693 inventory and block dump, single-block write, 14443-B read", "other/nfc_v", OtherSections.OTHER),
             FunctionDestination(Icons.Default.Sensors, "Field", "GATT explorer, hidden camera finder, magnetometer, ultrasonic listener, tracker finder", "other/field", OtherSections.OTHER),
+            FunctionDestination(Icons.Default.VisibilityOff, "Ghost", "Nameless Fast Pair, Swift Pair and Continuity popup spam; adapter-name vault and restore guard", "other/ghost", OtherSections.OTHER),
+            FunctionDestination(Icons.Default.Cast, "Displays", "Projector, panel and whiteboard discovery over mDNS, SSDP and BLE — Kindermann, Promethean, Epson, BenQ and the rest", "other/displays", OtherSections.OTHER),
             FunctionDestination(Icons.Default.Radar, "Scrapper", "Monitor-mode 802.11 capture, KARMA candidates, EAPOL and PMKID", "other/scrapper", OtherSections.OTHER, requiresRoot = true),
             FunctionDestination(Icons.Default.Terminal, "Root Ops", "802.11 deauth flood and iptables traffic intercept", "other/root_ops", OtherSections.OTHER, requiresRoot = true),
             FunctionDestination(Icons.Default.SystemUpdate, "Updates", "Check GitHub releases and install in place", "other/updater", OtherSections.OTHER),

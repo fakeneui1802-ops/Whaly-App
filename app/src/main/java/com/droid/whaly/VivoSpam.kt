@@ -181,7 +181,7 @@ class VivoSpam(private val type: VivoDevice.Type) : Spammer {
             }
             val data = AdvertiseData.Builder()
                 .addServiceUuid(hidServiceUuid)
-                .setIncludeDeviceName(true)
+                .setIncludeDeviceName(false)
                 .build()
             repeat(GAMEPAD_BURSTS_PER_NAME) {
                 if (!isSpamming) return
@@ -218,7 +218,7 @@ class VivoSpam(private val type: VivoDevice.Type) : Spammer {
     private fun saveOriginalBtName() {
         if (btNameSaved) return
         try {
-            originalBtName = try { BluetoothHelper.bluetoothAdapter?.name } catch (_: SecurityException) { null }
+            originalBtName = com.droid.whaly.ghost.GhostIdentity.rememberBound()
             btNameSaved = true
         } catch (_: Exception) { }
     }
@@ -226,16 +226,16 @@ class VivoSpam(private val type: VivoDevice.Type) : Spammer {
     private fun setBtName(name: String) {
         if (name.isEmpty()) return
         try {
-            BluetoothHelper.bluetoothAdapter?.name = name
+            // The adapter name is never written.
         } catch (_: SecurityException) { } catch (_: Exception) { }
     }
 
     private fun restoreBtName() {
         if (!btNameSaved) return
         try {
-            val orig = originalBtName
+            val orig = originalBtName ?: com.droid.whaly.ghost.GhostIdentity.realNameBound()
             if (!orig.isNullOrEmpty()) {
-                try { BluetoothHelper.bluetoothAdapter?.name = orig } catch (_: SecurityException) { }
+                // Nothing to restore: the adapter name was never written.
             }
         } catch (_: Exception) { } finally {
             btNameSaved = false

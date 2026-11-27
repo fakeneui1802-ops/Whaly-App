@@ -9,14 +9,14 @@ import java.util.UUID
  * Each persona carries the frames its operating system actually uses to discover peers:
  *
  *  - iOS / macOS   Apple Continuity. Nearby Action 0x0F with action 0x01 is the AirDrop
- *                  action, 0x05 is AirDrop presence, 0x10 is Nearby Info. Together they
- *                  make the device show up in the AirDrop share sheet on hosts that still
- *                  honour BLE discovery.
+ *                  action, 0x05 is AirDrop presence, 0x10 is Nearby Info. These reach
+ *                  BLE-based Continuity surfaces. Full AirDrop discovery is AWDL over
+ *                  Wi-Fi and is not reachable from a stock Android radio.
  *  - Android       Fast Pair, service 0xFE2C, three bytes of model id.
  *  - Windows       Microsoft Swift Pair, manufacturer 0x0006.
  *
- * The Bluetooth Classic name is set to the persona label, so a paired or connected host
- * shows that name in its own UI.
+ * The persona label is carried in the payload and in the mDNS record. The adapter name is
+ * never written.
  */
 sealed interface PersonaFrame {
     data class Manufacturer(val companyId: Int, val data: ByteArray) : PersonaFrame

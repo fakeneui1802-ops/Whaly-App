@@ -92,7 +92,11 @@ private fun ChatContent(navController: NavController) {
     var text by rememberSaveable { mutableStateOf("") }
     var showName by rememberSaveable { mutableStateOf(false) }
     var name by rememberSaveable { mutableStateOf("") }
-    LaunchedEffect(manager) { if (!manager.startWithSavedName()) manager.start(android.os.Build.MODEL) }
+    LaunchedEffect(manager) {
+        if (!manager.startWithSavedName()) {
+            manager.start(com.droid.whaly.ghost.GhostIdentity.deviceAlias(context))
+        }
+    }
     DisposableEffect(manager) { onDispose { manager.close() } }
     LaunchedEffect(messages.size) { if (messages.isNotEmpty()) listState.animateScrollToItem(messages.lastIndex) }
 

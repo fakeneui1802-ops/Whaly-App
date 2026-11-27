@@ -843,6 +843,10 @@ fun MainScaffold(
             composable("other/nfc_v") { com.droid.whaly.nfc.ui.NfcVScreen { screenNavController.popBackStack() } }
             composable("field") { com.droid.whaly.field.FieldScreen { screenNavController.popBackStack() } }
             composable("other/field") { com.droid.whaly.field.FieldScreen { screenNavController.popBackStack() } }
+            composable("ghost") { com.droid.whaly.ghost.GhostScreen { screenNavController.popBackStack() } }
+            composable("other/ghost") { com.droid.whaly.ghost.GhostScreen { screenNavController.popBackStack() } }
+            composable("displays") { com.droid.whaly.displays.DisplayScreen { screenNavController.popBackStack() } }
+            composable("other/displays") { com.droid.whaly.displays.DisplayScreen { screenNavController.popBackStack() } }
             composable("mifare") { com.droid.whaly.nfc.ui.MifareScreen { screenNavController.popBackStack() } }
             composable("other/mifare") { com.droid.whaly.nfc.ui.MifareScreen { screenNavController.popBackStack() } }
             composable("updater") { com.droid.whaly.updater.UpdaterScreen { screenNavController.popBackStack() } }

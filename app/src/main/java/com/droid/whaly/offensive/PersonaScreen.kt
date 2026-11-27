@@ -96,7 +96,9 @@ fun PersonaScreen(onBack: () -> Unit) {
             }
 
             Text(
-                text = "Presence only. AirDrop transfer needs AWDL, which stock Android radios do not expose.",
+                text = "AirDrop discovery runs on AWDL over Wi-Fi, not BLE. A stock Android radio " +
+                    "cannot join AWDL, so an iPhone will not list this phone in the AirDrop sheet. " +
+                    "The persona reaches BLE-based Nearby and Continuity surfaces only.",
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                 modifier = Modifier.padding(horizontal = 20.dp, vertical = 4.dp),

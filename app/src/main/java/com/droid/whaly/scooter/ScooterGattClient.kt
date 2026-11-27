@@ -140,20 +140,44 @@ class ScooterGattClient(
                 g.disconnect()
                 return
             }
-            val service = g.getService(ScooterProtocol.SERVICE_UUID)
-            if (service == null) {
-                main.post { listener.onError("Nordic UART service missing") }
+
+            // Ninebot / Xiaomi first: the documented NUS pair.
+            val nus = g.getService(ScooterProtocol.SERVICE_UUID)
+            var write = nus?.getCharacteristic(ScooterProtocol.WRITE_UUID)
+            var notify = nus?.getCharacteristic(ScooterProtocol.NOTIFY_UUID)
+
+            // Rental fleets ship a custom service. Fall back to the first characteristic
+            // that accepts a write and the first that can notify, which is enough to
+            // capture the exchange and replay candidate opcodes.
+            if (write == null) {
+                for (service in g.services) {
+                    for (ch in service.characteristics) {
+                        if (write == null && (
+                                ch.properties and BluetoothGattCharacteristic.PROPERTY_WRITE != 0 ||
+                                    ch.properties and BluetoothGattCharacteristic.PROPERTY_WRITE_NO_RESPONSE != 0
+                                )
+                        ) {
+                            write = ch
+                        }
+                        if (notify == null && (
+                                ch.properties and BluetoothGattCharacteristic.PROPERTY_NOTIFY != 0 ||
+                                    ch.properties and BluetoothGattCharacteristic.PROPERTY_INDICATE != 0
+                                )
+                        ) {
+                            notify = ch
+                        }
+                    }
+                }
+            }
+
+            if (write == null) {
+                main.post { listener.onError("no writable characteristic on this device") }
                 g.disconnect()
                 return
             }
-            writeChar = service.getCharacteristic(ScooterProtocol.WRITE_UUID)
-            notifyChar = service.getCharacteristic(ScooterProtocol.NOTIFY_UUID)
-            if (writeChar == null) {
-                main.post { listener.onError("write characteristic missing") }
-                g.disconnect()
-                return
-            }
-            val n = notifyChar
+            writeChar = write
+            notifyChar = notify
+            val n = notify
             if (n != null) {
                 g.setCharacteristicNotification(n, true)
                 val cccd = n.getDescriptor(CCCD)
@@ -209,6 +233,16 @@ class ScooterGattClient(
 
     private fun onNotify(chunk: ByteArray) {
         rxBuffer.clear()
+        // Ninebot and Xiaomi both answer cmd 0x31 with one byte of battery percentage.
+        // Header 5A A5 or 55 AA, then length, then command.
+        if (chunk.size >= 5) {
+            val header = (chunk[0].toInt() and 0xFF) to (chunk[1].toInt() and 0xFF)
+            val known = header == (0x5A to 0xA5) || header == (0x55 to 0xAA)
+            if (known && (chunk[3].toInt() and 0xFF) == 0x31) {
+                val value = chunk[4].toInt() and 0xFF
+                if (value in 0..100) main.post { listener.onBattery(value) }
+            }
+        }
     }
 
     companion object {

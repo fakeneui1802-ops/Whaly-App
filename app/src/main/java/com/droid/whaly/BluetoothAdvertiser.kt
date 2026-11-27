@@ -35,7 +35,9 @@ class BluetoothAdvertiser {
     fun advertise(
         advertiseData: AdvertiseData,
         scanResponse: AdvertiseData? = null,
-        forceLegacy: Boolean = false,
+        // Legacy by default. Popup triggers are raised by legacy advertisements; an
+        // extended-only frame is ignored by most scanners and by every popup parser.
+        forceLegacy: Boolean = true,
         connectable: Boolean = false
     ) {
         val pluginDecision = PluginBluetoothHooks.interceptAdvertising(

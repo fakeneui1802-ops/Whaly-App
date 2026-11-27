@@ -87,9 +87,9 @@ object BleMidiFlood {
             var index = 0
             while (active.get()) {
                 val name = pool[index % pool.size]
-                runCatching { adapter.name = name }
+                // No adapter rename - the real device name is never written.
                 val data = AdvertiseData.Builder()
-                    .setIncludeDeviceName(true)
+                    .setIncludeDeviceName(false)
                     .addServiceUuid(ParcelUuid(midiUuid))
                     .build()
                 try {
@@ -118,7 +118,7 @@ object BleMidiFlood {
                 }
             }
             runCatching { advertiser.stopAdvertising(callback) }
-            if (originalName != null) runCatching { adapter.name = originalName }
+            // Nothing to restore: the adapter name was never touched.
         }, "whaly-ble-midi").start()
     }
 }

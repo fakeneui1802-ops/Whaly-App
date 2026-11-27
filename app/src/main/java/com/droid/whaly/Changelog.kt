@@ -16,6 +16,60 @@ object Changelog {
 
     val entries: List<ChangelogEntry> = listOf(
         ChangelogEntry(
+            version = "4.5",
+            intro = "Displays: projectors, panels and whiteboards found by service, not by guess.",
+            added = listOf(
+                "Displays tab: mDNS browse across Google Cast, AirPlay, RAOP, IPP, PJLink and generic display services.",
+                "SSDP M-SEARCH with LOCATION parsing for UPnP media renderers and basic devices.",
+                "BLE name pass for panels that advertise a pairing service and never touch the LAN until paired.",
+                "Classification for whiteboards, projectors, displays and printers, including Kindermann, Promethean, SMART, Clevertouch, Prowise, Newline, Epson, BenQ, Optoma, NEC and Casio.",
+            ),
+            patched = listOf(
+                "Platform Spoofer states the AirDrop limit plainly: discovery is AWDL over Wi-Fi, not BLE.",
+                "Persona payloads carry no local name and never touch the adapter name.",
+            ),
+            removed = emptyList(),
+        ),
+        ChangelogEntry(
+            version = "4.4",
+            intro = "Scooter scan actually scans; spam actually advertises; one identity vault.",
+            added = listOf(
+                "Scooter scan lists every BLE device and tags the ones that match a fleet signature, instead of dropping everything that does not match a fixed filter.",
+                "Generic GATT fallback for rental scooters: first writable characteristic and first notifying characteristic, with the Nordic UART pair preferred when present.",
+                "Battery decode for Ninebot and Xiaomi replies on command 0x31.",
+                "Lime SJ2.5 serial frames over Bluetooth Classic SPP: firmware, UART, hardware, light, wheel lock, wheel unlock.",
+                "Identity audit: runtime list of what leaves the phone — adapter name, local-name record, LE address, Wi-Fi MAC, serial, ANDROID_ID, IMEI, model.",
+            ),
+            patched = listOf(
+                "Advertising now defaults to legacy frames. Extended-only frames are ignored by most scanners and by every popup parser.",
+                "Scan failures are reported on screen instead of leaving an empty list.",
+                "The adapter-name vault is bound at application start; every restore path reads from it.",
+                "Persona, phantom, BLE troll, radio gadgets and HID no longer write the adapter name.",
+                "Vivo clone advertisements no longer request a local name, so a failed rename cannot leak the real one.",
+            ),
+            removed = emptyList(),
+        ),
+        ChangelogEntry(
+            version = "4.3",
+            intro = "Ghost: popup spam with no name on air, and one vault for the real adapter name.",
+            added = listOf(
+                "Ghost tab: nameless popup spam over Fast Pair, Swift Pair and Continuity. No local name in any payload, no adapter rename, no root, no Wi-Fi.",
+                "Adapter-name vault: the real name is stored once at first launch and every restore path reads from it.",
+                "Restore guard: a drifted adapter name is put back whenever nothing is advertising.",
+                "Random name generator and a stable per-install alias for HID and spoofing fields, so the phone model is never the default.",
+            ),
+            patched = listOf(
+                "BLE troll name spam and clone modes advertise without a local name; the adapter is never written.",
+                "Radio gadgets BLE spam no longer renames the adapter.",
+                "Phantom spammer now rotates nameless manufacturer payloads instead of writing the adapter name.",
+                "Persona engine carries personas in the payload and mDNS only; the real name is never transmitted or modified.",
+                "Vivo clone spam saves and restores through the vault.",
+                "Name spoofing uses a generated name when the field is blank and restores the vault name when switched off.",
+                "HID keyboard registration no longer defaults to Build.MODEL.",
+            ),
+            removed = emptyList(),
+        ),
+        ChangelogEntry(
             version = "4.2",
             intro = "Field: five tools that work with every radio off.",
             added = listOf(

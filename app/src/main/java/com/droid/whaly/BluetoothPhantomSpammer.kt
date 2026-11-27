@@ -1,70 +1,87 @@
 package com.droid.whaly
 
+import android.annotation.SuppressLint
 import android.bluetooth.BluetoothAdapter
-import kotlinx.coroutines.*
+import android.bluetooth.le.AdvertiseCallback
+import android.bluetooth.le.AdvertiseData
+import android.bluetooth.le.AdvertiseSettings
 import android.util.Log
+import com.droid.whaly.ghost.GhostIdentity
+import java.util.concurrent.atomic.AtomicBoolean
 
+/**
+ * Phantom spammer.
+ *
+ * Rotates manufacturer payloads so a nearby scanner sees a stream of unfamiliar devices.
+ * The adapter name is never read, written or included in the payload — the phone's real
+ * name cannot leak, and a force-stop cannot leave the phone renamed.
+ */
 class BluetoothPhantomSpammer : Spammer {
-    private var isRunning = false
-    private var job: Job? = null
-    private val scope = CoroutineScope(Dispatchers.IO + SupervisorJob())
+
+    private val active = AtomicBoolean(false)
+    private var worker: Thread? = null
     private var blinkRunnable: Runnable? = null
 
-    private val names = listOf(
-        "iPhone 15 Pro Max",
-        "Tesla Model 3",
-        "Sony WH-1000XM5",
-        "Whaly Phantom",
-        "AirPods Pro",
-        "Samsung S24 Ultra",
-        "Google Pixel 8",
-        "iPad Air",
-        "Bose QC45",
-        "MacBook Pro"
-    )
+    override fun isSpamming(): Boolean = active.get()
 
-    override fun isSpamming(): Boolean = isRunning
-
+    @SuppressLint("MissingPermission")
     override fun start() {
-        if (isRunning) return
-        isRunning = true
-        job = scope.launch {
-            while (isActive && isRunning) {
-                try {
-                    val newName = names.random()
-                    setName(newName)
-                } catch (e: Exception) {
-                    Log.e("BluetoothPhantom", "Error rotating name", e)
-                }
-                delay(1000)
+        if (!active.compareAndSet(false, true)) return
+        val adapter = runCatching { BluetoothAdapter.getDefaultAdapter() }.getOrNull()
+        val advertiser = runCatching { adapter?.bluetoothLeAdvertiser }.getOrNull()
+        if (adapter == null || advertiser == null) {
+            active.set(false)
+            Log.w("BluetoothPhantom", "no advertiser on this device")
+            return
+        }
+
+        val settings = AdvertiseSettings.Builder()
+            .setAdvertiseMode(AdvertiseSettings.ADVERTISE_MODE_LOW_LATENCY)
+            .setTxPowerLevel(AdvertiseSettings.ADVERTISE_TX_POWER_HIGH)
+            .setConnectable(false)
+            .build()
+
+        val callback = object : AdvertiseCallback() {
+            override fun onStartFailure(errorCode: Int) {
+                Log.w("BluetoothPhantom", "advertise failed $errorCode")
             }
         }
+
+        worker = Thread({
+            var index = 0
+            while (active.get()) {
+                val company = 0x004C + (index % 0x30)
+                val payload = GhostIdentity.randomHex(18)
+                val data = AdvertiseData.Builder()
+                    .setIncludeDeviceName(false)
+                    .addManufacturerData(company, payload)
+                    .build()
+                runCatching {
+                    advertiser.stopAdvertising(callback)
+                    advertiser.startAdvertising(settings, data, callback)
+                }
+                index++
+                blinkRunnable?.run()
+                try {
+                    Thread.sleep(900)
+                } catch (_: InterruptedException) {
+                    break
+                }
+            }
+            runCatching { advertiser.stopAdvertising(callback) }
+            active.set(false)
+        }, "whaly-phantom").apply { isDaemon = true; start() }
     }
 
     override fun stop() {
-        isRunning = false
-        job?.cancel()
-        job = null
+        active.set(false)
+        worker?.interrupt()
+        worker = null
     }
 
     override fun setBlinkRunnable(runnable: Runnable?) {
-        this.blinkRunnable = runnable
+        blinkRunnable = runnable
     }
 
     override fun getBlinkRunnable(): Runnable? = blinkRunnable
-
-    private fun setName(name: String) {
-        try {
-            val adapter = BluetoothAdapter.getDefaultAdapter()
-            if (adapter != null) {
-                adapter.name = name
-                Log.d("BluetoothPhantom", "Name updated to: $name")
-            }
-        } catch (e: SecurityException) {
-            Log.e("BluetoothPhantom", "Permission denied for name change", e)
-        } catch (e: Exception) {
-            Log.e("BluetoothPhantom", "Failed to set name", e)
-        }
-    }
 }
-

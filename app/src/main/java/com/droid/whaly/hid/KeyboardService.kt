@@ -594,8 +594,10 @@ private const val TRANSPORT_LE = 2
 
         val prefs = getSharedPreferences("WhalyPrefs", Context.MODE_PRIVATE)
         val isSpoofingEnabled = prefs.getBoolean("is_name_spoofing_enabled", false)
-        val spoofedName = prefs.getString("spoofed_name", Build.MODEL) ?: Build.MODEL
-        val customHidName = prefs.getString("custom_hid_name", Build.MODEL) ?: Build.MODEL
+        val spoofedName = prefs.getString("spoofed_name", null)
+            ?: com.droid.whaly.ghost.GhostIdentity.deviceAlias(this)
+        val customHidName = prefs.getString("custom_hid_name", null)
+            ?: com.droid.whaly.ghost.GhostIdentity.deviceAlias(this)
 
         val deviceName = when {
             isSpoofingEnabled -> spoofedName
@@ -603,14 +605,8 @@ private const val TRANSPORT_LE = 2
         }
 
 
-        if (hasConnectPermission()) {
-            try {
-                bluetoothAdapter?.name = deviceName
-                Log.d(tag, "Changed adapter name to: $deviceName")
-            } catch (e: Exception) {
-                Log.w(tag, "Failed to change adapter name: ${e.message}")
-            }
-        }
+        // The SDP record carries the name. The adapter name is never written, so the
+        // phone keeps whatever name its owner gave it.
 
         val sdp = BluetoothHidDeviceAppSdpSettings(
             deviceName,

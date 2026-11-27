@@ -14,6 +14,8 @@ class WhalyApplication : Application() {
     override fun onCreate() {
         super.onCreate()
         PluginDownloadPolicy.initialize(this)
+        // Vault the real adapter name before any screen can touch the radio.
+        com.droid.whaly.ghost.GhostIdentity.bind(this)
         val previousHandler = Thread.getDefaultUncaughtExceptionHandler()
         Thread.setDefaultUncaughtExceptionHandler { thread, throwable ->
             val log = buildString {

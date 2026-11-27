@@ -8,5 +8,6 @@ data class ScooterDevice(
     val isConnecting: Boolean = false,
     val isConnected: Boolean = false,
     val statusMessage: String? = null,
+    /** Name, service UUID or manufacturer data matched a known scooter family. */
+    val likely: Boolean = false,
 )
-
